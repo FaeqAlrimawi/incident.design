@@ -5,18 +5,39 @@
       <metamodel href="http://www.example.org/cyberPhysical_Incident#/"/>
       <defaultLayer name="Default">
         <nodeMappings name="Asset" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:asset" domainClass="Asset">
-          <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: self.name" labelAlignment="RIGHT" sizeComputationExpression="-1" workspacePath="/incident.design/res/asset.jpg">
+          <borderedNodeMappings name="Type" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:type" domainClass="Type">
+            <style xsi:type="style:DotDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" sizeComputationExpression="1" resizeKind="NSEW" strokeSizeComputationExpression="1">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+            </style>
+          </borderedNodeMappings>
+          <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="-1" workspacePath="/incident.design/res/asset.jpg">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
         </nodeMappings>
         <nodeMappings name="Resource" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:resource" domainClass="Resource">
+          <borderedNodeMappings name="Type" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:type" domainClass="Type">
+            <style xsi:type="style:DotDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" sizeComputationExpression="1" resizeKind="NSEW" strokeSizeComputationExpression="1">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+            </style>
+          </borderedNodeMappings>
           <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: self.name" labelAlignment="RIGHT" sizeComputationExpression="-1" workspacePath="/incident.design/res/resource.jpg">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
         </nodeMappings>
         <nodeMappings name="IncidentEntity" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:incidentEntity" domainClass="IncidentEntity">
+          <borderedNodeMappings name="Type" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:type" domainClass="Type">
+            <style xsi:type="style:DotDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" sizeComputationExpression="1" resizeKind="NSEW" strokeSizeComputationExpression="1">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+            </style>
+          </borderedNodeMappings>
           <style xsi:type="style:WorkspaceImageDescription" showIcon="false" sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/incidentEntity.jpg">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -39,17 +60,42 @@
           </style>
         </nodeMappings>
         <nodeMappings name="Actor" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:actor" domainClass="Actor">
-          <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: self.name " labelAlignment="RIGHT" sizeComputationExpression="-1" workspacePath="/incident.design/res/actor3.jpg">
+          <borderedNodeMappings name="Type" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:type" domainClass="Type">
+            <style xsi:type="style:DotDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" sizeComputationExpression="1" resizeKind="NSEW" strokeSizeComputationExpression="1">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+            </style>
+          </borderedNodeMappings>
+          <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="-1" workspacePath="/incident.design/res/actor3.jpg">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
         </nodeMappings>
         <nodeMappings name="Connection" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:connection" domainClass="Connection">
-          <style xsi:type="style:DotDescription" showIcon="false" sizeComputationExpression="2" resizeKind="NSEW">
+          <borderedNodeMappings name="Type" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:type" domainClass="Type">
+            <style xsi:type="style:DotDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" sizeComputationExpression="1" resizeKind="NSEW" strokeSizeComputationExpression="1">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+            </style>
+          </borderedNodeMappings>
+          <style xsi:type="style:WorkspaceImageDescription" showIcon="false" sizeComputationExpression="-1" workspacePath="/incident.design/res/connection_notConnected.png">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_orange']"/>
           </style>
+          <conditionnalStyles predicateExpression="aql: (self.entity1 = null and self.entity2 &lt;> null) or (self.entity1 &lt;> null and self.entity2 = null)">
+            <style xsi:type="style:WorkspaceImageDescription" showIcon="false" sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/connection_oneSide.png">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
+          <conditionnalStyles predicateExpression="aql: self.entity1 &lt;> null and self.entity2 &lt;> null">
+            <style xsi:type="style:WorkspaceImageDescription" showIcon="false" sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/connection.png">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
         </nodeMappings>
         <edgeMappings name="nextActivity" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subNodeMappings[name='Activity']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subNodeMappings[name='Activity']" targetFinderExpression="aql:self.nextActivities" sourceFinderExpression="var:self" domainClass="Activity" useDomainElement="true">
           <style foldingStyle="SOURCE">
@@ -83,8 +129,8 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="entityContainmentRelation" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityActorLvl1'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityActorLvl2'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityActorLvl3']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityActorLvl1'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityActorLvl2'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityActorLvl3']" targetFinderExpression="aql:self.entity">
-          <style targetArrow="InputClosedArrow">
+        <edgeMappings name="entityParentRelation" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityLvl2'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityLvl3'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityLvl1']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityLvl1'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityLvl2'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityLvl3']" targetFinderExpression="aql:self.entity">
+          <style sourceArrow="InputClosedArrow" targetArrow="NoDecoration">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -101,9 +147,9 @@
           </subNodeMappings>
           <subContainerMappings name="Precondition" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.activity.precondition" domainClass="Precondition" childrenPresentation="HorizontalStack">
             <subContainerMappings name="bigraphExpressionContainer" semanticCandidatesExpression="aql: self.expression" domainClass="BigraphExpression">
-              <subNodeMappings name="entityActorLvl1" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editEntityLvl1']" semanticCandidatesExpression="aql:self.entity" domainClass="Entity">
+              <subNodeMappings name="entityLvl1" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editEntityLvl1']" semanticCandidatesExpression="aql:self.entity" domainClass="Entity">
                 <borderedNodeMappings name="site" semanticCandidatesExpression="feature:site" domainClass="Site">
-                  <style xsi:type="style:DotDescription" showIcon="false" labelExpression="" sizeComputationExpression="1" labelPosition="node" resizeKind="NSEW" strokeSizeComputationExpression="1">
+                  <style xsi:type="style:DotDescription" borderLineStyle="dot" showIcon="false" labelExpression="" sizeComputationExpression="1" labelPosition="node" resizeKind="NSEW" strokeSizeComputationExpression="1">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                     <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
@@ -138,7 +184,7 @@
                   </style>
                 </conditionnalStyles>
               </subNodeMappings>
-              <subNodeMappings name="entityActorLvl2" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.entity.entity" domainClass="Entity">
+              <subNodeMappings name="entityLvl2" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.entity.entity" domainClass="Entity">
                 <borderedNodeMappings name="site" semanticCandidatesExpression="feature:site" domainClass="Site">
                   <style xsi:type="style:DotDescription" showIcon="false" labelExpression="" sizeComputationExpression="1" labelPosition="node" resizeKind="NSEW" strokeSizeComputationExpression="1">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -156,7 +202,7 @@
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   </style>
                 </conditionnalStyles>
-                <conditionnalStyles predicateExpression="aql: self.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().resource->exists(x | x.name.equalsIgnoreCase(self.name))">
+                <conditionnalStyles predicateExpression="aql: self.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().resource->exists(x | x.name.equalsIgnoreCase(self.name))">
                   <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/resource.jpg">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -175,7 +221,7 @@
                   </style>
                 </conditionnalStyles>
               </subNodeMappings>
-              <subNodeMappings name="entityActorLvl3" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.entity.entity.entity" domainClass="Entity">
+              <subNodeMappings name="entityLvl3" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.entity.entity.entity" domainClass="Entity">
                 <borderedNodeMappings name="site" semanticCandidatesExpression="feature:site" domainClass="Site">
                   <style xsi:type="style:DotDescription" showIcon="false" labelExpression="" sizeComputationExpression="1" labelPosition="node" resizeKind="NSEW" strokeSizeComputationExpression="1">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -269,7 +315,7 @@
               <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="IncidentEntity" referenceName="incidentEntity"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:NodeCreationDescription" name="Connection" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='Connection']" iconPath="incident.design/res/connection_icon.png">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="Connection" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='Connection']" iconPath="incident.design/res/connectionIcon.png">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
@@ -294,14 +340,6 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:DirectEditLabel" name="editEntityinEntityName">
-            <mask mask="{0}"/>
-            <initialOperation>
-              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:self">
-                <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql: if (self.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().asset->exists(x | x.name.equalsIgnoreCase(arg0)) or self.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().actor->exists(x | x.name.equalsIgnoreCase(arg0)) or self.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().resource->exists(x | x.name.equalsIgnoreCase(arg0)) or self.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().incidentEntity->exists(x | x.name.equalsIgnoreCase(arg0))) then arg0 else null endif"/>
-              </firstModelOperations>
-            </initialOperation>
-          </ownedTools>
         </toolSections>
         <toolSections name="Relations">
           <ownedTools xsi:type="tool:EdgeCreationDescription" name="Next Activity" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='nextActivity']" iconPath="/incident.design/res/nextAct_rel.png">
@@ -318,7 +356,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:EdgeCreationDescription" name="Connection" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='connectionEdge']">
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="Connect" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='connectionEdge']" iconPath="/incident.design/res/connection_relation_icon.png">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -335,7 +373,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:EdgeCreationDescription" name="Container Relation" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='parentRelation']">
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="Container" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='parentRelation']" iconPath="/incident.design/res/parentContainer_icon.png">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -370,11 +408,22 @@
           </ownedTools>
         </toolSections>
         <toolSections name="Condition">
-          <ownedTools xsi:type="tool:NodeCreationDescription" name="Entity" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityActorLvl1'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityActorLvl2'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityActorLvl3']">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="Entity" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityLvl1'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityLvl2'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityLvl3']">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="Entity" referenceName="entity"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="Container" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='entityParentRelation']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="target">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="entity" valueExpression="aql: target.entity->including(source)"/>
+              </firstModelOperations>
             </initialOperation>
           </ownedTools>
         </toolSections>
