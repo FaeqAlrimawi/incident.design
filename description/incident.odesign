@@ -157,7 +157,7 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <containerMappings name="Scene" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:scene" domainClass="Scene" childrenPresentation="List">
+        <containerMappings name="Scene" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:scene" domainClass="Scene">
           <subNodeMappings name="Activity" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:activity" domainClass="Activity">
             <style xsi:type="style:SquareDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name->size() = 0 then '&lt;set name>' else self.name endif" labelPosition="node" resizeKind="NSEW" width="6" height="3">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_chocolate']"/>
@@ -463,19 +463,11 @@
               <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
             </style>
           </subContainerMappings>
-          <subContainerMappings name="ActivityContainer" semanticCandidatesExpression="feature:activity" domainClass="Activity">
-            <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1">
-              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
-              <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_orange']"/>
-            </style>
-          </subContainerMappings>
           <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" iconPath="/incident.design/res/scene_icon.jpg" roundedCorner="true" backgroundStyle="Liquid">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
-            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_chocolate']"/>
           </style>
         </containerMappings>
         <toolSections name="Elements">
