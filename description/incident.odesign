@@ -152,15 +152,28 @@
                   <style xsi:type="style:DotDescription" borderLineStyle="dot" showIcon="false" labelExpression="" sizeComputationExpression="1" labelPosition="node" resizeKind="NSEW" strokeSizeComputationExpression="1">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                    <forbiddenSides>SOUTH</forbiddenSides>
+                    <forbiddenSides>EAST</forbiddenSides>
+                    <forbiddenSides>NORTH</forbiddenSides>
                     <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
                   </style>
                 </borderedNodeMappings>
-                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " labelAlignment="RIGHT" sizeComputationExpression="-1" workspacePath="/incident.design/res/questionRed.jpg">
+                <borderedNodeMappings name="ConnectivityLvl1" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.connectivity" domainClass="Connectivity">
+                  <style xsi:type="style:DotDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif" sizeComputationExpression="1" resizeKind="NSEW" strokeSizeComputationExpression="1">
+                    <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                    <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
+                    <forbiddenSides>SOUTH</forbiddenSides>
+                    <forbiddenSides>EAST</forbiddenSides>
+                    <forbiddenSides>NORTH</forbiddenSides>
+                    <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
+                  </style>
+                </borderedNodeMappings>
+                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " labelAlignment="RIGHT" sizeComputationExpression="2" workspacePath="/incident.design/res/questionRed.jpg">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
                 <conditionnalStyles predicateExpression="aql: self.eContainer().eContainer().eContainer().eContainer().eContainer().asset->exists(x | x.name.equalsIgnoreCase(self.name))">
-                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/asset.jpg">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " sizeComputationExpression="4" resizeKind="NSEW" workspacePath="/incident.design/res/asset.jpg">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   </style>
@@ -332,6 +345,54 @@
                   </style>
                 </conditionnalStyles>
               </subNodeMappings>
+              <subNodeMappings name="ConnectivityLvl2" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.entity.entity.connectivity" domainClass="Connectivity">
+                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/questionRed.jpg">
+                  <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                  <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                </style>
+                <conditionnalStyles predicateExpression="aql: self.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().connection->exists(x | x.name.equalsIgnoreCase(self.name))">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/connection.png">
+                    <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                    <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                  </style>
+                </conditionnalStyles>
+              </subNodeMappings>
+              <subNodeMappings name="ConnectivityLvl3" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.entity.entity.entity.connectivity" domainClass="Connectivity">
+                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/questionRed.jpg">
+                  <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                  <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                </style>
+                <conditionnalStyles predicateExpression="aql: self.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().connection->exists(x | x.name.equalsIgnoreCase(self.name))">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/connection.png">
+                    <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                    <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                  </style>
+                </conditionnalStyles>
+              </subNodeMappings>
+              <subNodeMappings name="ConnectivityLvl4" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.entity.entity.entity.entity.connectivity" domainClass="Connectivity">
+                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/questionRed.jpg">
+                  <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                  <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                </style>
+                <conditionnalStyles predicateExpression="aql: self.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().connection->exists(x | x.name.equalsIgnoreCase(self.name))">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/connection.png">
+                    <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                    <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                  </style>
+                </conditionnalStyles>
+              </subNodeMappings>
+              <subNodeMappings name="ConnectivityLvl5" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.entity.entity.entity.entity.entity.connectivity" domainClass="Connectivity">
+                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/questionRed.jpg">
+                  <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                  <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                </style>
+                <conditionnalStyles predicateExpression="aql: self.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().eContainer().connection->exists(x | x.name.equalsIgnoreCase(self.name))">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/connection.png">
+                    <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                    <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                  </style>
+                </conditionnalStyles>
+              </subNodeMappings>
               <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" showIcon="false" labelExpression="">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -496,6 +557,15 @@
               <initialOperation>
                 <firstModelOperations xsi:type="tool_1:If" conditionExpression="aql: container.site = null">
                   <subModelOperations xsi:type="tool_1:CreateInstance" typeName="Site" referenceName="site"/>
+                </firstModelOperations>
+              </initialOperation>
+            </ownedTools>
+            <ownedTools xsi:type="tool:NodeCreationDescription" name="Connectivity" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='ConnectivityLvl2'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='ConnectivityLvl3'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='ConnectivityLvl4'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='ConnectivityLvl5'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Precondition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityLvl1']/@borderedNodeMappings[name='ConnectivityLvl1']">
+              <variable name="container"/>
+              <viewVariable name="containerView"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:container.entity">
+                  <subModelOperations xsi:type="tool_1:CreateInstance" typeName="Connectivity" referenceName="connectivity"/>
                 </firstModelOperations>
               </initialOperation>
             </ownedTools>
