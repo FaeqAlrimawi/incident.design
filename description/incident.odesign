@@ -1016,7 +1016,7 @@
           </ownedTools>
         </toolSections>
         <toolSections name="Relations">
-          <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Next Scene" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='nextScene']" iconPath="/incident.design/res/icons/nextAct_rel.png">
+          <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Next Scene" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='nextScene']" iconPath="/incident.design/res/icons/nextScene_icon.jpg">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -1030,7 +1030,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Next Activity" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='nextActivityContainer']" iconPath="/incident.design/res/icons/nextAct_rel.png">
+          <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Next Activity" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='nextActivityContainer']" iconPath="/incident.design/res/icons/nextAct_icon.jpg">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -1044,7 +1044,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Container" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='parentRelation']" iconPath="/incident.design/res/icons/parentContainer_icon.png">
+          <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Contains" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='parentRelation']" iconPath="/incident.design/res/icons/contains_icon.jpg">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -1092,7 +1092,7 @@
             <element name="element"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:element">
-                <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql: element.containedEntities->excluding(source)"/>
+                <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql: element.containedEntities->excluding(target)"/>
               </firstModelOperations>
             </initialOperation>
             <edgeView name="edgeView"/>
