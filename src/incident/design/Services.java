@@ -15,5 +15,9 @@ public class Services {
       return self;
     }
     
+    public String getSomething() {
+    	return "test";
+    }
+    
 
 }
