@@ -15,9 +15,10 @@ public class Services {
       return self;
     }
     
-    public String getSomething() {
-    	return "test";
-    }
+//    public String getSomething(EObject self) {
+//    	return "test";
+//    	
+//    }
     
 
 }
