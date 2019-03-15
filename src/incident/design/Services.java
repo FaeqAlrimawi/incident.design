@@ -6,13 +6,16 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
+import cyberPhysical_Incident.Activity;
 import cyberPhysical_Incident.Actor;
 import cyberPhysical_Incident.Asset;
+import cyberPhysical_Incident.BigraphExpression;
 import cyberPhysical_Incident.Connectivity;
 import cyberPhysical_Incident.Entity;
 import cyberPhysical_Incident.IncidentDiagram;
 import cyberPhysical_Incident.IncidentEntity;
 import cyberPhysical_Incident.Resource;
+import cyberPhysical_Incident.Scene;
 
 /**
  * The services class used by VSM.
@@ -161,6 +164,7 @@ public class Services {
 
 	/**
 	 * Returns all entities in this condition
+	 * 
 	 * @param self
 	 * @param entities
 	 * @return
@@ -198,9 +202,10 @@ public class Services {
 		return allContained;
 
 	}
-	
+
 	/**
 	 * Returns all connections in this condition
+	 * 
 	 * @param self
 	 * @param entities
 	 * @return
@@ -210,7 +215,7 @@ public class Services {
 		List<Connectivity> allConnectivity = new LinkedList<Connectivity>();
 		List<Entity> toVisit = new LinkedList<Entity>();
 
-//		allContained.addAll(entities);
+		// allContained.addAll(entities);
 		toVisit.addAll(entities);
 
 		int length = 100000;
@@ -218,9 +223,9 @@ public class Services {
 		while (!toVisit.isEmpty() && length > 0) {
 
 			Entity ent = toVisit.remove(0);
-			
+
 			allConnectivity.addAll(ent.getConnectivity());
-			
+
 			List<Entity> tmp = (List) ent.getEntity();
 
 			if (tmp.isEmpty()) {
@@ -269,21 +274,20 @@ public class Services {
 			length--;
 		}
 
-		
 		if (self instanceof IncidentDiagram) {
-			
+
 			IncidentDiagram incident = (IncidentDiagram) self;
-			
-			//for each source
+
+			// for each source
 			for (Resource r : incident.getResource()) {
-				
-				//if type is set then compare against it as well
+
+				// if type is set then compare against it as well
 				if (type != null) {
 					if (r.getName().equalsIgnoreCase(name) && r.getType() != null
 							&& r.getType().getName().equalsIgnoreCase(type)) {
 						return true;
 					}
-				} else { //else just compare names
+				} else { // else just compare names
 					if (r.getName().equalsIgnoreCase(name)) {
 						return true;
 					}
@@ -299,10 +303,10 @@ public class Services {
 
 		return false;
 	}
-	
+
 	/**
-	 * checks if the given entity in the condition is an IncidentEntity or not in the
-	 * incident diagram
+	 * checks if the given entity in the condition is an IncidentEntity or not
+	 * in the incident diagram
 	 * 
 	 * @param self
 	 * @return
@@ -329,21 +333,20 @@ public class Services {
 			length--;
 		}
 
-		
 		if (self instanceof IncidentDiagram) {
-			
+
 			IncidentDiagram incident = (IncidentDiagram) self;
-			
-			//for each source
+
+			// for each source
 			for (IncidentEntity r : incident.getIncidentEntity()) {
-				
-				//if type is set then compare against it as well
+
+				// if type is set then compare against it as well
 				if (type != null) {
 					if (r.getName().equalsIgnoreCase(name) && r.getType() != null
 							&& r.getType().getName().equalsIgnoreCase(type)) {
 						return true;
 					}
-				} else { //else just compare names
+				} else { // else just compare names
 					if (r.getName().equalsIgnoreCase(name)) {
 						return true;
 					}
@@ -359,8 +362,7 @@ public class Services {
 
 		return false;
 	}
-	
-	
+
 	/**
 	 * checks if the given entity in the condition is a Asset or not in the
 	 * incident diagram
@@ -390,21 +392,20 @@ public class Services {
 			length--;
 		}
 
-		
 		if (self instanceof IncidentDiagram) {
-			
+
 			IncidentDiagram incident = (IncidentDiagram) self;
-			
-			//for each source
+
+			// for each source
 			for (Asset r : incident.getAsset()) {
-				
-				//if type is set then compare against it as well
+
+				// if type is set then compare against it as well
 				if (type != null) {
 					if (r.getName().equalsIgnoreCase(name) && r.getType() != null
 							&& r.getType().getName().equalsIgnoreCase(type)) {
 						return true;
 					}
-				} else { //else just compare names
+				} else { // else just compare names
 					if (r.getName().equalsIgnoreCase(name)) {
 						return true;
 					}
@@ -421,7 +422,6 @@ public class Services {
 		return false;
 	}
 
-	
 	/**
 	 * checks if the given entity in the condition is a Actor or not in the
 	 * incident diagram
@@ -451,20 +451,19 @@ public class Services {
 			length--;
 		}
 
-		
 		if (self instanceof IncidentDiagram) {
-			
+
 			IncidentDiagram incident = (IncidentDiagram) self;
-			
-			//for each source
+
+			// for each source
 			for (Actor r : incident.getActor()) {
-				
-				//if type is set then compare against it as well
+
+				// if type is set then compare against it as well
 				if (role != null) {
-					if (r.getName().equalsIgnoreCase(name) &&  r.getRole().toString().equalsIgnoreCase(role)) {
+					if (r.getName().equalsIgnoreCase(name) && r.getRole().toString().equalsIgnoreCase(role)) {
 						return true;
 					}
-				} else { //else just compare names
+				} else { // else just compare names
 					if (r.getName().equalsIgnoreCase(name)) {
 						return true;
 					}
@@ -480,6 +479,67 @@ public class Services {
 
 		return false;
 	}
-	
-	
+
+	public void updateConditionEntityNames(EObject self, String oldName, String newName) {
+
+		int length = 1000;
+
+		if(self instanceof IncidentEntity) {
+			IncidentEntity en = (IncidentEntity) self;
+			en.setName(newName);
+		}
+		
+		while (!(self instanceof IncidentDiagram) && length > 0) {
+			self = self.eContainer();
+			length--;
+		}
+
+		if (self instanceof IncidentDiagram) {
+
+			IncidentDiagram incident = (IncidentDiagram) self;
+
+			// for each scene
+			for (Scene scene : incident.getScene()) {
+
+				// for each activity
+				for (Activity act : scene.getActivity()) {
+
+					// check precondition
+					BigraphExpression preExp = (BigraphExpression) act.getPrecondition().getExpression();
+					List<Entity> entities = preExp != null ? preExp.getEntity() : null;
+
+					if (preExp != null && entities != null) {
+						for (Entity ent : entities) {
+								
+							//if same name entity found replace and move to next entity (no need to check sub-entities as entity can't contain itself
+							if(ent.getName().equalsIgnoreCase(oldName)) {
+								ent.setName(newName);
+								continue;
+							}
+							
+							List<Entity> subentities = preExp.getContainedEntities(ent.getName());
+							
+							for(Entity subEnt : subentities) {
+								System.out.println("sub-lvl: " + subEnt.getName());
+								if(subEnt.getName().equalsIgnoreCase(oldName)) {
+									subEnt.setName(newName);
+									//continue;
+								}
+							}
+							
+						}
+
+					}
+				}
+			}
+		} else {
+			System.out.println("incident NOT found ");
+		}
+
+		if (length == 0) {
+			System.out.println("Length reached 0");
+		}
+
+	}
+
 }
