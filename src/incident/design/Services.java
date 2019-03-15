@@ -520,7 +520,32 @@ public class Services {
 							List<Entity> subentities = preExp.getContainedEntities(ent.getName());
 							
 							for(Entity subEnt : subentities) {
-								System.out.println("sub-lvl: " + subEnt.getName());
+								if(subEnt.getName().equalsIgnoreCase(oldName)) {
+									subEnt.setName(newName);
+									//continue;
+								}
+							}
+							
+						}
+
+					}
+					
+					// check postcondition
+					BigraphExpression postExp = (BigraphExpression) act.getPostcondition().getExpression();
+					List<Entity> postEntities = preExp != null ? postExp.getEntity() : null;
+
+					if (postExp != null && postEntities != null) {
+						for (Entity ent : postEntities) {
+								
+							//if same name entity found replace and move to next entity (no need to check sub-entities as entity can't contain itself
+							if(ent.getName().equalsIgnoreCase(oldName)) {
+								ent.setName(newName);
+								continue;
+							}
+							
+							List<Entity> subentities = postExp.getContainedEntities(ent.getName());
+							
+							for(Entity subEnt : subentities) {
 								if(subEnt.getName().equalsIgnoreCase(oldName)) {
 									subEnt.setName(newName);
 									//continue;

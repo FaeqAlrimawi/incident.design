@@ -276,7 +276,7 @@
         <containerMappings name="Scene" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:scene" domainClass="Scene">
           <subContainerMappings name="Precondition" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.activity.precondition" domainClass="Precondition" dropDescriptions="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.6/@ownedTools[name='copyCondition']" childrenPresentation="HorizontalStack">
             <subContainerMappings name="bigraphExpressionContainer" semanticCandidatesExpression="aql: self.expression" domainClass="BigraphExpression">
-              <subNodeMappings name="entityNew" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.getAllConditionEntity(self.entity)" domainClass="Entity">
+              <subNodeMappings name="entityNew" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editEntityLvl1']" semanticCandidatesExpression="aql:self.getAllConditionEntity(self.entity)" domainClass="Entity">
                 <borderedNodeMappings name="site" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@subSections[name='deletes']/@ownedTools[name='deleteSite']" semanticCandidatesExpression="feature:site" domainClass="Site">
                   <style xsi:type="style:DotDescription" showIcon="false" labelExpression="" sizeComputationExpression="1" labelPosition="node" resizeKind="NSEW" strokeSizeComputationExpression="1">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -291,7 +291,7 @@
                     </style>
                   </conditionnalStyles>
                 </borderedNodeMappings>
-                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " workspacePath="/incident.design/res/asset.jpg">
+                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " workspacePath="/incident.design/res/questionRed.jpg">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
@@ -414,7 +414,7 @@
           </subContainerMappings>
           <subContainerMappings name="Postcondition" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.activity.postcondition" domainClass="Postcondition" childrenPresentation="HorizontalStack">
             <subContainerMappings name="bigraphExpressionContainer" semanticCandidatesExpression="aql: self.expression" domainClass="BigraphExpression">
-              <subNodeMappings name="entityNew" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.getAllConditionEntity(self.entity)" domainClass="Entity">
+              <subNodeMappings name="entityNew" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editEntityLvl1']" semanticCandidatesExpression="aql:self.getAllConditionEntity(self.entity)" domainClass="Entity">
                 <borderedNodeMappings name="site" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@subSections[name='deletes']/@ownedTools[name='deleteSite']" semanticCandidatesExpression="feature:site" domainClass="Site">
                   <style xsi:type="style:DotDescription" showIcon="false" labelExpression="" sizeComputationExpression="1" labelPosition="node" resizeKind="NSEW" strokeSizeComputationExpression="1">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -429,7 +429,7 @@
                     </style>
                   </conditionnalStyles>
                 </borderedNodeMappings>
-                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " workspacePath="/incident.design/res/asset.jpg">
+                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " workspacePath="/incident.design/res/questionRed.jpg">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
@@ -1005,7 +1005,7 @@
             <mask mask="{0}"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:self">
-                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: if (self.eContainer().eContainer().eContainer().eContainer().eContainer().asset->exists(x | x.name.equalsIgnoreCase(arg0)) or self.eContainer().eContainer().eContainer().eContainer().eContainer().actor->exists(x | x.name.equalsIgnoreCase(arg0)) or self.eContainer().eContainer().eContainer().eContainer().eContainer().resource->exists(x | x.name.equalsIgnoreCase(arg0)) or self.eContainer().eContainer().eContainer().eContainer().eContainer().incidentEntity->exists(x | x.name.equalsIgnoreCase(arg0))) then arg0 else null endif"/>
+                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: arg0"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
