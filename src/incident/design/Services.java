@@ -6,7 +6,10 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
+import cyberPhysical_Incident.Entity;
+import cyberPhysical_Incident.IncidentDiagram;
 import cyberPhysical_Incident.IncidentEntity;
+import cyberPhysical_Incident.Resource;
 
 /**
  * The services class used by VSM.
@@ -148,6 +151,119 @@ public class Services {
 		}
 		
 		return allContained;
+	}
+	
+	public List<Entity> getAllConditionEntity(EObject self, List<Entity> entities) {
+
+		List<Entity> allContained = new LinkedList<Entity>();
+		List<Entity> toVisit = new LinkedList<Entity>();
+		
+		allContained.addAll(entities);
+		toVisit.addAll(entities);
+		
+		int length = 100000;
+		
+		while(!toVisit.isEmpty() && length>0) {
+			
+			Entity ent = toVisit.remove(0);
+			List<Entity> tmp = (List)ent.getEntity();
+			
+			if(tmp.isEmpty()) {
+				continue;
+			}
+			
+			allContained.addAll(tmp);
+			toVisit.addAll(tmp);
+			
+			length--;
+		}
+		
+		if(length == 0) {
+			System.out.println("Length reached 0");
+		}
+		
+		return allContained;
+		
+		
+	}
+	
+	/**
+	 * checks if the given entity in the condition is a Source or not in the incident diagram
+	 * @param self
+	 * @return
+	 */
+	public boolean isResource(EObject self) {
+		
+		if(! (self instanceof Entity)) {
+			return false;
+		}
+		
+		
+		Entity entity = (Entity) self;
+		
+		String name = entity.getName();
+		
+		int length = 1000;
+		
+		while(!(self instanceof IncidentDiagram) && length>0) {
+			self = self.eContainer();
+			length--;
+		}
+		
+		if(self instanceof IncidentDiagram) {
+			IncidentDiagram incident = (IncidentDiagram) self;
+			for(Resource r : incident.getResource()) {
+				if(r.getName().equalsIgnoreCase(name)) {
+					return true;
+				}
+			}
+		} else {
+			System.out.println("incident NOT found ");
+		}
+		
+		
+		if(length == 0) {
+			System.out.println("Length reached 0");
+		}
+		
+		return false;
+	}
+	
+public boolean isResource(EObject self, String type) {
+		
+		if(! (self instanceof Entity)) {
+			return false;
+		}
+		
+		
+		Entity entity = (Entity) self;
+		
+		String name = entity.getName();
+		
+		int length = 1000;
+		
+		while(!(self instanceof IncidentDiagram) && length>0) {
+			self = self.eContainer();
+			length--;
+		}
+		
+		if(self instanceof IncidentDiagram) {
+			IncidentDiagram incident = (IncidentDiagram) self;
+			for(Resource r : incident.getResource()) {
+				if(r.getName().equalsIgnoreCase(name) && r.getType()!=null && r.getType().getName().equalsIgnoreCase(type)) {
+					return true;
+				}
+			}
+		} else {
+			System.out.println("incident NOT found ");
+		}
+		
+		
+		if(length == 0) {
+			System.out.println("Length reached 0");
+		}
+		
+		return false;
 	}
 
 }
