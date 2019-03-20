@@ -775,6 +775,62 @@ public class Services {
 		return conditions;
 	}
 
+	/**
+	 * Returns all entities that have the given connectivity
+	 * @param self
+	 * @return
+	 */
+	public List<Entity> getConnectivityEntities(EObject self) {
+		
+		List<Entity> entities = new LinkedList<Entity>();
+		
+		//self should be a Connectivity obj
+		if(!(self instanceof Connectivity)) {
+			System.out.println("self is not connectivity");
+			return entities;
+		}
+		
+		Connectivity con = (Connectivity)self;
+		String conName = ((Connectivity)self).getName();
+		
+		//if name is empty then return nothing
+		if(conName == null || conName.isEmpty()) {
+			System.out.println("name is empty");
+			return entities;
+		}
+		
+		//get all entities that has the conn name from the condition (it's container)
+		EObject container = self.eContainer(); //this gets the entity container
+		container = container.eContainer();//this gets the condition
+		
+		
+		//if the container is not BigraphEpxression obj then return
+		if(!(container instanceof BigraphExpression)) {
+			System.out.println("container is not expression");
+			return entities;
+		}
+		
+		BigraphExpression exp = (BigraphExpression) container;
+		
+		List<Entity> allEntities = getAllConditionEntity(self, exp.getEntity());
+		
+		//for all entities check connectivity list if it contains the required connectivity (i.e. self/con)
+		for(Entity entity : allEntities) {
+			
+			for(Connectivity subCon : entity.getConnectivity()) {
+				if(conName.equalsIgnoreCase(subCon.getName())) {
+					entities.add(entity);
+				}
+			}
+			
+		}
+		
+		System.out.println("size: " + entities.size());
+		
+		return entities;
+	}
+	
+	
 	/**********************************************************************************************************
 	 * **********************************************************************************************************
 	 * **********************************************************************************************************
