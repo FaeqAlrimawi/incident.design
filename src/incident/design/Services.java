@@ -381,6 +381,8 @@ public class Services {
 	public List<Connectivity> getAllConditionConnectivity(EObject self, List<Entity> entities) {
 
 		List<Connectivity> allConnectivity = new LinkedList<Connectivity>();
+		List<String> conNames = new LinkedList<String>();
+		
 		List<Entity> toVisit = new LinkedList<Entity>();
 
 		// allContained.addAll(entities);
@@ -392,8 +394,19 @@ public class Services {
 
 			Entity ent = toVisit.remove(0);
 
-			allConnectivity.addAll(ent.getConnectivity());
+//			allConnectivity.addAll(ent.getConnectivity());
 
+			for(Connectivity con : ent.getConnectivity()) {
+				
+				//only include unique connectivity 
+				if(conNames.contains(con.getName())) {
+					continue;
+				}
+				
+				allConnectivity.add(con);
+				conNames.add(con.getName());
+			}
+			
 			List<Entity> tmp = (List) ent.getEntity();
 
 			if (tmp.isEmpty()) {
@@ -412,6 +425,8 @@ public class Services {
 
 		return allConnectivity;
 	}
+	
+
 
 	/**
 	 * checks if the given entity in the condition is a Source or not in the
@@ -824,12 +839,54 @@ public class Services {
 			}
 			
 		}
-		
-		System.out.println("size: " + entities.size());
+	
 		
 		return entities;
 	}
 	
+	/**
+	 * Sets the name of every connectivity in the condition that has the oldName
+	 * @param self
+	 * @param oldName
+	 * @param newName
+	 */
+	public void setConnectivityName(EObject self, String oldName, String newName) {
+	
+		if(!(self instanceof Connectivity)) {
+			System.out.println("self is not connectivity");
+			return;
+		}
+		
+//		Connectivity con = (Connectivity)self;
+//		
+//		//set the name of the given connectivity (i.e. self)
+//		con.setName(newName);
+		
+		//change all connectivity entities that has the same old name
+		
+		//get expression
+		EObject obj = self.eContainer().eContainer();
+		
+		if(!(obj instanceof BigraphExpression)) {
+			System.out.println("contianer is not bigraph expression");
+			return;
+		}
+		
+		BigraphExpression exp  =(BigraphExpression) obj;
+		
+		List<Entity> allEntities = getAllConditionEntity(self, exp.getEntity());
+		
+		for(Entity ent : allEntities) {
+			
+			//update name for each connectivity if it matches to old name
+			for(Connectivity con : ent.getConnectivity()) {
+				if(con.getName().equalsIgnoreCase(oldName)) {
+					con.setName(newName);
+				}
+			}
+		}
+		
+	}
 	
 	/**********************************************************************************************************
 	 * **********************************************************************************************************
