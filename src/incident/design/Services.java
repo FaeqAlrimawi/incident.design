@@ -7,15 +7,18 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 
 import cyberPhysical_Incident.Activity;
+import cyberPhysical_Incident.ActivityPattern;
 import cyberPhysical_Incident.Actor;
 import cyberPhysical_Incident.Asset;
 import cyberPhysical_Incident.BigraphExpression;
+import cyberPhysical_Incident.Condition;
 import cyberPhysical_Incident.Connectivity;
 import cyberPhysical_Incident.Entity;
 import cyberPhysical_Incident.IncidentDiagram;
 import cyberPhysical_Incident.IncidentEntity;
 import cyberPhysical_Incident.Resource;
 import cyberPhysical_Incident.Scene;
+import cyberPhysical_Incident.impl.IncidentEntityImpl;
 
 /**
  * The services class used by VSM.
@@ -60,6 +63,171 @@ public class Services {
 		List<IncidentEntity> entitiesIgnored = new LinkedList<IncidentEntity>();
 
 		loop_entities: for (IncidentEntity entity : list) {
+			String entTypeName = entity.getType() != null ? entity.getType().getName() : null;
+
+			// if the entity type is the same as the given type then move to
+			// next (ignore)
+			if ((entTypeName != null && entTypeName.equalsIgnoreCase(type))) {
+				entitiesIgnored.add(entity);
+				continue;
+			}
+
+			IncidentEntity parent = (IncidentEntity) entity.getParentEntity();
+			int length = 1000;
+
+			while (parent != null && length > 0) {
+
+				// if the parent already has been ignored then move on to next
+				// parent
+				if (entitiesIgnored.contains(parent)) {
+					continue loop_entities;
+				}
+
+				String entParentTypeName = (parent.getType() != null) ? parent.getType().getName() : null;
+
+				// if the parent has the same type as the given type then move
+				// on to next parent
+				if (entParentTypeName != null && entParentTypeName.equalsIgnoreCase(type)) {
+					entitiesIgnored.add(parent);
+					continue loop_entities;
+				}
+
+				parent = (IncidentEntity) parent.getParentEntity();
+
+				length--;
+
+			}
+
+			tmp.add(entity);
+
+		}
+
+		return tmp;
+	}
+
+	public Collection<IncidentEntity> hideAssetsWithType(EObject self, Collection<IncidentEntity> list, String type) {
+
+		List<IncidentEntity> tmp = new LinkedList<IncidentEntity>();
+		List<IncidentEntity> entitiesIgnored = new LinkedList<IncidentEntity>();
+
+		loop_entities: for (IncidentEntity entity : list) {
+
+			// ignore if entity is not asset
+			if (!(entity instanceof Asset)) {
+				continue;
+			}
+
+			String entTypeName = entity.getType() != null ? entity.getType().getName() : null;
+
+			// if the entity type is the same as the given type then move to
+			// next (ignore)
+			if ((entTypeName != null && entTypeName.equalsIgnoreCase(type))) {
+				entitiesIgnored.add(entity);
+				continue;
+			}
+
+			IncidentEntity parent = (IncidentEntity) entity.getParentEntity();
+			int length = 1000;
+
+			while (parent != null && length > 0) {
+
+				// if the parent already has been ignored then move on to next
+				// parent
+				if (entitiesIgnored.contains(parent)) {
+					continue loop_entities;
+				}
+
+				String entParentTypeName = (parent.getType() != null) ? parent.getType().getName() : null;
+
+				// if the parent has the same type as the given type then move
+				// on to next parent
+				if (entParentTypeName != null && entParentTypeName.equalsIgnoreCase(type)) {
+					entitiesIgnored.add(parent);
+					continue loop_entities;
+				}
+
+				parent = (IncidentEntity) parent.getParentEntity();
+
+				length--;
+
+			}
+
+			tmp.add(entity);
+			System.out.println(entity.getName());
+
+		}
+
+		return tmp;
+	}
+
+	public Collection<IncidentEntity> hideResourcesWithType(EObject self, Collection<IncidentEntity> list,
+			String type) {
+
+		List<IncidentEntity> tmp = new LinkedList<IncidentEntity>();
+		List<IncidentEntity> entitiesIgnored = new LinkedList<IncidentEntity>();
+
+		loop_entities: for (IncidentEntity entity : list) {
+
+			// ignore if entity is not asset
+			if (!(entity instanceof Resource)) {
+				continue;
+			}
+
+			String entTypeName = entity.getType() != null ? entity.getType().getName() : null;
+
+			// if the entity type is the same as the given type then move to
+			// next (ignore)
+			if ((entTypeName != null && entTypeName.equalsIgnoreCase(type))) {
+				entitiesIgnored.add(entity);
+				continue;
+			}
+
+			IncidentEntity parent = (IncidentEntity) entity.getParentEntity();
+			int length = 1000;
+
+			while (parent != null && length > 0) {
+
+				// if the parent already has been ignored then move on to next
+				// parent
+				if (entitiesIgnored.contains(parent)) {
+					continue loop_entities;
+				}
+
+				String entParentTypeName = (parent.getType() != null) ? parent.getType().getName() : null;
+
+				// if the parent has the same type as the given type then move
+				// on to next parent
+				if (entParentTypeName != null && entParentTypeName.equalsIgnoreCase(type)) {
+					entitiesIgnored.add(parent);
+					continue loop_entities;
+				}
+
+				parent = (IncidentEntity) parent.getParentEntity();
+
+				length--;
+
+			}
+
+			tmp.add(entity);
+
+		}
+
+		return tmp;
+	}
+
+	public Collection<IncidentEntity> hideIncidentEntitiesWithType(EObject self, Collection<IncidentEntity> list,
+			String type) {
+
+		List<IncidentEntity> tmp = new LinkedList<IncidentEntity>();
+		List<IncidentEntity> entitiesIgnored = new LinkedList<IncidentEntity>();
+
+		loop_entities: for (IncidentEntity entity : list) {
+
+			// ignore if entity is not asset
+			if (!(entity.getClass().getName().equalsIgnoreCase(IncidentEntityImpl.class.getName()))) {
+				continue;
+			}
+
 			String entTypeName = entity.getType() != null ? entity.getType().getName() : null;
 
 			// if the entity type is the same as the given type then move to
@@ -484,11 +652,11 @@ public class Services {
 
 		int length = 1000;
 
-		if(self instanceof IncidentEntity) {
+		if (self instanceof IncidentEntity) {
 			IncidentEntity en = (IncidentEntity) self;
 			en.setName(newName);
 		}
-		
+
 		while (!(self instanceof IncidentDiagram) && length > 0) {
 			self = self.eContainer();
 			length--;
@@ -510,48 +678,52 @@ public class Services {
 
 					if (preExp != null && entities != null) {
 						for (Entity ent : entities) {
-								
-							//if same name entity found replace and move to next entity (no need to check sub-entities as entity can't contain itself
-							if(ent.getName().equalsIgnoreCase(oldName)) {
+
+							// if same name entity found replace and move to
+							// next entity (no need to check sub-entities as
+							// entity can't contain itself
+							if (ent.getName().equalsIgnoreCase(oldName)) {
 								ent.setName(newName);
 								continue;
 							}
-							
+
 							List<Entity> subentities = preExp.getContainedEntities(ent.getName());
-							
-							for(Entity subEnt : subentities) {
-								if(subEnt.getName().equalsIgnoreCase(oldName)) {
+
+							for (Entity subEnt : subentities) {
+								if (subEnt.getName().equalsIgnoreCase(oldName)) {
 									subEnt.setName(newName);
-									//continue;
+									// continue;
 								}
 							}
-							
+
 						}
 
 					}
-					
+
 					// check postcondition
 					BigraphExpression postExp = (BigraphExpression) act.getPostcondition().getExpression();
 					List<Entity> postEntities = preExp != null ? postExp.getEntity() : null;
 
 					if (postExp != null && postEntities != null) {
 						for (Entity ent : postEntities) {
-								
-							//if same name entity found replace and move to next entity (no need to check sub-entities as entity can't contain itself
-							if(ent.getName().equalsIgnoreCase(oldName)) {
+
+							// if same name entity found replace and move to
+							// next entity (no need to check sub-entities as
+							// entity can't contain itself
+							if (ent.getName().equalsIgnoreCase(oldName)) {
 								ent.setName(newName);
 								continue;
 							}
-							
+
 							List<Entity> subentities = postExp.getContainedEntities(ent.getName());
-							
-							for(Entity subEnt : subentities) {
-								if(subEnt.getName().equalsIgnoreCase(oldName)) {
+
+							for (Entity subEnt : subentities) {
+								if (subEnt.getName().equalsIgnoreCase(oldName)) {
 									subEnt.setName(newName);
-									//continue;
+									// continue;
 								}
 							}
-							
+
 						}
 
 					}
@@ -565,6 +737,319 @@ public class Services {
 			System.out.println("Length reached 0");
 		}
 
+	}
+
+	public List<Condition> getConditions(EObject self) {
+
+		List<Condition> conditions = new LinkedList<Condition>();
+
+		if (!(self instanceof Scene)) {
+			return null;
+		}
+
+		Scene scene = (Scene) self;
+
+		List<Activity> activities = scene.getActivity();
+
+		for (Activity act : activities) {
+			conditions.add(act.getPrecondition());
+			conditions.add(act.getPostcondition());
+		}
+
+		return conditions;
+	}
+
+	public List<Condition> getActivityConditions(EObject self) {
+
+		List<Condition> conditions = new LinkedList<Condition>();
+
+		if (!(self instanceof Activity)) {
+			return null;
+		}
+
+		Activity act = (Activity) self;
+
+		conditions.add(act.getPrecondition());
+		conditions.add(act.getPostcondition());
+
+		return conditions;
+	}
+
+	/**********************************************************************************************************
+	 * **********************************************************************************************************
+	 * **********************************************************************************************************
+	 * **********************************************************************************************************
+	 * Functionalities below are used by activity pattern
+	 * 
+	 * 
+	 */
+
+	/**
+	 * checks if the given entity in the condition is an IncidentEntity or not
+	 * in the incident diagram
+	 * 
+	 * @param self
+	 * @return
+	 */
+	public boolean isIncidentEntityActivityPattern(EObject self) {
+
+		return isIncidentEntityActivityPattern(self, null);
+	}
+
+	public boolean isIncidentEntityActivityPattern(EObject self, String type) {
+
+		if (!(self instanceof Entity)) {
+			return false;
+		}
+
+		Entity entity = (Entity) self;
+
+		String name = entity.getName();
+
+		int length = 1000;
+
+		while (!(self instanceof ActivityPattern) && length > 0) {
+			self = self.eContainer();
+			length--;
+		}
+
+		if (self instanceof ActivityPattern) {
+
+			ActivityPattern ptr = (ActivityPattern) self;
+
+			// for each source
+			for (IncidentEntity r : ptr.getIncidententity()) {
+
+				if (!(r.getClass().getName().equalsIgnoreCase(IncidentEntityImpl.class.getName()))) {
+					continue;
+				}
+
+				// if type is set then compare against it as well
+				if (type != null) {
+					if (r.getName().equalsIgnoreCase(name) && r.getType() != null
+							&& r.getType().getName().equalsIgnoreCase(type)) {
+						return true;
+					}
+				} else { // else just compare names
+					if (r.getName().equalsIgnoreCase(name)) {
+						return true;
+					}
+				}
+			}
+		} else {
+			System.out.println("incident NOT found ");
+		}
+
+		if (length == 0) {
+			System.out.println("Length reached 0");
+		}
+
+		return false;
+	}
+
+	/**
+	 * checks if the given entity in the condition is a Asset or not in the
+	 * incident diagram
+	 * 
+	 * @param self
+	 * @return
+	 */
+	public boolean isAssetActivityPattern(EObject self) {
+
+		return isAssetActivityPattern(self, null);
+	}
+
+	public boolean isAssetActivityPattern(EObject self, String type) {
+
+		if (!(self instanceof Entity)) {
+			return false;
+		}
+
+		Entity entity = (Entity) self;
+
+		String name = entity.getName();
+
+		int length = 1000;
+
+		while (!(self instanceof ActivityPattern) && length > 0) {
+			self = self.eContainer();
+			length--;
+		}
+
+		if (self instanceof ActivityPattern) {
+
+			ActivityPattern ptr = (ActivityPattern) self;
+
+			// for each source
+			for (IncidentEntity inc : ptr.getIncidententity()) {
+
+				if (!(inc instanceof Asset)) {
+					continue;
+				}
+
+				Asset r = (Asset) inc;
+
+				// if type is set then compare against it as well
+				if (type != null) {
+					if (r.getName().equalsIgnoreCase(name) && r.getType() != null
+							&& r.getType().getName().equalsIgnoreCase(type)) {
+						return true;
+					}
+				} else { // else just compare names
+					if (r.getName().equalsIgnoreCase(name)) {
+						return true;
+					}
+				}
+			}
+		} else {
+			System.out.println("incident NOT found ");
+		}
+
+		if (length == 0) {
+			System.out.println("Length reached 0");
+		}
+
+		return false;
+	}
+
+	public boolean isActorActivityPattern(EObject self) {
+
+		return isActorActivityPattern(self, null);
+	}
+
+	public boolean isActorActivityPattern(EObject self, String role) {
+
+		if (!(self instanceof Entity)) {
+			return false;
+		}
+
+		Entity entity = (Entity) self;
+
+		String name = entity.getName();
+
+		int length = 1000;
+
+		while (!(self instanceof ActivityPattern) && length > 0) {
+			self = self.eContainer();
+			length--;
+		}
+
+		if (self instanceof ActivityPattern) {
+
+			ActivityPattern activityPattern = (ActivityPattern) self;
+
+			// for each source
+			for (IncidentEntity inc : activityPattern.getIncidententity()) {
+
+				if (!(inc instanceof Actor)) {
+					continue;
+				}
+
+				Actor r = (Actor) inc;
+
+				// if type is set then compare against it as well
+				if (role != null) {
+					if (r.getName().equalsIgnoreCase(name) && r.getRole().toString().equalsIgnoreCase(role)) {
+						return true;
+					}
+				} else { // else just compare names
+					if (r.getName().equalsIgnoreCase(name)) {
+						return true;
+					}
+				}
+			}
+		} else {
+			System.out.println("incident NOT found ");
+		}
+
+		if (length == 0) {
+			System.out.println("Length reached 0");
+		}
+
+		return false;
+	}
+
+	/**
+	 * checks if the given entity in the condition is a Source or not in the
+	 * incident diagram
+	 * 
+	 * @param self
+	 * @return
+	 */
+	public boolean isResourceActivityPattern(EObject self) {
+
+		return isResourceActivityPattern(self, null);
+	}
+
+	public boolean isResourceActivityPattern(EObject self, String type) {
+
+		if (!(self instanceof Entity)) {
+			return false;
+		}
+
+		Entity entity = (Entity) self;
+
+		String name = entity.getName();
+
+		int length = 1000;
+
+		while (!(self instanceof ActivityPattern) && length > 0) {
+			self = self.eContainer();
+			length--;
+		}
+
+		if (self instanceof ActivityPattern) {
+
+			ActivityPattern ptr = (ActivityPattern) self;
+
+			// for each source
+			for (IncidentEntity r : ptr.getIncidententity()) {
+
+				if (!(r instanceof Resource)) {
+					continue;
+				}
+
+				// if type is set then compare against it as well
+				if (type != null) {
+					if (r.getName().equalsIgnoreCase(name) && r.getType() != null
+							&& r.getType().getName().equalsIgnoreCase(type)) {
+						return true;
+					}
+				} else { // else just compare names
+					if (r.getName().equalsIgnoreCase(name)) {
+						return true;
+					}
+				}
+			}
+		} else {
+			System.out.println("incident NOT found ");
+		}
+
+		if (length == 0) {
+			System.out.println("Length reached 0");
+		}
+
+		return false;
+	}
+
+	public List<Condition> getConditionsActPtrn(EObject self) {
+
+		List<Condition> conditions = new LinkedList<Condition>();
+
+		if (!(self instanceof ActivityPattern)) {
+			return null;
+		}
+
+		ActivityPattern ptr = (ActivityPattern) self;
+
+		List<Activity> activities = ptr.getAbstractActivity();
+
+		for (Activity act : activities) {
+			conditions.add(act.getPrecondition());
+			conditions.add(act.getPostcondition());
+		}
+
+		return conditions;
 	}
 
 }
