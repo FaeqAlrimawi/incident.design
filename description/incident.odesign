@@ -249,6 +249,14 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
+        <edgeMappings name="entityConnectivityExtended" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityNew']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityNew']" targetFinderExpression="aql:self.connectivity">
+          <style lineStyle="dash" targetArrow="NoDecoration" routingStyle="tree">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_orange']"/>
+            <centerLabelStyleDescription>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
         <containerMappings name="Scene" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="feature:scene" domainClass="Scene">
           <subContainerMappings name="ActivityContainer" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editName']" semanticCandidatesExpression="aql: self.activity" synchronizationLock="true" domainClass="Activity" childrenPresentation="List">
             <subNodeMappings name="Initiator" semanticCandidatesExpression="feature:initiator" domainClass="IncidentEntity">
@@ -1015,14 +1023,28 @@
                 </firstModelOperations>
               </initialOperation>
             </ownedTools>
-            <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="connectivityEdge" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='entityConnectivity']">
+            <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="connectivityEdge" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='entityConnectivityExtended']">
               <sourceVariable name="source"/>
               <targetVariable name="target"/>
               <sourceViewVariable name="sourceView"/>
               <targetViewVariable name="targetView"/>
               <initialOperation>
-                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:target">
-                  <subModelOperations xsi:type="tool:MoveElement" newContainerExpression="var:source" featureName="connectivity"/>
+                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:source">
+                  <subModelOperations xsi:type="tool:CreateInstance" typeName="Connectivity" referenceName="connectivity" variableName="instance1">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:target">
+                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Connectivity" referenceName="connectivity" variableName="instance2">
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance2">
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: source.name + '-' + target.name+'-conn'">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance1">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: source.name + '-' + target.name+'-conn'">
+                                <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance1"/>
+                              </subModelOperations>
+                            </subModelOperations>
+                          </subModelOperations>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
                 </firstModelOperations>
               </initialOperation>
             </ownedTools>
