@@ -818,10 +818,17 @@ public class Services {
 		EObject container = self.eContainer(); //this gets the entity container
 		container = container.eContainer();//this gets the condition
 		
-		
+		int length = 1000;
 		//if the container is not BigraphEpxression obj then return
-		if(!(container instanceof BigraphExpression)) {
-			System.out.println("container is not expression");
+		while(!(container instanceof BigraphExpression) && length>0) {
+//			System.out.println("container is not expression");
+			
+			container = container.eContainer();
+			length--;
+		}
+		
+		if(length == 0) {
+			System.out.println("container is not bigraph expression");
 			return entities;
 		}
 		
@@ -865,10 +872,19 @@ public class Services {
 		//change all connectivity entities that has the same old name
 		
 		//get expression
-		EObject obj = self.eContainer().eContainer();
+		EObject obj = self.eContainer();
 		
-		if(!(obj instanceof BigraphExpression)) {
-			System.out.println("contianer is not bigraph expression");
+		int length = 1000;
+		
+		while(!(obj instanceof BigraphExpression) && length> 0) {
+//			System.out.println("contianer is not bigraph expression");
+			
+			obj = obj.eContainer();
+			length--;
+		}
+		
+		if(length == 0) {
+			System.out.println("container is not bigraph expression");
 			return;
 		}
 		

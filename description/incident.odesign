@@ -7,7 +7,7 @@
         <filters xsi:type="filter:MappingFilter" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='parentRelation'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='entityParentRelation']"/>
       </filters>
       <filters xsi:type="filter:CompositeFilterDescription" name="Hide connections">
-        <filters xsi:type="filter:MappingFilter" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='Connection']"/>
+        <filters xsi:type="filter:MappingFilter" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='Connection'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='connectivityNew']"/>
       </filters>
       <filters xsi:type="filter:CompositeFilterDescription" name="Hide scenes">
         <filters xsi:type="filter:MappingFilter" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']"/>
@@ -242,10 +242,10 @@
           </style>
         </edgeMappings>
         <edgeMappings name="entityConnectivityInverted" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='connectivityNew']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityNew']" targetFinderExpression="aql:self.getConnectivityEntities()">
-          <style lineStyle="dash" targetArrow="NoDecoration" routingStyle="tree">
+          <style lineStyle="dash" targetArrow="NoDecoration">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_orange']"/>
             <centerLabelStyleDescription>
-              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_orange']"/>
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
@@ -257,7 +257,7 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="entityConnectivityfromEntityToConn" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityNew']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='connectivityNew']">
+        <edgeMappings name="entityConnectivityfromEntityToConn" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityNew']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='connectivityNew']" targetFinderExpression="aql:null">
           <style sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
             <centerLabelStyleDescription>
@@ -1047,7 +1047,7 @@
                             <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance2">
                               <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: source.name + '-' + target.name+'-conn'">
                                 <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance1">
-                                  <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: source.name + '-' + target.name+'-conn'">
+                                  <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: instance2.name">
                                     <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance1"/>
                                   </subModelOperations>
                                 </subModelOperations>
