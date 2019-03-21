@@ -290,7 +290,7 @@ public class Services {
 					des.setParentEntity(src);
 				} else {
 					desParent.getContainedEntities().remove(des);
-					des.setParentEntity(srcParent);
+					des.setParentEntity(src);
 				}
 			}
 		}
