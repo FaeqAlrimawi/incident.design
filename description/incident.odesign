@@ -201,7 +201,7 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="entityParentRelation" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityNew']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityNew']" targetFinderExpression="aql:self.entity" reconnections="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@subSections[name='edit%20relations']/@ownedTools[name='editContainmentRelationEntity']">
+        <edgeMappings name="entityParentRelation" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityNew']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityNew']" targetFinderExpression="aql:self.entity">
           <style targetArrow="InputClosedArrow" routingStyle="tree">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription>
@@ -312,16 +312,20 @@
             <subContainerMappings name="bigraphExpressionContainer" semanticCandidatesExpression="aql: self.expression" domainClass="BigraphExpression">
               <subNodeMappings name="entityNew" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editEntityLvl1']" semanticCandidatesExpression="aql:self.getAllConditionEntity(self.entity)" domainClass="Entity">
                 <borderedNodeMappings name="site" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@subSections[name='deletes']/@ownedTools[name='deleteSite']" semanticCandidatesExpression="feature:site" domainClass="Site">
-                  <style xsi:type="style:DotDescription" showIcon="false" labelExpression="" sizeComputationExpression="1" labelPosition="node" resizeKind="NSEW" strokeSizeComputationExpression="1">
+                  <style xsi:type="style:NoteDescription" showIcon="false" labelExpression="" sizeComputationExpression="1" labelPosition="node">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-                    <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_red']"/>
+                    <forbiddenSides>WEST</forbiddenSides>
+                    <forbiddenSides>SOUTH</forbiddenSides>
+                    <forbiddenSides>EAST</forbiddenSides>
+                    <forbiddenSides>NORTH</forbiddenSides>
+                    <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
                   </style>
-                  <conditionnalStyles predicateExpression="aql: self.isClosed">
-                    <style xsi:type="style:DotDescription" showIcon="false" labelExpression="" sizeComputationExpression="1" labelPosition="node" resizeKind="NSEW" strokeSizeComputationExpression="1">
+                  <conditionnalStyles predicateExpression="aql:self.eContainer().oclAsType(cyberPhysical_Incident::Entity).hasSite = false">
+                    <style xsi:type="style:DotDescription" showIcon="false" labelExpression="" tooltipExpression="Site" sizeComputationExpression="1" labelPosition="node" strokeSizeComputationExpression="1">
                       <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                       <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-                      <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+                      <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_red']"/>
                     </style>
                   </conditionnalStyles>
                 </borderedNodeMappings>
@@ -390,7 +394,7 @@
                   </style>
                 </conditionnalStyles>
               </subNodeMappings>
-              <subNodeMappings name="connectivityNew" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editConnectivityName']" semanticCandidatesExpression="aql: self.getAllConditionConnectivity(self.entity)" domainClass="Connectivity">
+              <subNodeMappings name="connectivityNew" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.3/@ownedTools[name='deleteConnectivity']" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editConnectivityName']" semanticCandidatesExpression="aql: self.getAllConditionConnectivity(self.entity)" domainClass="Connectivity">
                 <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name.size() = 0 then '&lt;set name>' else self.name endif" workspacePath="/incident.design/res/connection.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -567,7 +571,7 @@
             <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
           </style>
         </containerMappings>
-        <toolSections name="Elements">
+        <toolSections name="Element">
           <ownedTools xsi:type="tool_1:ToolGroup" name="Crime Script">
             <tools xsi:type="tool_1:ContainerCreationDescription" name="CrimeScript" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='CrimeScriptContainer']" iconPath="/incident.design/res/icons/script_icon.jpg">
               <variable name="container"/>
@@ -924,7 +928,7 @@
             </initialOperation>
           </ownedTools>
         </toolSections>
-        <toolSections name="Relations">
+        <toolSections name="Relation">
           <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Next Scene" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='nextScene']" iconPath="/incident.design/res/icons/nextScene_icon2.jpg">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
@@ -985,7 +989,16 @@
             </initialOperation>
           </ownedTools>
         </toolSections>
-        <toolSections name="deletes"/>
+        <toolSections name="deletes">
+          <ownedTools xsi:type="tool_1:DeleteElementDescription" name="deleteConnectivity">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql: self.removeConnectivity()"/>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
         <toolSections name="edit Relations">
           <ownedTools xsi:type="tool_1:ReconnectEdgeDescription" name="editContainmentRelation">
             <source name="source"/>
@@ -1001,7 +1014,7 @@
             <edgeView name="edgeView"/>
           </ownedTools>
         </toolSections>
-        <toolSections name="Condition Elements">
+        <toolSections name="Condition Element">
           <subSections name="Nodes">
             <ownedTools xsi:type="tool_1:NodeCreationDescription" name="Entity" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityNew']">
               <variable name="container"/>
@@ -1010,18 +1023,9 @@
                 <firstModelOperations xsi:type="tool:CreateInstance" typeName="Entity" referenceName="entity"/>
               </initialOperation>
             </ownedTools>
-            <ownedTools xsi:type="tool_1:NodeCreationDescription" name="Site" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityNew']/@borderedNodeMappings[name='site']" iconPath="/incident.design/res/icons/site_icon.png">
-              <variable name="container"/>
-              <viewVariable name="containerView"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool:If" conditionExpression="aql: container.site = null">
-                  <subModelOperations xsi:type="tool:CreateInstance" typeName="Site" referenceName="site"/>
-                </firstModelOperations>
-              </initialOperation>
-            </ownedTools>
           </subSections>
           <subSections name="relations">
-            <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Container" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='entityParentRelation']" iconPath="/incident.design/res/icons/contains_icon2.jpg">
+            <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Contains" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='entityParentRelation']" iconPath="/incident.design/res/icons/contains_icon2.jpg">
               <sourceVariable name="source"/>
               <targetVariable name="target"/>
               <sourceViewVariable name="sourceView"/>
@@ -1032,7 +1036,7 @@
                 </firstModelOperations>
               </initialOperation>
             </ownedTools>
-            <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="connectivityEdge" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='entityConnectivityBtwEntities'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='entityConnectivityfromEntityToConn']">
+            <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Connect" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='entityConnectivityBtwEntities'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='entityConnectivityfromEntityToConn']" iconPath="/incident.design/res/icons/connect_icon.jpg">
               <sourceVariable name="source"/>
               <targetVariable name="target"/>
               <sourceViewVariable name="sourceView"/>
@@ -1071,21 +1075,7 @@
               </initialOperation>
             </ownedTools>
           </subSections>
-          <subSections name="edit relations">
-            <ownedTools xsi:type="tool_1:ReconnectEdgeDescription" name="editContainmentRelationEntity">
-              <source name="source"/>
-              <target name="target"/>
-              <sourceView name="sourceView"/>
-              <targetView name="targetView"/>
-              <element name="element"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:element">
-                  <subModelOperations xsi:type="tool:MoveElement" newContainerExpression="var:target" featureName="entity"/>
-                </firstModelOperations>
-              </initialOperation>
-              <edgeView name="edgeView"/>
-            </ownedTools>
-          </subSections>
+          <subSections name="edit relations"/>
           <subSections name="deletes">
             <ownedTools xsi:type="tool_1:DeleteElementDescription" name="deleteSite">
               <element name="element"/>
@@ -1094,6 +1084,28 @@
               <initialOperation>
                 <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:element">
                   <subModelOperations xsi:type="tool:RemoveElement"/>
+                </firstModelOperations>
+              </initialOperation>
+            </ownedTools>
+          </subSections>
+          <subSections name="Selection wizard">
+            <ownedTools xsi:type="tool:PaneBasedSelectionWizardDescription" name="Entity Selection" precondition="aql:container.oclIsTypeOf(cyberPhysical_Incident::BigraphExpression)" message="Select entity(s) to add to the condition" choiceOfValuesMessage="Choice of entities" candidatesExpression="aql: self.getAllIncidentEntities()" selectedValuesMessage="Selected entities">
+              <element name="element"/>
+              <containerView name="containerView"/>
+              <container name="container"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::BigraphExpression)">
+                  <subModelOperations xsi:type="tool:For" expression="var:element" iteratorName="e">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::BigraphExpression)">
+                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Entity" referenceName="entity">
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: e.oclAsType(cyberPhysical_Incident::IncidentEntity).name">
+                            <subModelOperations xsi:type="tool:ChangeContext"/>
+                          </subModelOperations>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
                 </firstModelOperations>
               </initialOperation>
             </ownedTools>
@@ -1112,6 +1124,10 @@
             </initialOperation>
           </ownedTools>
         </toolSections>
+        <decorationDescriptionsSet>
+          <decorationDescriptions xsi:type="description_1:MappingBasedDecoration" name="siteDecoration" decoratorPath="/incident.design/res/noSite.png" preconditionExpression="aql:self.hasSite = false" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entityNew']"/>
+          <decorationDescriptions xsi:type="description_1:MappingBasedDecoration" name="fixedDeocration" position="SOUTH_EAST" decoratorPath="/incident.design/res/fixed.png" preconditionExpression="aql:self.mobility.toString().equalsIgnoreCase('fixed')" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='Actor'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='Asset'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='IncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='Resource'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity']"/>
+        </decorationDescriptionsSet>
       </defaultLayer>
     </ownedRepresentations>
     <ownedJavaExtensions qualifiedClassName="incident.design.Services"/>

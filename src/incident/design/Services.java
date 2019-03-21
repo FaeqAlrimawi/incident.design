@@ -852,6 +852,76 @@ public class Services {
 	}
 	
 	/**
+	 * Removes all connectivities that has the same name as the given one
+	 * @param self Connectivity
+	 * @return
+	 */
+	public void  removeConnectivity(EObject self) {
+		
+		List<Connectivity> connectivitiesToRemove = new LinkedList<Connectivity>();
+		
+		//self should be a Connectivity obj
+		if(!(self instanceof Connectivity)) {
+			System.err.println("self is not connectivity");
+			return;
+		}
+		
+		Connectivity con = (Connectivity)self;
+		String conName = ((Connectivity)self).getName();
+		
+		//if name is empty then return nothing
+		if(conName == null || conName.isEmpty()) {
+			System.err.println("name is empty");
+			return;
+		}
+		
+		//get all entities that has the conn name from the condition (it's container)
+		EObject container = self.eContainer(); //this gets the entity container
+		container = container.eContainer();//this gets the condition
+		
+		int length = 1000;
+		//if the container is not BigraphEpxression obj then return
+		while(!(container instanceof BigraphExpression) && length>0) {
+//			System.out.println("container is not expression");
+			
+			container = container.eContainer();
+			length--;
+		}
+		
+		if(!(container instanceof BigraphExpression)) {
+			System.err.println("container is not bigraph expression");
+			return;
+		}
+		
+		if(length == 0) {
+			System.err.println("bigraph expression not found");
+			return;
+		}
+		
+		BigraphExpression exp = (BigraphExpression) container;
+		
+		List<Entity> allEntities = getAllConditionEntity(self, exp.getEntity());
+		
+		//for all entities check connectivity list if it contains the required connectivity (i.e. self/con)
+		for(Entity entity : allEntities) {
+			
+			List<Connectivity> entityCon = entity.getConnectivity();
+			connectivitiesToRemove.clear();
+			
+			for(Connectivity subCon : entityCon) {
+				if(conName.equalsIgnoreCase(subCon.getName())) {
+					connectivitiesToRemove.add(subCon);
+				}
+			}
+			
+			entityCon.removeAll(connectivitiesToRemove);
+		}
+		
+		
+	
+	}
+	
+	/**
 	 * Sets the name of every connectivity in the condition that has the oldName
 	 * @param self
 	 * @param oldName
@@ -903,6 +973,103 @@ public class Services {
 		}
 		
 	}
+	
+	/**
+	 * Returns all available incident entities objects in the incident diagram
+	 * @param self could be any element in the diagram
+	 * @return
+	 */
+	public List<IncidentEntity> getAllIncidentEntities(EObject self) {
+		
+		List<IncidentEntity> entities = new LinkedList<IncidentEntity>();
+		
+		//find root element (incident diagram)
+		
+		EObject container = self;
+		int length = 1000;
+		
+		while(!(container instanceof IncidentDiagram)) {
+			
+			container = container.eContainer();
+			length--;
+		}
+		
+		if(!(container instanceof IncidentDiagram)) {
+			System.out.println("Incident Digram object is not found");
+			return entities;
+		}
+		
+		
+		IncidentDiagram incident = (IncidentDiagram) container;
+		
+		//add all assets
+		entities.addAll(incident.getAsset());
+		//add all actors
+		entities.addAll(incident.getActor());
+		//add all resources
+		entities.addAll(incident.getResource());
+		//add all other incident entities
+		entities.addAll(incident.getIncidentEntity());
+		
+		return entities;
+	}
+	
+	/**
+	 * create Entity objects from given list (i.e. elements)
+	 * @param self
+	 * @param elements
+	 */
+//	public void createEntitiesBasedOnSelection(EObject self, EObject elements) {
+//		
+//		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
+//		
+//		//the self is the bigraph expression
+//		if(!(self instanceof BigraphExpression)) {
+//			System.out.println("given slef is not a bigraph expression");
+//			return;
+//		}
+//		
+//		if(!(elements instanceof List<?>)) {
+//			System.out.println("given elements are not a List");
+//			
+//			return;
+//		}
+//		
+//		BigraphExpression exp = (BigraphExpression) self;
+//		List<IncidentEntity> selectedEntities = (List)elements;
+//		
+//		List<Entity> conditionEntities = new LinkedList<Entity>();
+//		
+//		
+//		//for each selected entity, create entity and then update their relations (containment and connectivity)
+//		
+//		//create entities
+//		for(IncidentEntity sel : selectedEntities) {
+//			
+//			Entity ent = instance.createEntity();
+//			
+//			ent.setName(sel.getName());
+//			
+//			conditionEntities.add(ent);
+//		}
+//		
+//		conditionEntities.addAll(exp.getEntity());
+//		System.out.println("size: " + conditionEntities.size());
+//		exp.eSet(exp.eClass().getEStructuralFeature(CyberPhysicalIncidentPackage.ENTITY__ENTITY), conditionEntities);
+//		
+//		
+//	}
+	
+//	public void updateEntityContainment(EObject self) {
+//	
+//		if(!(self instanceof Entity)) {
+//			System.err.println("updateEntityContainment: self is not an Entity object");
+//		}
+//		
+//		
+//	}
+	
+	
 	
 	/**********************************************************************************************************
 	 * **********************************************************************************************************
