@@ -1068,7 +1068,7 @@
           </style>
         </nodeMappings>
         <containerMappings name="PropertyContainer" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='IncidentEntityDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editNames']" semanticCandidatesExpression="feature:properties" domainClass="Property" childrenPresentation="List">
-          <subNodeMappings name="Property" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='IncidentEntityDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editValue']" semanticCandidatesExpression="aql:self" domainClass="Property">
+          <subNodeMappings name="value" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='IncidentEntityDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editPropValue']" semanticCandidatesExpression="aql:self" domainClass="Property">
             <style xsi:type="style:SquareDescription" labelSize="10" labelExpression="aql: if self.value = null then '&lt;Set Value>' else self.value endif" sizeComputationExpression="0" labelPosition="node" resizeKind="NSEW" width="15" height="3">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -1083,14 +1083,21 @@
           </style>
         </containerMappings>
         <containerMappings name="VulContainer" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='IncidentEntityDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editNames']" semanticCandidatesExpression="aql: self.getAssetVulnerabilities()" domainClass="Vulnerability" childrenPresentation="List">
-          <subNodeMappings name="url" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='IncidentEntityDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editValue']" semanticCandidatesExpression="aql:self" domainClass="Vulnerability">
-            <style xsi:type="style:SquareDescription" labelSize="10" labelExpression="aql: if self.URL = null then '&lt;Set URL>' else self.URL endif" sizeComputationExpression="0" labelPosition="node" resizeKind="NSEW" width="15" height="3">
+          <subNodeMappings name="url" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='IncidentEntityDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editVulURL']" semanticCandidatesExpression="aql:self" domainClass="Vulnerability">
+            <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql: if self.URL = null then '&lt;Set URL>' else self.URL endif" iconPath="/incident.design/res/url.png" sizeComputationExpression="0" labelPosition="node" resizeKind="NSEW" width="15" height="3">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
             </style>
           </subNodeMappings>
-          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="10" labelExpression="aql: if self.name = null then '&lt;Set Name>' else self.name endif">
+          <subNodeMappings name="description" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='IncidentEntityDiagram']/@defaultLayer/@toolSections.1/@ownedTools[name='editVulDes']" semanticCandidatesExpression="aql:self" domainClass="Vulnerability">
+            <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql: if self.description = null then '&lt;Set Description>' else self.description endif" sizeComputationExpression="0" labelPosition="node" resizeKind="NSEW" width="15" height="3">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" labelExpression="aql: if self.name = null then '&lt;Set Name>' else self.name endif" iconPath="/incident.design/res/required.png">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
@@ -1120,13 +1127,28 @@
               <firstModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:arg0"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool_1:DirectEditLabel" name="editValue">
+          <ownedTools xsi:type="tool_1:DirectEditLabel" name="editPropValue">
             <mask mask="{0}"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="aql:arg0"/>
             </initialOperation>
           </ownedTools>
+          <ownedTools xsi:type="tool_1:DirectEditLabel" name="editVulURL">
+            <mask mask="{0}"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:SetValue" featureName="URL" valueExpression="aql:arg0"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:DirectEditLabel" name="editVulDes">
+            <mask mask="{0}"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:SetValue" featureName="description" valueExpression="aql:arg0"/>
+            </initialOperation>
+          </ownedTools>
         </toolSections>
+        <decorationDescriptionsSet>
+          <decorationDescriptions xsi:type="description_1:MappingBasedDecoration" name="required" position="NORTH_WEST" decoratorPath="/incident.design/res/vulnerability.png" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='IncidentEntityDiagram']/@defaultLayer/@containerMappings[name='VulContainer']"/>
+        </decorationDescriptionsSet>
       </defaultLayer>
     </ownedRepresentations>
     <ownedJavaExtensions qualifiedClassName="incident.design.Services"/>
