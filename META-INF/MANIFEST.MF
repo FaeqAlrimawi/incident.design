@@ -14,4 +14,6 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: %providerName
 Import-Package: cyberPhysical_Incident,
- cyberPhysical_Incident.impl
+ cyberPhysical_Incident.impl,
+ environment,
+ environment.impl

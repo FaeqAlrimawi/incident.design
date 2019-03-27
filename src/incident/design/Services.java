@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.swt.widgets.Tree;
 
 import cyberPhysical_Incident.Activity;
 import cyberPhysical_Incident.ActivityPattern;
@@ -13,27 +14,36 @@ import cyberPhysical_Incident.Asset;
 import cyberPhysical_Incident.BigraphExpression;
 import cyberPhysical_Incident.Condition;
 import cyberPhysical_Incident.Connectivity;
+import cyberPhysical_Incident.CrimeScript;
+import cyberPhysical_Incident.CyberPhysicalIncidentFactory;
 import cyberPhysical_Incident.Entity;
 import cyberPhysical_Incident.IncidentDiagram;
 import cyberPhysical_Incident.IncidentEntity;
+import cyberPhysical_Incident.Postcondition;
+import cyberPhysical_Incident.Precondition;
 import cyberPhysical_Incident.Resource;
 import cyberPhysical_Incident.Scene;
+import cyberPhysical_Incident.ScriptCategory;
 import cyberPhysical_Incident.impl.IncidentEntityImpl;
+import environment.Action;
+import environment.EnvironmentDiagram;
+import incident.util.BigraphERTokens;
+import incident.util.Tokenizer;
 
 /**
  * The services class used by VSM.
  */
 public class Services {
 
+	SystemInstanceHandler sysHandler = new SystemInstanceHandler();
+
+	Tokenizer brsTokenizer;
+
 	/**
 	 * See
 	 * http://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.sirius.doc%2Fdoc%2Findex.html&cp=24
 	 * for documentation on how to write service methods.
 	 */
-	public EObject myService(EObject self, String arg) {
-		// TODO Auto-generated code
-		return self;
-	}
 
 	public IncidentEntity castToIncidentEntity(EObject self) {
 
@@ -382,7 +392,7 @@ public class Services {
 
 		List<Connectivity> allConnectivity = new LinkedList<Connectivity>();
 		List<String> conNames = new LinkedList<String>();
-		
+
 		List<Entity> toVisit = new LinkedList<Entity>();
 
 		// allContained.addAll(entities);
@@ -394,19 +404,19 @@ public class Services {
 
 			Entity ent = toVisit.remove(0);
 
-//			allConnectivity.addAll(ent.getConnectivity());
+			// allConnectivity.addAll(ent.getConnectivity());
 
-			for(Connectivity con : ent.getConnectivity()) {
-				
-				//only include unique connectivity 
-				if(conNames.contains(con.getName())) {
+			for (Connectivity con : ent.getConnectivity()) {
+
+				// only include unique connectivity
+				if (conNames.contains(con.getName())) {
 					continue;
 				}
-				
+
 				allConnectivity.add(con);
 				conNames.add(con.getName());
 			}
-			
+
 			List<Entity> tmp = (List) ent.getEntity();
 
 			if (tmp.isEmpty()) {
@@ -425,8 +435,6 @@ public class Services {
 
 		return allConnectivity;
 	}
-	
-
 
 	/**
 	 * checks if the given entity in the condition is a Source or not in the
@@ -792,285 +800,573 @@ public class Services {
 
 	/**
 	 * Returns all entities that have the given connectivity
+	 * 
 	 * @param self
 	 * @return
 	 */
 	public List<Entity> getConnectivityEntities(EObject self) {
-		
+
 		List<Entity> entities = new LinkedList<Entity>();
-		
-		//self should be a Connectivity obj
-		if(!(self instanceof Connectivity)) {
+
+		// self should be a Connectivity obj
+		if (!(self instanceof Connectivity)) {
 			System.out.println("self is not connectivity");
 			return entities;
 		}
-		
-		Connectivity con = (Connectivity)self;
-		String conName = ((Connectivity)self).getName();
-		
-		//if name is empty then return nothing
-		if(conName == null || conName.isEmpty()) {
+
+		Connectivity con = (Connectivity) self;
+		String conName = ((Connectivity) self).getName();
+
+		// if name is empty then return nothing
+		if (conName == null || conName.isEmpty()) {
 			System.out.println("name is empty");
 			return entities;
 		}
-		
-		//get all entities that has the conn name from the condition (it's container)
-		EObject container = self.eContainer(); //this gets the entity container
-		container = container.eContainer();//this gets the condition
-		
+
+		// get all entities that has the conn name from the condition (it's
+		// container)
+		EObject container = self.eContainer(); // this gets the entity container
+		container = container.eContainer();// this gets the condition
+
 		int length = 1000;
-		//if the container is not BigraphEpxression obj then return
-		while(!(container instanceof BigraphExpression) && length>0) {
-//			System.out.println("container is not expression");
-			
+		// if the container is not BigraphEpxression obj then return
+		while (!(container instanceof BigraphExpression) && length > 0) {
+			// System.out.println("container is not expression");
+
 			container = container.eContainer();
 			length--;
 		}
-		
-		if(length == 0) {
+
+		if (length == 0) {
 			System.out.println("container is not bigraph expression");
 			return entities;
 		}
-		
+
 		BigraphExpression exp = (BigraphExpression) container;
-		
+
 		List<Entity> allEntities = getAllConditionEntity(self, exp.getEntity());
-		
-		//for all entities check connectivity list if it contains the required connectivity (i.e. self/con)
-		for(Entity entity : allEntities) {
-			
-			for(Connectivity subCon : entity.getConnectivity()) {
-				if(conName.equalsIgnoreCase(subCon.getName())) {
+
+		// for all entities check connectivity list if it contains the required
+		// connectivity (i.e. self/con)
+		for (Entity entity : allEntities) {
+
+			for (Connectivity subCon : entity.getConnectivity()) {
+				if (conName.equalsIgnoreCase(subCon.getName())) {
 					entities.add(entity);
 				}
 			}
-			
+
 		}
-	
-		
+
 		return entities;
 	}
-	
+
 	/**
 	 * Removes all connectivities that has the same name as the given one
-	 * @param self Connectivity
+	 * 
+	 * @param self
+	 *            Connectivity
 	 * @return
 	 */
-	public void  removeConnectivity(EObject self) {
-		
+	public void removeConnectivity(EObject self) {
+
 		List<Connectivity> connectivitiesToRemove = new LinkedList<Connectivity>();
-		
-		//self should be a Connectivity obj
-		if(!(self instanceof Connectivity)) {
+
+		// self should be a Connectivity obj
+		if (!(self instanceof Connectivity)) {
 			System.err.println("self is not connectivity");
 			return;
 		}
-		
-		Connectivity con = (Connectivity)self;
-		String conName = ((Connectivity)self).getName();
-		
-		//if name is empty then return nothing
-		if(conName == null || conName.isEmpty()) {
+
+		Connectivity con = (Connectivity) self;
+		String conName = ((Connectivity) self).getName();
+
+		// if name is empty then return nothing
+		if (conName == null || conName.isEmpty()) {
 			System.err.println("name is empty");
 			return;
 		}
-		
-		//get all entities that has the conn name from the condition (it's container)
-		EObject container = self.eContainer(); //this gets the entity container
-		container = container.eContainer();//this gets the condition
-		
+
+		// get all entities that has the conn name from the condition (it's
+		// container)
+		EObject container = self.eContainer(); // this gets the entity container
+		container = container.eContainer();// this gets the condition
+
 		int length = 1000;
-		//if the container is not BigraphEpxression obj then return
-		while(!(container instanceof BigraphExpression) && length>0) {
-//			System.out.println("container is not expression");
-			
+		// if the container is not BigraphEpxression obj then return
+		while (!(container instanceof BigraphExpression) && length > 0) {
+			// System.out.println("container is not expression");
+
 			container = container.eContainer();
 			length--;
 		}
-		
-		if(!(container instanceof BigraphExpression)) {
+
+		if (!(container instanceof BigraphExpression)) {
 			System.err.println("container is not bigraph expression");
 			return;
 		}
-		
-		if(length == 0) {
+
+		if (length == 0) {
 			System.err.println("bigraph expression not found");
 			return;
 		}
-		
+
 		BigraphExpression exp = (BigraphExpression) container;
-		
+
 		List<Entity> allEntities = getAllConditionEntity(self, exp.getEntity());
-		
-		//for all entities check connectivity list if it contains the required connectivity (i.e. self/con)
-		for(Entity entity : allEntities) {
-			
+
+		// for all entities check connectivity list if it contains the required
+		// connectivity (i.e. self/con)
+		for (Entity entity : allEntities) {
+
 			List<Connectivity> entityCon = entity.getConnectivity();
 			connectivitiesToRemove.clear();
-			
-			for(Connectivity subCon : entityCon) {
-				if(conName.equalsIgnoreCase(subCon.getName())) {
+
+			for (Connectivity subCon : entityCon) {
+				if (conName.equalsIgnoreCase(subCon.getName())) {
 					connectivitiesToRemove.add(subCon);
 				}
 			}
-			
+
 			entityCon.removeAll(connectivitiesToRemove);
 		}
-		
-		
-	
+
 	}
-	
+
 	/**
 	 * Sets the name of every connectivity in the condition that has the oldName
+	 * 
 	 * @param self
 	 * @param oldName
 	 * @param newName
 	 */
 	public void setConnectivityName(EObject self, String oldName, String newName) {
-	
-		if(!(self instanceof Connectivity)) {
+
+		if (!(self instanceof Connectivity)) {
 			System.out.println("self is not connectivity");
 			return;
 		}
-		
-//		Connectivity con = (Connectivity)self;
-//		
-//		//set the name of the given connectivity (i.e. self)
-//		con.setName(newName);
-		
-		//change all connectivity entities that has the same old name
-		
-		//get expression
+
+		// Connectivity con = (Connectivity)self;
+		//
+		// //set the name of the given connectivity (i.e. self)
+		// con.setName(newName);
+
+		// change all connectivity entities that has the same old name
+
+		// get expression
 		EObject obj = self.eContainer();
-		
+
 		int length = 1000;
-		
-		while(!(obj instanceof BigraphExpression) && length> 0) {
-//			System.out.println("contianer is not bigraph expression");
-			
+
+		while (!(obj instanceof BigraphExpression) && length > 0) {
+			// System.out.println("contianer is not bigraph expression");
+
 			obj = obj.eContainer();
 			length--;
 		}
-		
-		if(length == 0) {
+
+		if (length == 0) {
 			System.out.println("container is not bigraph expression");
 			return;
 		}
-		
-		BigraphExpression exp  =(BigraphExpression) obj;
-		
+
+		BigraphExpression exp = (BigraphExpression) obj;
+
 		List<Entity> allEntities = getAllConditionEntity(self, exp.getEntity());
-		
-		for(Entity ent : allEntities) {
-			
-			//update name for each connectivity if it matches to old name
-			for(Connectivity con : ent.getConnectivity()) {
-				if(con.getName().equalsIgnoreCase(oldName)) {
+
+		for (Entity ent : allEntities) {
+
+			// update name for each connectivity if it matches to old name
+			for (Connectivity con : ent.getConnectivity()) {
+				if (con.getName().equalsIgnoreCase(oldName)) {
 					con.setName(newName);
 				}
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * Returns all available incident entities objects in the incident diagram
-	 * @param self could be any element in the diagram
+	 * 
+	 * @param self
+	 *            could be any element in the diagram
 	 * @return
 	 */
 	public List<IncidentEntity> getAllIncidentEntities(EObject self) {
-		
+
 		List<IncidentEntity> entities = new LinkedList<IncidentEntity>();
-		
-		//find root element (incident diagram)
-		
+
+		// find root element (incident diagram)
+
 		EObject container = self;
 		int length = 1000;
-		
-		while(!(container instanceof IncidentDiagram)) {
-			
+
+		while (!(container instanceof IncidentDiagram) && length > 0) {
+
 			container = container.eContainer();
 			length--;
 		}
-		
-		if(!(container instanceof IncidentDiagram)) {
+
+		if (!(container instanceof IncidentDiagram)) {
 			System.out.println("Incident Digram object is not found");
 			return entities;
 		}
-		
-		
+
 		IncidentDiagram incident = (IncidentDiagram) container;
-		
-		//add all assets
+
+		// add all assets
 		entities.addAll(incident.getAsset());
-		//add all actors
+		// add all actors
 		entities.addAll(incident.getActor());
-		//add all resources
+		// add all resources
 		entities.addAll(incident.getResource());
-		//add all other incident entities
+		// add all other incident entities
 		entities.addAll(incident.getIncidentEntity());
-		
+
 		return entities;
 	}
-	
+
 	/**
-	 * create Entity objects from given list (i.e. elements)
-	 * @param self
-	 * @param elements
+	 * returns root element IncidentDiagram
+	 * 
+	 * @return
 	 */
-//	public void createEntitiesBasedOnSelection(EObject self, EObject elements) {
-//		
-//		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
-//		
-//		//the self is the bigraph expression
-//		if(!(self instanceof BigraphExpression)) {
-//			System.out.println("given slef is not a bigraph expression");
-//			return;
-//		}
-//		
-//		if(!(elements instanceof List<?>)) {
-//			System.out.println("given elements are not a List");
-//			
-//			return;
-//		}
-//		
-//		BigraphExpression exp = (BigraphExpression) self;
-//		List<IncidentEntity> selectedEntities = (List)elements;
-//		
-//		List<Entity> conditionEntities = new LinkedList<Entity>();
-//		
-//		
-//		//for each selected entity, create entity and then update their relations (containment and connectivity)
-//		
-//		//create entities
-//		for(IncidentEntity sel : selectedEntities) {
-//			
-//			Entity ent = instance.createEntity();
-//			
-//			ent.setName(sel.getName());
-//			
-//			conditionEntities.add(ent);
-//		}
-//		
-//		conditionEntities.addAll(exp.getEntity());
-//		System.out.println("size: " + conditionEntities.size());
-//		exp.eSet(exp.eClass().getEStructuralFeature(CyberPhysicalIncidentPackage.ENTITY__ENTITY), conditionEntities);
-//		
-//		
-//	}
-	
-//	public void updateEntityContainment(EObject self) {
-//	
-//		if(!(self instanceof Entity)) {
-//			System.err.println("updateEntityContainment: self is not an Entity object");
-//		}
-//		
-//		
-//	}
-	
-	
-	
+	protected IncidentDiagram getIncidentDiagram(EObject self) {
+
+		int length = 10000;
+
+		EObject container = self;
+
+		while (!(container instanceof IncidentDiagram) && length > 0) {
+
+			container = container.eContainer();
+			length--;
+		}
+
+		if (!(container instanceof IncidentDiagram)) {
+			System.err.println("Root element (IncidentDiagram) object is not found");
+			return null;
+		}
+
+		return (IncidentDiagram) container;
+
+	}
+
+	/**
+	 * Determines whether the incident is instance or not (could be a pattern)
+	 * 
+	 * @param self
+	 * @return
+	 */
+	public boolean isIncidentInstance(EObject self) {
+
+		IncidentDiagram inc = getIncidentDiagram(self);
+
+		// if root element is not found return false
+		if (inc == null) {
+			return false;
+		}
+
+		CrimeScript script = inc.getCrimeScript();
+
+		// if there's no crime script defined then return false;
+		if (script == null) {
+			return false;
+		}
+
+		if (script.getCategory().equals(ScriptCategory.INSTANCE)) {
+			return true;
+		}
+
+		return false;
+
+	}
+
+	/******************************
+	 * SYSTEM
+	 * FUNCTIONS*************************************************************
+	 * *********************************************************************************************************
+	 * *********************************************************************************************************
+	 * *********************************************************************************************************
+	 * 
+	 * @return
+	 */
+	public EnvironmentDiagram getSystemInstance(EObject self) {
+
+		return sysHandler.getInstance();
+
+	}
+
+	public EnvironmentDiagram getSystemInstance(EObject self, String fileName) {
+
+		return sysHandler.getInstance(fileName);
+
+	}
+
+	/**
+	 * Return the list of action names from the system instance model
+	 * 
+	 * @param self
+	 * @return
+	 */
+	public List<Action> getSystemActions(EObject self) {
+
+		// dummy
+		List<String> dummy = new LinkedList<String>();
+		dummy.add("enterRoom");
+		dummy.add("connectDevice");
+
+		// return dummy;
+		return sysHandler.getDummyActions();
+	}
+
+	/**
+	 * Updates the condition of the given activity (self) according to the given
+	 * BRS condition
+	 * 
+	 * @param self
+	 * @param cond
+	 * @param BRScondition
+	 */
+	public void updateConditions(EObject self, EObject action) {
+
+		// if self is not activity then do nothing
+		if (!(self instanceof Activity)) {
+			System.err.println("updateCondition: self is Not activity");
+			return;
+		}
+
+		Activity activity = (Activity) self;
+
+		if (!(action instanceof Action)) {
+			System.err.println("updateCondition: action is Not Action");
+			return;
+		}
+
+		Action act = (Action) action;
+
+		// update precondition
+		Precondition activityPre = activity.getPrecondition();
+
+		String brsPreCond = (act.getPreconditions() != null && !act.getPreconditions().isEmpty())
+				? act.getPreconditions().get(0) : null;
+
+		BigraphExpression newPreBRS = parseActionBRSCondition(brsPreCond);
+
+		activityPre.setExpression(newPreBRS);
+
+		// update postcondition
+		Postcondition activityPost = activity.getPostcondition();
+
+		String brsPostCond = (act.getPostconditions() != null && !act.getPostconditions().isEmpty())
+				? act.getPostconditions().get(0) : null;
+
+//		BigraphExpression newPostBRS = parseActionBRSCondition(brsPostCond);
+//
+//		activityPost.setExpression(newPostBRS);
+
+	}
+
+	/**
+	 * Parses the given condition in BRS format to identify entities and
+	 * connectivity then creates a new condition based on that
+	 * 
+	 * @param BRScondition
+	 * @return Condition
+	 */
+	public BigraphExpression parseActionBRSCondition(String BRScondition) {
+
+		// if(brsTokenizer == null) {
+		createBRSTokenizer();
+		// }
+
+		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
+
+		System.out.println("updating " + BRScondition);
+
+		int rootNum = 0;
+		
+		LinkedList<Entity> rootEntities = new LinkedList<Entity>();
+		LinkedList<Entity> Allentities = new LinkedList<Entity>();
+		LinkedList<Entity> containers = new LinkedList<Entity>();
+		
+		boolean isBracketContainment = false;
+		boolean isContainment = false;
+		boolean isFirstEntity = true;
+		boolean isBigraphJuxta = false;
+		boolean isEntityJuxta = false;
+		boolean hasSite = false;
+		
+		// ===tokenize
+		brsTokenizer.tokenize(BRScondition);
+		for (Tokenizer.Token tok : brsTokenizer.getTokens()) {
+			System.out.println("" + tok.token + " " + tok.sequence);
+			
+			switch(tok.token) {
+			
+			case BigraphERTokens.CONTAINMENT: //.
+				
+				//add to the container the last entity in all entities
+				containers.addFirst(Allentities.getLast());
+				isContainment = true;
+				
+				break;
+				
+			case BigraphERTokens.OPEN_BRACKET: //(
+					
+				if(!containers.isEmpty()) {
+//					isBracketContainment = true;
+					isContainment = false;
+				}
+				
+				break;
+				
+			case BigraphERTokens.CLOSED_BRACKET: //)
+				
+				//remove a container from the list of containers
+				if(!containers.isEmpty()) {
+					
+					//check if it has site
+					if(!hasSite) {
+						containers.getFirst().setSite(null);
+						containers.getFirst().setHasSite(false);
+					} else { //reset
+						hasSite = false;
+					}
+					
+					containers.pop();	
+				}
+				
+				if(containers.isEmpty()) {
+//					isBracketContainment = false;
+				}
+				
+				break;
+			
+			case BigraphERTokens.ENTITY_JUXTAPOSITION: //|
+				//next element should be contained in the same entity as the previous
+				isEntityJuxta = true;
+				
+				break;
+			case BigraphERTokens.BIGRAPH_JUXTAPOSITION: //||
+				
+				//next element should be a root element
+				isBigraphJuxta = true;
+				
+				break;
+				
+			case BigraphERTokens.SITE://id
+			
+				//by default a site is created with each entity
+				
+				//if the token is site then if it is containment add site to last add to all entities
+				//done by default
+				
+				//else if container is not empty then add to the head of the container list
+				//done by default
+				
+				//just look for cases where site needs to be removed
+				
+				//maybe you should cover when site is in bigraph juxtaposition
+				if(isBigraphJuxta) {
+					//do something
+				}
+				
+				hasSite = true;
+				
+				break;
+				
+			case BigraphERTokens.WORD: //entity or connectivity
+				//create an entity
+			
+				Entity tmp = instance.createEntity();
+				tmp.setName("<"+tok.sequence+">");
+				Allentities.add(tmp);
+				
+				//check if containers are not empty, if so, then get the head (first element as the current container)
+				if(!containers.isEmpty()) {
+					
+					Entity currentContainer = containers.getFirst();
+					
+					currentContainer.getEntity().add(tmp);
+					
+					System.out.println("entity " + tok.sequence + " is contained in " + currentContainer.getName());
+					
+					//if containment is not within brackets ()
+					if(isContainment) {
+						System.out.println("removing container: " + currentContainer.getName());
+						//it has no site then! so remove it
+						currentContainer.setSite(null);
+						currentContainer.setHasSite(false);
+						containers.removeFirst();
+						isContainment = false;
+					}
+				} else if (isBigraphJuxta) { //if entity after ||
+					rootEntities.add(tmp);
+					isBigraphJuxta = false;
+					
+				} else if (isEntityJuxta) { //if entity after | 
+					//then the last added entity should be remove from the root and a new entity created that combines both
+					Entity lastRoot = rootEntities.removeLast();
+					Entity newRoot = instance.createEntity();
+					newRoot.setName("<Root-"+rootNum+">");
+					newRoot.getEntity().add(lastRoot);
+					newRoot.getEntity().add(tmp);
+					//for now root is not added to all entities
+					rootEntities.add(newRoot);
+					isEntityJuxta = false;
+				}
+				
+				else{ //if entity is not contained anywhere
+			
+					//if entity is the first one
+					if(isFirstEntity) {
+						rootEntities.add(tmp);	
+						isFirstEntity = false;
+					}
+					
+					
+				}
+				
+				break;
+				default:
+					//nothing
+//					System.out.println("ignoring " + tok.sequence);
+				
+			}
+		}
+
+		// ===create bigraph expression
+		BigraphExpression newBRS = instance.createBigraphExpression();
+
+		newBRS.getEntity().addAll(rootEntities);
+
+		return newBRS;
+	}
+
+	protected void createBRSTokenizer() {
+
+		brsTokenizer = new Tokenizer();
+
+		brsTokenizer.add(BigraphERTokens.TOKEN_CONTAINMENT, BigraphERTokens.CONTAINMENT);
+		brsTokenizer.add(BigraphERTokens.TOKEN_COMPOSITION, BigraphERTokens.COMPOSITION);
+		brsTokenizer.add(BigraphERTokens.TOKEN_BIGRAPH_JUXTAPOSITION, BigraphERTokens.BIGRAPH_JUXTAPOSITION);
+		brsTokenizer.add(BigraphERTokens.TOKEN_ENTITY_JUXTAPOSITION, BigraphERTokens.ENTITY_JUXTAPOSITION);
+		brsTokenizer.add(BigraphERTokens.TOKEN_SITE, BigraphERTokens.SITE);
+		brsTokenizer.add(BigraphERTokens.TOKEN_OPEN_BRACKET, BigraphERTokens.OPEN_BRACKET);
+		brsTokenizer.add(BigraphERTokens.TOKEN_CLOSED_BRACKET, BigraphERTokens.CLOSED_BRACKET);
+		brsTokenizer.add(BigraphERTokens.TOKEN_OPEN_BRACKET_CONNECTIVITY, BigraphERTokens.OPEN_BRACKET_CONNECTIVITY);
+		brsTokenizer.add(BigraphERTokens.TOKEN_CLOSED_BRACKET_CONNECTIVITY,
+				BigraphERTokens.CLOSED_BRACKET_CONNECTIVITY);
+		brsTokenizer.add(BigraphERTokens.TOKEN_CLOSED_CONNECTIVITY, BigraphERTokens.CLOSED_CONNECTIVITY);
+		brsTokenizer.add(BigraphERTokens.TOKEN_COMMA, BigraphERTokens.COMMA);
+		brsTokenizer.add(BigraphERTokens.TOKEN_SMALL_SPACE, BigraphERTokens.SMALL_SPACE);
+		brsTokenizer.add(BigraphERTokens.TOKEN_WORD, BigraphERTokens.WORD);
+
+	}
+
 	/**********************************************************************************************************
 	 * **********************************************************************************************************
 	 * **********************************************************************************************************
