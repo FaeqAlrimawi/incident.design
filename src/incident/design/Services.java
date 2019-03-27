@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.swt.widgets.Tree;
 
 import cyberPhysical_Incident.Activity;
 import cyberPhysical_Incident.ActivityPattern;
@@ -1193,7 +1192,7 @@ public class Services {
 		LinkedList<Entity> containers = new LinkedList<Entity>();
 		LinkedList<String> closedConnectivities = new LinkedList<String>();
 		
-		boolean isBracketContainment = false;
+//		boolean isBracketContainment = false;
 		boolean isContainment = false;
 		boolean isFirstEntity = true;
 		boolean isBigraphJuxta = false;
@@ -1368,12 +1367,16 @@ public class Services {
 						// root and a new entity created that combines both
 						Entity lastRoot = rootEntities.removeLast();
 						Entity newRoot = instance.createEntity();
+						
 						newRoot.setName("<Root-" + rootNum + ">");
 						newRoot.getEntity().add(lastRoot);
 						newRoot.getEntity().add(tmp);
+						
 						// for now root is not added to all entities
 						rootEntities.add(newRoot);
 						isEntityJuxta = false;
+						
+						rootNum++;
 					}
 
 					else { // if entity is not contained anywhere
