@@ -27,7 +27,7 @@ public class BigraphERTokens {
 	// open and close brackets for connectivity {}
 	public static final String TOKEN_OPEN_BRACKET_CONNECTIVITY = "\\{";
 	public static final int OPEN_BRACKET_CONNECTIVITY = 7;
-	public static final String TOKEN_CLOSED_BRACKET_CONNECTIVITY = "}";
+	public static final String TOKEN_CLOSED_BRACKET_CONNECTIVITY = "\\}";
 	public static final int CLOSED_BRACKET_CONNECTIVITY = 8;
 
 	// connectivity closed /

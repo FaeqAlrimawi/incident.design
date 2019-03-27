@@ -35,7 +35,7 @@ public class Test
     
     try
     {
-    	String brs = "act   .( /con1 ps1{con1,con2} . ac1) || ps2*id";
+    	String brs = "act{con1}.( /con1 ps1{con1,con2} . ac1) || ps2*id";
     	
       brsTokenizer.tokenize(brs);
 
