@@ -1183,8 +1183,6 @@ public class Services {
 
 		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
 
-		System.out.println("updating " + BRScondition);
-
 		int rootNum = 0;
 
 		LinkedList<Entity> rootEntities = new LinkedList<Entity>();
@@ -1204,8 +1202,6 @@ public class Services {
 		// ===tokenize
 		brsTokenizer.tokenize(BRScondition);
 		for (Tokenizer.Token tok : brsTokenizer.getTokens()) {
-			System.out.println("" + tok.token + " " + tok.sequence);
-
 			switch (tok.token) {
 
 			case BigraphERTokens.CONTAINMENT: // .
@@ -1347,11 +1343,11 @@ public class Services {
 
 						currentContainer.getEntity().add(tmp);
 
-						System.out.println("entity " + tok.sequence + " is contained in " + currentContainer.getName());
+//						System.out.println("entity " + tok.sequence + " is contained in " + currentContainer.getName());
 
 						// if containment is not within brackets ()
 						if (isContainment) {
-							System.out.println("removing container: " + currentContainer.getName());
+//							System.out.println("removing container: " + currentContainer.getName());
 							// it has no site then! so remove it
 							currentContainer.setSite(null);
 							currentContainer.setHasSite(false);
