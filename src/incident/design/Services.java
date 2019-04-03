@@ -1,5 +1,6 @@
 package incident.design;
 
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +13,7 @@ import cyberPhysical_Incident.Actor;
 import cyberPhysical_Incident.Asset;
 import cyberPhysical_Incident.BigraphExpression;
 import cyberPhysical_Incident.Condition;
+import cyberPhysical_Incident.Connection;
 import cyberPhysical_Incident.Connectivity;
 import cyberPhysical_Incident.CrimeScript;
 import cyberPhysical_Incident.CyberPhysicalIncidentFactory;
@@ -23,8 +25,10 @@ import cyberPhysical_Incident.Precondition;
 import cyberPhysical_Incident.Resource;
 import cyberPhysical_Incident.Scene;
 import cyberPhysical_Incident.ScriptCategory;
+import cyberPhysical_Incident.Type;
 import cyberPhysical_Incident.impl.IncidentEntityImpl;
 import environment.Action;
+import environment.CyberPhysicalSystemPackage;
 import environment.EnvironmentDiagram;
 import incident.util.BigraphERTokens;
 import incident.util.Tokenizer;
@@ -36,6 +40,9 @@ public class Services {
 
 	SystemInstanceHandler sysHandler = new SystemInstanceHandler();
 
+	List<Type> systemAssetTypes;
+	List<Type> systemConnectionTypes;
+	
 	Tokenizer brsTokenizer;
 
 	/**
@@ -1084,6 +1091,161 @@ public class Services {
 
 	}
 
+	public List<Type> getSystemTypes(EObject self) {
+		
+		//if the selected entity is an incident entity, then return all system classes that are subclasses of Asset
+		if(self instanceof IncidentEntity) {
+			return getSystemAssetTypes(self);
+		}
+		
+		//if the selected entity in a connection, then return all classes from the system meta-model that are subclasses of Connection
+		if(self instanceof Connection) {
+			return getSystemConnectionTypes(self);
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Returns all asset types from the system meta-model
+	 * @param self
+	 * @return
+	 */
+	public List<Type> getSystemAssetTypes(EObject self) {
+	
+		//an implementation could use the system handler instance to do this
+		
+		if(systemAssetTypes != null && !systemAssetTypes.isEmpty()) {
+			return systemAssetTypes;
+		}
+		
+		systemAssetTypes = new LinkedList<Type>();
+		
+		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
+		
+		//read the system meta-model and identify all classes and convert them into types
+		Method[] packageMethods = CyberPhysicalSystemPackage.class.getDeclaredMethods();
+
+//		Map<String, List<String>> classMap = new HashMap<String, List<String>>();
+
+		String className = null;
+
+		for (Method mthd : packageMethods) {
+
+			className = mthd.getName();
+			Class cls = mthd.getReturnType();
+
+			// only consider EClass as the classes
+			if (!cls.getSimpleName().equals("EClass")) {
+				continue;
+			}
+
+			// remove [get] at the beginning
+			// if it contains __ then it is not a class its an attribute
+			if (className.startsWith("get")) {
+				className = className.replace("get", "");
+				
+				// create a class from the name
+				String fullClassName = "environment.impl." + className + "Impl";
+				
+				Class potentialClass;
+				
+				try {
+					potentialClass = Class.forName(fullClassName);
+				
+				
+				//class is not of type asset
+				if(!(environment.Asset.class.isAssignableFrom(potentialClass))) {
+					continue;
+				}
+				//create e type based on class name
+				Type tmp = instance.createType();
+				tmp.setName(className);
+				systemAssetTypes.add(tmp);
+				
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					//if it is not a class then skip
+				}
+			}
+				
+		}
+		
+		return systemAssetTypes;
+	}
+	
+	/**
+	 * Returns all connection types from the system meta-model
+	 * @param self
+	 * @return
+	 */
+	public List<Type> getSystemConnectionTypes(EObject self) {
+	
+		//an implementation could use the system handler instance to do this
+		
+		if(systemConnectionTypes != null && !systemConnectionTypes.isEmpty()) {
+			return systemConnectionTypes;
+		}
+		
+		systemConnectionTypes = new LinkedList<Type>();
+		
+		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
+		
+		//read the system meta-model and identify all classes and convert them into types
+		Method[] packageMethods = CyberPhysicalSystemPackage.class.getDeclaredMethods();
+
+//		Map<String, List<String>> classMap = new HashMap<String, List<String>>();
+
+		String className = null;
+
+		for (Method mthd : packageMethods) {
+
+			className = mthd.getName();
+			Class cls = mthd.getReturnType();
+
+			// only consider EClass as the classes
+			if (!cls.getSimpleName().equals("EClass")) {
+				continue;
+			}
+
+			// remove [get] at the beginning
+			// if it contains __ then it is not a class its an attribute
+			if (className.startsWith("get")) {
+				className = className.replace("get", "");
+				
+				// create a class from the name
+				String fullClassName = "environment.impl." + className + "Impl";
+				
+				Class potentialClass;
+				
+				try {
+					potentialClass = Class.forName(fullClassName);
+				
+				
+				//class is not of type Connection then skip
+				if(!(environment.Connection.class.isAssignableFrom(potentialClass))) {
+					continue;
+				}
+				
+				//create e type based on class name
+				Type tmp = instance.createType();
+				tmp.setName(className);
+				systemConnectionTypes.add(tmp);
+				
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					//if it is not a class then skip
+				}
+			}
+				
+		}
+		
+		return systemConnectionTypes;
+	}
+	
+	
 	/******************************
 	 * SYSTEM
 	 * FUNCTIONS*************************************************************
@@ -1093,6 +1255,8 @@ public class Services {
 	 * 
 	 * @return
 	 */
+	
+	
 	public EnvironmentDiagram getSystemInstance(EObject self) {
 
 		return sysHandler.getInstance();
