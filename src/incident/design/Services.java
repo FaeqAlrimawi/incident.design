@@ -1422,6 +1422,74 @@ public class Services {
 
 	}
 
+	/**
+	 * updates the contained entities of the given element by adding the target while removing the source. Also updates the parent of both source and target to reflect the change
+	 * @param self
+	 * @param element
+	 * @param source
+	 * @param target
+	 */
+	public void updateContainedEntities(EObject self, IncidentEntity element, IncidentEntity source, IncidentEntity target) {
+		
+		
+		List<IncidentEntity> elementContianedEntities = (List)element.getContainedEntities();
+		
+		//the target is not already included in the containedEntities of the element then add it
+		
+		if(!elementContianedEntities.contains(target)) {
+			
+			//add traget to element contained entities
+			elementContianedEntities.add(target);
+			
+			//update target parent entity (set to element)
+			//remove target from old parent
+			IncidentEntity targetParent = (IncidentEntity)target.getParentEntity();
+			
+			if(targetParent!=null) {
+				targetParent.getContainedEntities().remove(target);
+			}
+			
+			target.setParentEntity(element);
+			
+			
+			//remove source from element contained elements
+			elementContianedEntities.remove(source);
+			
+			//update source parent (set to null)
+			source.setParentEntity(null);
+			
+		}
+	}
+	
+	/**
+	 * updates the parent entity of the given element by setting the target as a parent while removing the source. Also updates the contained entities of both source and target to reflect the change
+	 * @param self
+	 * @param element
+	 * @param source
+	 * @param target
+	 */
+	public void updateParentEntity(EObject self, IncidentEntity element, IncidentEntity source, IncidentEntity target) {
+		
+		
+		System.out.println("element: " + element.getName() + " source: " + source.getName()+" target: " + target.getName());
+		List<IncidentEntity> targetContianedEntities = (List)target.getContainedEntities();
+		List<IncidentEntity> sourceContianedEntities = (List)source.getContainedEntities();
+		
+		//the target is not already including in the containedEntities the element then add the element	
+		if(!targetContianedEntities.contains(target)) {
+			
+			//add traget to element contained entities
+			targetContianedEntities.add(element);
+			
+			//remove element from old parent (source)
+			sourceContianedEntities.remove(element);
+			
+			//update element parent entity (set to target)			
+			element.setParentEntity(target);
+	
+		}
+	}
+	
 	/**********************************************************************************************************
 	 * **********************************************************************************************************
 	 * **********************************************************************************************************
