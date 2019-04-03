@@ -270,7 +270,7 @@
           <subContainerMappings name="Condition" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.2/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.getConditions()" domainClass="Condition" dropDescriptions="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.7/@ownedTools[name='copyCondition']" childrenPresentation="HorizontalStack">
             <subContainerMappings name="bigraphExpressionContainer" semanticCandidatesExpression="aql: self.expression" domainClass="BigraphExpression" dropDescriptions="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.9/@ownedTools[name='dragIncidentEntity']">
               <subNodeMappings name="entity" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.2/@ownedTools[name='editEntity']" semanticCandidatesExpression="aql:self.getAllConditionEntity(self.entity)" domainClass="Entity">
-                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="entity does not exist as an IncidentEntity object. Please define an IncidentEntity with the given name then add it to the condition" workspacePath="/incident.design/res/questionRed.jpg">
+                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="entity does not exist as an IncidentEntity object. Please define an IncidentEntity with the given name then add it to the condition" workspacePath="/incident.design/res/question.jpg">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
@@ -841,7 +841,7 @@
                 </firstModelOperations>
               </initialOperation>
             </tools>
-            <tools xsi:type="tool:SelectionWizardDescription" name="Type Selection" precondition="aql:self.oclIsKindOf(cyberPhysical_Incident::IncidentEntity) or self.oclIsKindOf(cyberPhysical_Incident::Connection)" candidatesExpression="aql:self.getSystemTypes()" message="Select Type">
+            <tools xsi:type="tool:SelectionWizardDescription" name="Type Selection" precondition="aql:self.oclIsKindOf(cyberPhysical_Incident::IncidentEntity) or self.oclIsKindOf(cyberPhysical_Incident::Connection)" candidatesExpression="aql:self.getSystemTypes()" message="Select Type" windowTitle="Type Selection Wizard">
               <element name="element"/>
               <containerView name="containerView"/>
               <container name="container"/>
@@ -869,7 +869,7 @@
                 <firstModelOperations xsi:type="tool:CreateInstance" typeName="Entity" referenceName="entity"/>
               </initialOperation>
             </tools>
-            <tools xsi:type="tool:PaneBasedSelectionWizardDescription" name="Entity Selection" precondition="aql:container.oclIsTypeOf(cyberPhysical_Incident::BigraphExpression)" message="Select entity(s) to add to the condition" choiceOfValuesMessage="Choice of entities" candidatesExpression="aql: self.getAllIncidentEntities()" selectedValuesMessage="Selected entities">
+            <tools xsi:type="tool:PaneBasedSelectionWizardDescription" name="Entity Selection" precondition="aql:container.oclIsTypeOf(cyberPhysical_Incident::BigraphExpression) " windowTitle="Incident Entity Selection Wizard" message="Select incident entity(s) to add to the condition" choiceOfValuesMessage="Choice of Incident Entities" candidatesExpression="aql: self.getAllIncidentEntities()" selectedValuesMessage="Selected Incident Entities">
               <element name="element"/>
               <containerView name="containerView"/>
               <container name="container"/>

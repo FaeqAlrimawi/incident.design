@@ -1675,6 +1675,16 @@ public class Services {
 
 		return isIncidentEntityActivityPattern(self, null);
 	}
+	
+	public boolean isConditionEntity(EObject self) {
+	
+		if(self instanceof Entity) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 
 	public boolean isIncidentEntityActivityPattern(EObject self, String type) {
 
