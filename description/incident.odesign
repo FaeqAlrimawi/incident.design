@@ -259,7 +259,7 @@
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
               </style>
             </subNodeMappings>
-            <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="10" iconPath="/incident.design/res/act.jpg" roundedCorner="true" widthComputationExpression="11" heightComputationExpression="13" backgroundStyle="GradientTopToBottom">
+            <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="10" labelExpression="aql: if self.name = null then '&lt;Activity Name>' else self.name endif" iconPath="/incident.design/res/act.jpg" roundedCorner="true" widthComputationExpression="11" heightComputationExpression="13" backgroundStyle="GradientTopToBottom">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
@@ -353,14 +353,14 @@
                 <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
               </style>
             </subContainerMappings>
-            <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" showIcon="false" roundedCorner="true" backgroundStyle="Liquid">
+            <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" showIcon="false" labelExpression="aql: if self.name = null then '&lt;Condition Name>' else self.name endif" roundedCorner="true" backgroundStyle="Liquid">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
               <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
             </style>
           </subContainerMappings>
-          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" labelExpression="aql: if self.name = null then '&lt;Set Scene Name>' else self.name endif" iconPath="/incident.design/res/scene.jpg" roundedCorner="true" backgroundStyle="Liquid">
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" labelExpression="aql: if self.name = null then '&lt;Scene Name>' else self.name endif" iconPath="/incident.design/res/scene.jpg" roundedCorner="true" backgroundStyle="Liquid">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
@@ -474,7 +474,7 @@
               </style>
             </conditionnalStyles>
           </subNodeMappings>
-          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" iconPath="/incident.design/res/room.jpg" roundedCorner="true" widthComputationExpression="30" heightComputationExpression="20">
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" labelExpression="aql: if self.name = null or self.name.size() = 0 then '&lt;Name>' else self.name endif" iconPath="/incident.design/res/room.jpg" roundedCorner="true" widthComputationExpression="30" heightComputationExpression="20">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
@@ -941,14 +941,7 @@
                   </subModelOperations>
                 </subModelOperations>
                 <subModelOperations xsi:type="tool:If" conditionExpression="aql: source.oclIsKindOf(cyberPhysical_Incident::IncidentEntity) and target.oclIsKindOf(cyberPhysical_Incident::IncidentEntity) ">
-                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="service:self.updateParentNewEdge(source, target)">
-                    <subModelOperations xsi:type="tool:If" conditionExpression="aql: source.oclIsTypeOf(cyberPhysical_Incident::Entity) and target.oclIsTypeOf(cyberPhysical_Incident::Entity) ">
-                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:target">
-                        <subModelOperations xsi:type="tool:MoveElement" newContainerExpression="var:source" featureName="entity"/>
-                      </subModelOperations>
-                    </subModelOperations>
-                    <subModelOperations xsi:type="tool:If" conditionExpression="aql: source.oclIsTypeOf(cyberPhysical_Incident::IncidentEntity) and target.oclIsTypeOf(cyberPhysical_Incident::IncidentEntity) "/>
-                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="service:self.updateParentNewEdge(source, target)"/>
                 </subModelOperations>
               </firstModelOperations>
             </initialOperation>

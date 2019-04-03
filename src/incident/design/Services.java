@@ -290,6 +290,7 @@ public class Services {
 			// check that the des is not the parent of the src
 			IncidentEntity srcParent = (IncidentEntity) src.getParentEntity();
 			if (srcParent == null || !srcParent.equals(des)) {
+				
 				src.getContainedEntities().add(des);
 
 				// add src as parent entity for des
@@ -297,7 +298,7 @@ public class Services {
 
 				if (desParent == null) {
 					des.setParentEntity(src);
-				} else {
+				} else { //if the target (child) parent is not null, then remove the target from its parent
 					desParent.getContainedEntities().remove(des);
 					des.setParentEntity(src);
 				}
