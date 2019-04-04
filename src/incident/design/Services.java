@@ -23,10 +23,12 @@ import cyberPhysical_Incident.IncidentDiagram;
 import cyberPhysical_Incident.IncidentEntity;
 import cyberPhysical_Incident.Postcondition;
 import cyberPhysical_Incident.Precondition;
+import cyberPhysical_Incident.Property;
 import cyberPhysical_Incident.Resource;
 import cyberPhysical_Incident.Scene;
 import cyberPhysical_Incident.ScriptCategory;
 import cyberPhysical_Incident.Type;
+import cyberPhysical_Incident.Vulnerability;
 import cyberPhysical_Incident.impl.IncidentEntityImpl;
 import environment.Action;
 import environment.CyberPhysicalSystemPackage;
@@ -680,6 +682,13 @@ public class Services {
 		return false;
 	}
 
+	/**
+	 * Returns a random name (partialName+"random number")
+	 * 
+	 * @param self
+	 * @param partialName
+	 * @return
+	 */
 	public String getRandomName(EObject self, String partialName) {
 
 		Random rand = new Random();
@@ -708,33 +717,128 @@ public class Services {
 			List<Connectivity> connectivities = getAllConditionConnectivity(self, exp.getEntity());
 
 			loop: while (!isUnique && tries > 0) {
-				
-				//check connectivity names to see if new name is unique or not
+
+				// check connectivity names to see if new name is unique or not
 				for (Connectivity con : connectivities) {
 					if (newName.equalsIgnoreCase(con.getName())) {
 						tries--;
 						continue loop;
 					}
 				}
-				
-				//if this is reached then the new name is unique
+
+				// if this is reached then the new name is unique
 				isUnique = true;
 			}
-			
-			//if name is unique
-			if(isUnique) {
+
+			// if name is unique
+			if (isUnique) {
 				return newName;
 			} else {
-				//try one more time and then return random name
+				// try one more time and then return random name
 				newName = partialName + rand.nextInt();
 			}
 		} else {
-			//create a new random name
+			// create a new random name
 			newName = partialName + rand.nextInt();
 		}
-		
+
 		return newName;
 
+	}
+
+	public void copyIncidentEntity(EObject self, EObject container) {
+
+		// self is incident entity
+		// container is incident diagram
+
+		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
+
+		try {
+
+			// self should be an incident entity
+			if (!(self instanceof IncidentEntity)) {
+				return;
+			}
+
+			// container should be an incident entity
+			if (!(container instanceof IncidentDiagram)) {
+				return;
+			}
+
+			IncidentEntity original = (IncidentEntity) self;
+			IncidentDiagram diagram = (IncidentDiagram) container;
+
+			// create an incident entity
+			IncidentEntity copiedEntity = (IncidentEntity) instance.create(original.eClass());
+
+			// copy information from original
+			Type originalType = original.getType();
+
+			// set type
+			copiedEntity.setType(originalType);
+
+			// set connections knowledge
+			copiedEntity.setConnectionsKnowledge(original.getConnectionsKnowledge());
+
+			// set contained asset knowledge
+			copiedEntity.setContainedAssetsKnowledge(original.getContainedAssetsKnowledge());
+
+			// set mobility
+			copiedEntity.setMobility(original.getMobility());
+
+			// set properties
+			List<Property> props = new LinkedList<Property>();
+
+			for (Property prop : original.getProperties()) {
+				Property tmp = instance.createProperty();
+				tmp.setName(prop.getName());
+				tmp.setValue(prop.getValue());
+				props.add(tmp);
+			}
+			copiedEntity.getProperties().addAll(props);
+
+			
+			// add new copied element to diagram
+			if (copiedEntity instanceof Asset) { // as Asset
+				
+				// set attributes
+				List<Vulnerability> vuls = new LinkedList<Vulnerability>();
+
+				for (Vulnerability vul : ((Asset)original).getVulnerability()) {
+					Vulnerability tmp = instance.createVulnerability();
+					tmp.setName(vul.getName());
+					tmp.setURL(vul.getURL());
+					tmp.setDescription(vul.getDescription());
+					tmp.setSeverity(vul.getSeverity());
+					vuls.add(tmp);
+				}
+				((Asset)copiedEntity).getVulnerability().addAll(vuls);
+
+				//set status
+				((Asset)copiedEntity).setStatus(((Asset)original).getStatus());
+				
+				diagram.getAsset().add((Asset) copiedEntity);
+				
+			} else if (copiedEntity instanceof Actor) { // as Actor
+				
+				//set role
+				((Actor)copiedEntity).setRole(((Actor)original).getRole());
+				
+				diagram.getActor().add((Actor) copiedEntity);
+				
+			} else if (copiedEntity instanceof Resource) { // as Resource
+			
+				diagram.getResource().add((Resource) copiedEntity);
+				
+			} else if (copiedEntity instanceof IncidentEntity) { // as incident
+																	// entity
+				diagram.getIncidentEntity().add(copiedEntity);
+			}
+
+		} catch (IllegalArgumentException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void updateConditionEntityNames(EObject self, String oldName, String newName) {
