@@ -746,6 +746,11 @@ public class Services {
 
 	}
 
+	/**
+	 * Copies the given self (as IncidentEntity) into the given contianer (as IncidentDiagram)
+	 * @param self
+	 * @param container
+	 */
 	public void copyIncidentEntity(EObject self, EObject container) {
 
 		// self is incident entity
@@ -1103,6 +1108,48 @@ public class Services {
 
 	}
 
+	public void removeEntityContainmentRelation(EObject parent, EObject child) {
+		
+		//both should be Entity objects
+		
+		if(!(parent instanceof Entity)) {
+			return;
+		}
+		
+		if(!(child instanceof Entity)) {
+			return;
+		}
+		
+		Entity pEntity = (Entity) parent;
+		Entity cEntity = (Entity)child;
+		
+		System.out.println(pEntity.getName() + " "+cEntity.getName());
+		//get condition 
+		EObject container = pEntity.eContainer();	
+		int length  = 1000;
+	
+		while(!(container instanceof BigraphExpression) && length>0) {
+			
+			container = container.eContainer();
+			length--;
+		}
+		
+		if(container instanceof BigraphExpression) {
+			
+			//get bigraph expression
+			BigraphExpression exp = (BigraphExpression) container;
+			
+			//remove child from old parent
+			pEntity.getEntity().remove(cEntity);
+			
+			//add child to the express as a new root
+			exp.getEntity().add(cEntity);
+		}
+		
+		
+		
+		
+	}
 	/**
 	 * Sets the name of every connectivity in the condition that has the oldName
 	 * 
