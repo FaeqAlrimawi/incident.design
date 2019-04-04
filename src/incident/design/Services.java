@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -42,7 +43,7 @@ public class Services {
 
 	List<Type> systemAssetTypes;
 	List<Type> systemConnectionTypes;
-	
+
 	Tokenizer brsTokenizer;
 
 	/**
@@ -297,7 +298,7 @@ public class Services {
 			// check that the des is not the parent of the src
 			IncidentEntity srcParent = (IncidentEntity) src.getParentEntity();
 			if (srcParent == null || !srcParent.equals(des)) {
-				
+
 				src.getContainedEntities().add(des);
 
 				// add src as parent entity for des
@@ -305,7 +306,8 @@ public class Services {
 
 				if (desParent == null) {
 					des.setParentEntity(src);
-				} else { //if the target (child) parent is not null, then remove the target from its parent
+				} else { // if the target (child) parent is not null, then
+							// remove the target from its parent
 					desParent.getContainedEntities().remove(des);
 					des.setParentEntity(src);
 				}
@@ -676,6 +678,63 @@ public class Services {
 		}
 
 		return false;
+	}
+
+	public String getRandomName(EObject self, String partialName) {
+
+		Random rand = new Random();
+
+		int maxNumber = 10000;
+		String newName = partialName + rand.nextInt(maxNumber);
+
+		boolean isUnique = false;
+
+		// navigate to the condition expression
+		int length = 1000;
+
+		EObject container = self;
+
+		while (!(container instanceof BigraphExpression) && length > 0) {
+			container = container.eContainer();
+			length--;
+		}
+
+		if ((container instanceof BigraphExpression)) {
+
+			int tries = 100;
+
+			BigraphExpression exp = (BigraphExpression) container;
+
+			List<Connectivity> connectivities = getAllConditionConnectivity(self, exp.getEntity());
+
+			loop: while (!isUnique && tries > 0) {
+				
+				//check connectivity names to see if new name is unique or not
+				for (Connectivity con : connectivities) {
+					if (newName.equalsIgnoreCase(con.getName())) {
+						tries--;
+						continue loop;
+					}
+				}
+				
+				//if this is reached then the new name is unique
+				isUnique = true;
+			}
+			
+			//if name is unique
+			if(isUnique) {
+				return newName;
+			} else {
+				//try one more time and then return random name
+				newName = partialName + rand.nextInt();
+			}
+		} else {
+			//create a new random name
+			newName = partialName + rand.nextInt();
+		}
+		
+		return newName;
+
 	}
 
 	public void updateConditionEntityNames(EObject self, String oldName, String newName) {
@@ -1092,41 +1151,46 @@ public class Services {
 	}
 
 	public List<Type> getSystemTypes(EObject self) {
-		
-		//if the selected entity is an incident entity, then return all system classes that are subclasses of Asset
-		if(self instanceof IncidentEntity) {
+
+		// if the selected entity is an incident entity, then return all system
+		// classes that are subclasses of Asset
+		if (self instanceof IncidentEntity) {
 			return getSystemAssetTypes(self);
 		}
-		
-		//if the selected entity in a connection, then return all classes from the system meta-model that are subclasses of Connection
-		if(self instanceof Connection) {
+
+		// if the selected entity in a connection, then return all classes from
+		// the system meta-model that are subclasses of Connection
+		if (self instanceof Connection) {
 			return getSystemConnectionTypes(self);
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Returns all asset types from the system meta-model
+	 * 
 	 * @param self
 	 * @return
 	 */
 	public List<Type> getSystemAssetTypes(EObject self) {
-	
-		//an implementation could use the system handler instance to do this
-		
-		if(systemAssetTypes != null && !systemAssetTypes.isEmpty()) {
+
+		// an implementation could use the system handler instance to do this
+
+		if (systemAssetTypes != null && !systemAssetTypes.isEmpty()) {
 			return systemAssetTypes;
 		}
-		
+
 		systemAssetTypes = new LinkedList<Type>();
-		
+
 		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
-		
-		//read the system meta-model and identify all classes and convert them into types
+
+		// read the system meta-model and identify all classes and convert them
+		// into types
 		Method[] packageMethods = CyberPhysicalSystemPackage.class.getDeclaredMethods();
 
-//		Map<String, List<String>> classMap = new HashMap<String, List<String>>();
+		// Map<String, List<String>> classMap = new HashMap<String,
+		// List<String>>();
 
 		String className = null;
 
@@ -1144,58 +1208,60 @@ public class Services {
 			// if it contains __ then it is not a class its an attribute
 			if (className.startsWith("get")) {
 				className = className.replace("get", "");
-				
+
 				// create a class from the name
 				String fullClassName = "environment.impl." + className + "Impl";
-				
+
 				Class potentialClass;
-				
+
 				try {
 					potentialClass = Class.forName(fullClassName);
-				
-				
-				//class is not of type asset
-				if(!(environment.Asset.class.isAssignableFrom(potentialClass))) {
-					continue;
-				}
-				//create e type based on class name
-				Type tmp = instance.createType();
-				tmp.setName(className);
-				systemAssetTypes.add(tmp);
-				
+
+					// class is not of type asset
+					if (!(environment.Asset.class.isAssignableFrom(potentialClass))) {
+						continue;
+					}
+					// create e type based on class name
+					Type tmp = instance.createType();
+					tmp.setName(className);
+					systemAssetTypes.add(tmp);
+
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
-					//e.printStackTrace();
-					//if it is not a class then skip
+					// e.printStackTrace();
+					// if it is not a class then skip
 				}
 			}
-				
+
 		}
-		
+
 		return systemAssetTypes;
 	}
-	
+
 	/**
 	 * Returns all connection types from the system meta-model
+	 * 
 	 * @param self
 	 * @return
 	 */
 	public List<Type> getSystemConnectionTypes(EObject self) {
-	
-		//an implementation could use the system handler instance to do this
-		
-		if(systemConnectionTypes != null && !systemConnectionTypes.isEmpty()) {
+
+		// an implementation could use the system handler instance to do this
+
+		if (systemConnectionTypes != null && !systemConnectionTypes.isEmpty()) {
 			return systemConnectionTypes;
 		}
-		
+
 		systemConnectionTypes = new LinkedList<Type>();
-		
+
 		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
-		
-		//read the system meta-model and identify all classes and convert them into types
+
+		// read the system meta-model and identify all classes and convert them
+		// into types
 		Method[] packageMethods = CyberPhysicalSystemPackage.class.getDeclaredMethods();
 
-//		Map<String, List<String>> classMap = new HashMap<String, List<String>>();
+		// Map<String, List<String>> classMap = new HashMap<String,
+		// List<String>>();
 
 		String className = null;
 
@@ -1213,39 +1279,37 @@ public class Services {
 			// if it contains __ then it is not a class its an attribute
 			if (className.startsWith("get")) {
 				className = className.replace("get", "");
-				
+
 				// create a class from the name
 				String fullClassName = "environment.impl." + className + "Impl";
-				
+
 				Class potentialClass;
-				
+
 				try {
 					potentialClass = Class.forName(fullClassName);
-				
-				
-				//class is not of type Connection then skip
-				if(!(environment.Connection.class.isAssignableFrom(potentialClass))) {
-					continue;
-				}
-				
-				//create e type based on class name
-				Type tmp = instance.createType();
-				tmp.setName(className);
-				systemConnectionTypes.add(tmp);
-				
+
+					// class is not of type Connection then skip
+					if (!(environment.Connection.class.isAssignableFrom(potentialClass))) {
+						continue;
+					}
+
+					// create e type based on class name
+					Type tmp = instance.createType();
+					tmp.setName(className);
+					systemConnectionTypes.add(tmp);
+
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
-					//e.printStackTrace();
-					//if it is not a class then skip
+					// e.printStackTrace();
+					// if it is not a class then skip
 				}
 			}
-				
+
 		}
-		
+
 		return systemConnectionTypes;
 	}
-	
-	
+
 	/******************************
 	 * SYSTEM
 	 * FUNCTIONS*************************************************************
@@ -1255,8 +1319,7 @@ public class Services {
 	 * 
 	 * @return
 	 */
-	
-	
+
 	public EnvironmentDiagram getSystemInstance(EObject self) {
 
 		return sysHandler.getInstance();
@@ -1354,8 +1417,8 @@ public class Services {
 		LinkedList<Entity> allEntities = new LinkedList<Entity>();
 		LinkedList<Entity> containers = new LinkedList<Entity>();
 		LinkedList<String> closedConnectivities = new LinkedList<String>();
-		
-//		boolean isBracketContainment = false;
+
+		// boolean isBracketContainment = false;
 		boolean isContainment = false;
 		boolean isFirstEntity = true;
 		boolean isBigraphJuxta = false;
@@ -1363,7 +1426,7 @@ public class Services {
 		boolean hasSite = false;
 		boolean isConnectivity = false;
 		boolean isClosedConnectivity = false;
-		
+
 		// ===tokenize
 		brsTokenizer.tokenize(BRScondition);
 		for (Tokenizer.Token tok : brsTokenizer.getTokens()) {
@@ -1451,31 +1514,33 @@ public class Services {
 				// entity in all entities until closing the bracket
 				break;
 
-			case BigraphERTokens.CLOSED_BRACKET_CONNECTIVITY: //}
-				
-				//connectivity names ended
+			case BigraphERTokens.CLOSED_BRACKET_CONNECTIVITY: // }
+
+				// connectivity names ended
 				isConnectivity = false;
 				break;
-				
-			case BigraphERTokens.CLOSED_CONNECTIVITY: //   e.g., /con
-				
-				//next token should be a name that relates to a connectivity but it is closed
+
+			case BigraphERTokens.CLOSED_CONNECTIVITY: // e.g., /con
+
+				// next token should be a name that relates to a connectivity
+				// but it is closed
 				isClosedConnectivity = true;
-				
+
 				break;
-			case BigraphERTokens.COMMA: //,
-				//defines different names
-				//nothing to be done
+			case BigraphERTokens.COMMA: // ,
+				// defines different names
+				// nothing to be done
 				break;
-				
+
 			case BigraphERTokens.WORD: // entity or connectivity
 
-				//if closed connectivity token appeared, then the word is a connectivity name that 
-				if(isClosedConnectivity) {
+				// if closed connectivity token appeared, then the word is a
+				// connectivity name that
+				if (isClosedConnectivity) {
 					closedConnectivities.add(tok.sequence);
 					isClosedConnectivity = false;
-				} 
-				//if it is connectivity
+				}
+				// if it is connectivity
 				else if (isConnectivity) {
 					// create connectivity for last added entity in all entities
 					Entity lastAdded = allEntities.getLast();
@@ -1483,17 +1548,17 @@ public class Services {
 					Connectivity tmpCon = instance.createConnectivity();
 					tmpCon.setName(tok.sequence);
 					lastAdded.getConnectivity().add(tmpCon);
-					
-					//close connectivity
-					if(!closedConnectivities.isEmpty()) {
-						if(tok.sequence.equalsIgnoreCase(closedConnectivities.getLast())) {
+
+					// close connectivity
+					if (!closedConnectivities.isEmpty()) {
+						if (tok.sequence.equalsIgnoreCase(closedConnectivities.getLast())) {
 							tmpCon.setIsClosed(true);
 							isClosedConnectivity = false;
-							closedConnectivities.removeLast(); //remove last
+							closedConnectivities.removeLast(); // remove last
 						}
 					}
-				
-					//if it is entity
+
+					// if it is entity
 				} else {
 					// create an entity
 					Entity tmp = instance.createEntity();
@@ -1508,11 +1573,13 @@ public class Services {
 
 						currentContainer.getEntity().add(tmp);
 
-//						System.out.println("entity " + tok.sequence + " is contained in " + currentContainer.getName());
+						// System.out.println("entity " + tok.sequence + " is
+						// contained in " + currentContainer.getName());
 
 						// if containment is not within brackets ()
 						if (isContainment) {
-//							System.out.println("removing container: " + currentContainer.getName());
+							// System.out.println("removing container: " +
+							// currentContainer.getName());
 							// it has no site then! so remove it
 							currentContainer.setSite(null);
 							currentContainer.setHasSite(false);
@@ -1528,15 +1595,15 @@ public class Services {
 						// root and a new entity created that combines both
 						Entity lastRoot = rootEntities.removeLast();
 						Entity newRoot = instance.createEntity();
-						
+
 						newRoot.setName("<Root-" + rootNum + ">");
 						newRoot.getEntity().add(lastRoot);
 						newRoot.getEntity().add(tmp);
-						
+
 						// for now root is not added to all entities
 						rootEntities.add(newRoot);
 						isEntityJuxta = false;
-						
+
 						rootNum++;
 					}
 
@@ -1588,73 +1655,80 @@ public class Services {
 	}
 
 	/**
-	 * updates the contained entities of the given element by adding the target while removing the source. Also updates the parent of both source and target to reflect the change
+	 * updates the contained entities of the given element by adding the target
+	 * while removing the source. Also updates the parent of both source and
+	 * target to reflect the change
+	 * 
 	 * @param self
 	 * @param element
 	 * @param source
 	 * @param target
 	 */
-	public void updateContainedEntities(EObject self, IncidentEntity element, IncidentEntity source, IncidentEntity target) {
-		
-		
-		List<IncidentEntity> elementContianedEntities = (List)element.getContainedEntities();
-		
-		//the target is not already included in the containedEntities of the element then add it
-		
-		if(!elementContianedEntities.contains(target)) {
-			
-			//add traget to element contained entities
+	public void updateContainedEntities(EObject self, IncidentEntity element, IncidentEntity source,
+			IncidentEntity target) {
+
+		List<IncidentEntity> elementContianedEntities = (List) element.getContainedEntities();
+
+		// the target is not already included in the containedEntities of the
+		// element then add it
+
+		if (!elementContianedEntities.contains(target)) {
+
+			// add traget to element contained entities
 			elementContianedEntities.add(target);
-			
-			//update target parent entity (set to element)
-			//remove target from old parent
-			IncidentEntity targetParent = (IncidentEntity)target.getParentEntity();
-			
-			if(targetParent!=null) {
+
+			// update target parent entity (set to element)
+			// remove target from old parent
+			IncidentEntity targetParent = (IncidentEntity) target.getParentEntity();
+
+			if (targetParent != null) {
 				targetParent.getContainedEntities().remove(target);
 			}
-			
+
 			target.setParentEntity(element);
-			
-			
-			//remove source from element contained elements
+
+			// remove source from element contained elements
 			elementContianedEntities.remove(source);
-			
-			//update source parent (set to null)
+
+			// update source parent (set to null)
 			source.setParentEntity(null);
-			
+
 		}
 	}
-	
+
 	/**
-	 * updates the parent entity of the given element by setting the target as a parent while removing the source. Also updates the contained entities of both source and target to reflect the change
+	 * updates the parent entity of the given element by setting the target as a
+	 * parent while removing the source. Also updates the contained entities of
+	 * both source and target to reflect the change
+	 * 
 	 * @param self
 	 * @param element
 	 * @param source
 	 * @param target
 	 */
 	public void updateParentEntity(EObject self, IncidentEntity element, IncidentEntity source, IncidentEntity target) {
-		
-		
-		System.out.println("element: " + element.getName() + " source: " + source.getName()+" target: " + target.getName());
-		List<IncidentEntity> targetContianedEntities = (List)target.getContainedEntities();
-		List<IncidentEntity> sourceContianedEntities = (List)source.getContainedEntities();
-		
-		//the target is not already including in the containedEntities the element then add the element	
-		if(!targetContianedEntities.contains(target)) {
-			
-			//add traget to element contained entities
+
+		System.out.println(
+				"element: " + element.getName() + " source: " + source.getName() + " target: " + target.getName());
+		List<IncidentEntity> targetContianedEntities = (List) target.getContainedEntities();
+		List<IncidentEntity> sourceContianedEntities = (List) source.getContainedEntities();
+
+		// the target is not already including in the containedEntities the
+		// element then add the element
+		if (!targetContianedEntities.contains(target)) {
+
+			// add traget to element contained entities
 			targetContianedEntities.add(element);
-			
-			//remove element from old parent (source)
+
+			// remove element from old parent (source)
 			sourceContianedEntities.remove(element);
-			
-			//update element parent entity (set to target)			
+
+			// update element parent entity (set to target)
 			element.setParentEntity(target);
-	
+
 		}
 	}
-	
+
 	/**********************************************************************************************************
 	 * **********************************************************************************************************
 	 * **********************************************************************************************************
@@ -1675,16 +1749,15 @@ public class Services {
 
 		return isIncidentEntityActivityPattern(self, null);
 	}
-	
+
 	public boolean isConditionEntity(EObject self) {
-	
-		if(self instanceof Entity) {
+
+		if (self instanceof Entity) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	
 
 	public boolean isIncidentEntityActivityPattern(EObject self, String type) {
 

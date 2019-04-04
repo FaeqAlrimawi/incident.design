@@ -40,7 +40,7 @@
       <defaultLayer name="Default">
         <nodeMappings name="incidentEntity" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.2/@ownedTools[name='editIncidentEntitiesName']" semanticCandidatesExpression="aql:self.hideEntitiesWithType(self.getAllIncidentEntities(), 'room')" doubleClickDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.8/@ownedTools[name='doubleClickIncidentEntity']" domainClass="IncidentEntity">
           <borderedNodeMappings name="Type" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.2/@ownedTools[name='editName']" semanticCandidatesExpression="feature:type" domainClass="Type">
-            <style xsi:type="style:DotDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="1" strokeSizeComputationExpression="1">
+            <style xsi:type="style:DotDescription" labelSize="10" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="1" strokeSizeComputationExpression="1">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
               <forbiddenSides>WEST</forbiddenSides>
@@ -137,7 +137,7 @@
           </conditionnalStyles>
         </nodeMappings>
         <edgeMappings name="connectionEdge" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='Connection']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity']" targetFinderExpression="aql: OrderedSet{self.entity1, self.entity2}">
-          <style lineStyle="dash" targetArrow="NoDecoration" routingStyle="tree">
+          <style lineStyle="dash" targetArrow="NoDecoration">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_orange']"/>
             <centerLabelStyleDescription>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -169,7 +169,7 @@
           </style>
         </edgeMappings>
         <edgeMappings name="conditionActivitContainerRelation" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']" targetFinderExpression="aql: self.getActivityConditions()">
-          <style lineStyle="dot" targetArrow="NoDecoration" routingStyle="tree" foldingStyle="SOURCE">
+          <style lineStyle="dot" targetArrow="NoDecoration" foldingStyle="SOURCE">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -334,6 +334,12 @@
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   </style>
                 </conditionnalStyles>
+                <conditionnalStyles predicateExpression="aql:self.isIncidentEntity()">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="'IncidentEntitiy'" resizeKind="NSEW" workspacePath="/incident.design/res/incidentEntity.jpg">
+                    <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                    <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                  </style>
+                </conditionnalStyles>
                 <conditionnalStyles predicateExpression="aql:self.name.contains('&lt;set name>') or self.name = null">
                   <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " workspacePath="/incident.design/res/incidentEntity.jpg">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -370,14 +376,14 @@
         </containerMappings>
         <containerMappings name="CrimeScriptContainer" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.2/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.crimeScript" domainClass="CrimeScript" childrenPresentation="List">
           <subNodeMappings name="Intent" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.2/@ownedTools[name='editName']" semanticCandidatesExpression="feature:intent" domainClass="Intent">
-            <style xsi:type="style:SquareDescription" labelSize="10" labelExpression="aql: if self.name = null then '&lt;set Intent>' else self.name endif" tooltipExpression="Intent" labelPosition="node" resizeKind="NSEW">
+            <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql: if self.name = null then '&lt;set Intent>' else self.name endif" tooltipExpression="Intent" labelPosition="node" resizeKind="NSEW">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
             </style>
           </subNodeMappings>
           <subNodeMappings name="Motive" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.2/@ownedTools[name='editName']" semanticCandidatesExpression="feature:motive" domainClass="Motive">
-            <style xsi:type="style:SquareDescription" labelSize="10" labelExpression="aql: if self.name = null then '&lt;set Motive>' else self.name endif" tooltipExpression="Motive" labelPosition="node" resizeKind="NSEW">
+            <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql: if self.name = null then '&lt;set Motive>' else self.name endif" tooltipExpression="Motive" labelPosition="node" resizeKind="NSEW">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
@@ -982,7 +988,7 @@
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:target">
                           <subModelOperations xsi:type="tool:CreateInstance" typeName="Connectivity" referenceName="connectivity" variableName="instance2">
                             <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance2">
-                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: source.name + '-' + target.name+'_conn'">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: self.getRandomName('con')">
                                 <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance1">
                                   <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: instance2.name">
                                     <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance1"/>
