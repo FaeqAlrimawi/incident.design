@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import javax.media.j3d.Link;
+
 import org.eclipse.emf.ecore.EObject;
 
 import cyberPhysical_Incident.Activity;
@@ -1289,6 +1291,67 @@ public class Services {
 
 	}
 
+	/**
+	 * checks if the given scene (self) activities are in sequence
+	 * @param self
+	 * @return
+	 */
+	public boolean areActivitiesInSequence(EObject self) {
+		
+		//self is a scene
+		if(!(self instanceof Scene)) {
+			return false;
+		}
+		
+		
+		Scene scene = (Scene) self;
+		List<Activity> visitedActivities = new LinkedList<Activity>();
+		List<Activity> sceneActivities = scene.getActivity();
+		
+		
+		//check that all activities are in sequence
+		Activity iniActivity = scene.getInitialActivity();
+		Activity finalActivity = scene.getFinalActivity();
+		
+		//if scene has no activities then return true. if there's only one activity then return true
+		if(sceneActivities.size()==0 || sceneActivities.size()==1) {
+			return true;
+		}
+		
+		//if initial activity is null then return false
+		if(iniActivity == null) {
+			return false;
+		}
+		
+		visitedActivities.add(iniActivity);
+		
+		//if there's no next activity then there's no sequence
+		Activity next = !iniActivity.getNextActivities().isEmpty()?iniActivity.getNextActivities().get(0):null;
+		
+		int length = 100000;
+		
+		while(next != null && length>0) {
+			
+			if(visitedActivities.contains(next)) {
+				return false; //there's a loop!
+			}
+			
+			visitedActivities.add(next);
+			
+			next = !next.getNextActivities().isEmpty()?next.getNextActivities().get(0):null;
+			length--;
+		}
+		
+		//if the visited activities does not equal the scenes activities number then return false
+		if(visitedActivities.size() != sceneActivities.size()) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+
+	
 	/**
 	 * Determines whether the incident is instance or not (could be a pattern)
 	 * 
