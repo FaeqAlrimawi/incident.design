@@ -1246,6 +1246,24 @@ public class Services {
 	}
 
 	/**
+	 * Returns all connection objects defined in the incident diagram
+	 * @param self
+	 * @return
+	 */
+	public List<Connection> getAllIncidentConnections(EObject self) {
+	
+		
+		//get root element (Incident diagram)
+		IncidentDiagram incident = getIncidentDiagram(self);
+		
+		if(incident == null) {
+			return null;
+		}
+		
+		return incident.getConnection();
+	}
+	
+	/**
 	 * returns root element IncidentDiagram
 	 * 
 	 * @return
@@ -1301,17 +1319,18 @@ public class Services {
 
 	}
 
+	
 	public List<Type> getSystemTypes(EObject self) {
 
 		// if the selected entity is an incident entity, then return all system
 		// classes that are subclasses of Asset
-		if (self instanceof IncidentEntity) {
+		if ((self instanceof IncidentEntity) || (self instanceof Type && self.eContainer() instanceof IncidentEntity)) {
 			return getSystemAssetTypes(self);
 		}
 
 		// if the selected entity in a connection, then return all classes from
 		// the system meta-model that are subclasses of Connection
-		if (self instanceof Connection) {
+		if ((self instanceof Connection) || (self instanceof Type && self.eContainer() instanceof Connection)) {
 			return getSystemConnectionTypes(self);
 		}
 

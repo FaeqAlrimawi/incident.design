@@ -39,7 +39,7 @@
       </validationSet>
       <defaultLayer name="Default">
         <nodeMappings name="incidentEntity" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.3/@ownedTools[name='editIncidentEntitiesName']" semanticCandidatesExpression="aql:self.hideEntitiesWithType(self.getAllIncidentEntities(), 'room')" doubleClickDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.9/@ownedTools[name='doubleClickIncidentEntity']" domainClass="IncidentEntity">
-          <borderedNodeMappings name="Type" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.3/@ownedTools[name='editName']" semanticCandidatesExpression="feature:type" domainClass="Type">
+          <borderedNodeMappings name="Type" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='typeDelete']" semanticCandidatesExpression="feature:type" domainClass="Type">
             <style xsi:type="style:DotDescription" labelSize="10" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="1" strokeSizeComputationExpression="1">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
@@ -109,7 +109,7 @@
           </conditionnalStyles>
         </nodeMappings>
         <nodeMappings name="Connection" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.3/@ownedTools[name='editName']" semanticCandidatesExpression="feature:connection" domainClass="Connection">
-          <borderedNodeMappings name="Type" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.3/@ownedTools[name='editName']" semanticCandidatesExpression="feature:type" domainClass="Type">
+          <borderedNodeMappings name="Type" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='typeDelete']" semanticCandidatesExpression="feature:type" domainClass="Type">
             <style xsi:type="style:DotDescription" labelSize="10" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" sizeComputationExpression="1" strokeSizeComputationExpression="1">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
@@ -169,7 +169,7 @@
           </style>
         </edgeMappings>
         <edgeMappings name="conditionActivitContainerRelation" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']" targetFinderExpression="aql: self.getActivityConditions()">
-          <style lineStyle="dot" targetArrow="NoDecoration" foldingStyle="SOURCE">
+          <style lineStyle="dot" targetArrow="NoDecoration" routingStyle="tree" foldingStyle="SOURCE">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -245,12 +245,6 @@
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
               </style>
-              <conditionnalStyles predicateExpression="aql: true">
-                <style xsi:type="style:WorkspaceImageDescription" sizeComputationExpression="-1" labelPosition="node" resizeKind="NSEW" workspacePath="/incident.design/res/questionRed.jpg">
-                  <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-                  <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-                </style>
-              </conditionnalStyles>
             </subNodeMappings>
             <subNodeMappings name="TargetAsset" semanticCandidatesExpression="aql: self.targetedAssets->first()" domainClass="Asset">
               <style xsi:type="style:SquareDescription" borderLineStyle="dash" labelSize="9" labelExpression="aql: if self.name = null then '&lt;Target Asset>' else self.name endif" iconPath="/incident.design/res/targetAsset.jpg" labelAlignment="LEFT" tooltipExpression="Target Asset" sizeComputationExpression="-1" resizeKind="NSEW">
@@ -419,7 +413,7 @@
         </containerMappings>
         <containerMappings name="roomContainer" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.3/@ownedTools[name='editIncidentEntitiesName']" semanticCandidatesExpression="aql: self.asset->select(x | x.type.name.equalsIgnoreCase('room'))" doubleClickDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.9/@ownedTools[name='doubleClickIncidentEntity']" domainClass="Asset">
           <subNodeMappings name="roomIncidentEntity" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.3/@ownedTools[name='editIncidentEntitiesName']" semanticCandidatesExpression="aql:self.getAllcontainedEntities(self.containedEntities)" doubleClickDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.9/@ownedTools[name='doubleClickIncidentEntity']" domainClass="IncidentEntity">
-            <borderedNodeMappings name="Type" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.3/@ownedTools[name='editName']" semanticCandidatesExpression="feature:type" domainClass="Type">
+            <borderedNodeMappings name="Type" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='typeDelete']" semanticCandidatesExpression="feature:type" domainClass="Type">
               <style xsi:type="style:DotDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="1" resizeKind="NSEW" strokeSizeComputationExpression="1">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
@@ -518,11 +512,7 @@
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
                     <subModelOperations xsi:type="tool:CreateInstance" typeName="Actor" referenceName="actor">
                       <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Actor">
-                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql: instance.type">
-                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Actor"/>
-                          </subModelOperations>
-                        </subModelOperations>
+                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Actor"/>
                       </subModelOperations>
                     </subModelOperations>
                   </subModelOperations>
@@ -534,11 +524,7 @@
                           <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
                             <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="var:container"/>
                             <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Actor">
-                                <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql: instance.type">
-                                  <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Actor"/>
-                                </subModelOperations>
-                              </subModelOperations>
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Actor"/>
                             </subModelOperations>
                           </subModelOperations>
                         </subModelOperations>
@@ -851,6 +837,28 @@
                 </firstModelOperations>
               </initialOperation>
             </tools>
+            <tools xsi:type="tool:PaneBasedSelectionWizardDescription" name="Connectivity Selection" precondition="aql:container.oclIsTypeOf(cyberPhysical_Incident::Entity) " windowTitle="Incident Entity Selection Wizard" message="Select Connection(s) to add to the Entity" choiceOfValuesMessage="Choice of Connections" candidatesExpression="aql: self.getAllIncidentConnections()" selectedValuesMessage="Selected Connections">
+              <element name="element"/>
+              <containerView name="containerView"/>
+              <container name="container"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::Entity)">
+                  <subModelOperations xsi:type="tool:For" expression="aql:element" iteratorName="e">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql: e.oclAsType(cyberPhysical_Incident::Connection)">
+                      <subModelOperations xsi:type="tool:If" conditionExpression="aql: not container.oclAsType(cyberPhysical_Incident::Entity).connectivity->exists(x | x.name.equalsIgnoreCase(self.name)))">
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::Entity)">
+                          <subModelOperations xsi:type="tool:CreateInstance" typeName="Connectivity" referenceName="connectivity">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: e.oclAsType(cyberPhysical_Incident::Connection).name"/>
+                            </subModelOperations>
+                          </subModelOperations>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
+                </firstModelOperations>
+              </initialOperation>
+            </tools>
           </ownedTools>
         </toolSections>
         <toolSections name="Feature">
@@ -870,37 +878,32 @@
               <firstModelOperations xsi:type="tool:CreateInstance" typeName="Motive" referenceName="motive"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool_1:ToolGroup" name="type selection">
-            <tools xsi:type="tool_1:NodeCreationDescription" name="Type" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity']/@borderedNodeMappings[name='Type'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity']/@borderedNodeMappings[name='Type'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='Connection']/@borderedNodeMappings[name='Type']" iconPath="/incident.design/res/icons/type_icon.jpg">
-              <variable name="container"/>
-              <viewVariable name="containerView"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:container">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.type = null">
-                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Type" referenceName="type"/>
-                  </subModelOperations>
-                </firstModelOperations>
-              </initialOperation>
-            </tools>
-            <tools xsi:type="tool:SelectionWizardDescription" name="Type Selection" precondition="aql:self.oclIsKindOf(cyberPhysical_Incident::IncidentEntity) or self.oclIsKindOf(cyberPhysical_Incident::Connection)" candidatesExpression="aql:self.getSystemTypes()" message="Select Type" windowTitle="Type Selection Wizard">
-              <element name="element"/>
-              <containerView name="containerView"/>
-              <container name="container"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::IncidentEntity)">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.type = null">
+          <ownedTools xsi:type="tool:SelectionWizardDescription" name="Type Selection" precondition="aql:self.oclIsKindOf(cyberPhysical_Incident::IncidentEntity) or self.oclIsKindOf(cyberPhysical_Incident::Connection) or self.oclIsKindOf(cyberPhysical_Incident::Type)" candidatesExpression="aql:self.getSystemTypes()" message="Select Type" windowTitle="Type Selection Wizard">
+            <element name="element"/>
+            <containerView name="containerView"/>
+            <container name="container"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
+                <subModelOperations xsi:type="tool:If" conditionExpression="aql: container.oclIsKindOf(cyberPhysical_Incident::IncidentEntity) or container.oclIsKindOf(cyberPhysical_Incident::Connection)">
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type = null">
                     <subModelOperations xsi:type="tool:CreateInstance" typeName="Type" referenceName="type">
                       <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: if element.oclAsType(cyberPhysical_Incident::Type) &lt;> null then element.oclAsType(cyberPhysical_Incident::Type).name else '' endif"/>
                     </subModelOperations>
                   </subModelOperations>
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.type &lt;> null">
-                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.type">
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql: container.type &lt;> null">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.type">
                       <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: if element.oclAsType(cyberPhysical_Incident::Type) &lt;> null then element.oclAsType(cyberPhysical_Incident::Type).name else '' endif"/>
                     </subModelOperations>
                   </subModelOperations>
-                </firstModelOperations>
-              </initialOperation>
-            </tools>
+                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container"/>
+                </subModelOperations>
+                <subModelOperations xsi:type="tool:If" conditionExpression="aql: container.oclIsKindOf(cyberPhysical_Incident::Type)">
+                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::Type)">
+                    <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:if element.oclAsType(cyberPhysical_Incident::Type) &lt;> null then element.oclAsType(cyberPhysical_Incident::Type).name else '' endif"/>
+                  </subModelOperations>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
           </ownedTools>
         </toolSections>
         <toolSections name="edits">
@@ -1088,6 +1091,14 @@
             <containerView name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:self"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:DeleteElementDescription" name="typeDelete">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:element"/>
             </initialOperation>
           </ownedTools>
         </toolSections>
