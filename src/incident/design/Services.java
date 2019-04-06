@@ -749,7 +749,9 @@ public class Services {
 	}
 
 	/**
-	 * Copies the given self (as IncidentEntity) into the given contianer (as IncidentDiagram)
+	 * Copies the given self (as IncidentEntity) into the given contianer (as
+	 * IncidentDiagram)
+	 * 
 	 * @param self
 	 * @param container
 	 */
@@ -804,14 +806,13 @@ public class Services {
 			}
 			copiedEntity.getProperties().addAll(props);
 
-			
 			// add new copied element to diagram
 			if (copiedEntity instanceof Asset) { // as Asset
-				
+
 				// set attributes
 				List<Vulnerability> vuls = new LinkedList<Vulnerability>();
 
-				for (Vulnerability vul : ((Asset)original).getVulnerability()) {
+				for (Vulnerability vul : ((Asset) original).getVulnerability()) {
 					Vulnerability tmp = instance.createVulnerability();
 					tmp.setName(vul.getName());
 					tmp.setURL(vul.getURL());
@@ -819,24 +820,24 @@ public class Services {
 					tmp.setSeverity(vul.getSeverity());
 					vuls.add(tmp);
 				}
-				((Asset)copiedEntity).getVulnerability().addAll(vuls);
+				((Asset) copiedEntity).getVulnerability().addAll(vuls);
 
-				//set status
-				((Asset)copiedEntity).setStatus(((Asset)original).getStatus());
-				
+				// set status
+				((Asset) copiedEntity).setStatus(((Asset) original).getStatus());
+
 				diagram.getAsset().add((Asset) copiedEntity);
-				
+
 			} else if (copiedEntity instanceof Actor) { // as Actor
-				
-				//set role
-				((Actor)copiedEntity).setRole(((Actor)original).getRole());
-				
+
+				// set role
+				((Actor) copiedEntity).setRole(((Actor) original).getRole());
+
 				diagram.getActor().add((Actor) copiedEntity);
-				
+
 			} else if (copiedEntity instanceof Resource) { // as Resource
-			
+
 				diagram.getResource().add((Resource) copiedEntity);
-				
+
 			} else if (copiedEntity instanceof IncidentEntity) { // as incident
 																	// entity
 				diagram.getIncidentEntity().add(copiedEntity);
@@ -1111,47 +1112,45 @@ public class Services {
 	}
 
 	public void removeEntityContainmentRelation(EObject parent, EObject child) {
-		
-		//both should be Entity objects
-		
-		if(!(parent instanceof Entity)) {
+
+		// both should be Entity objects
+
+		if (!(parent instanceof Entity)) {
 			return;
 		}
-		
-		if(!(child instanceof Entity)) {
+
+		if (!(child instanceof Entity)) {
 			return;
 		}
-		
+
 		Entity pEntity = (Entity) parent;
-		Entity cEntity = (Entity)child;
-		
-		System.out.println(pEntity.getName() + " "+cEntity.getName());
-		//get condition 
-		EObject container = pEntity.eContainer();	
-		int length  = 1000;
-	
-		while(!(container instanceof BigraphExpression) && length>0) {
-			
+		Entity cEntity = (Entity) child;
+
+		System.out.println(pEntity.getName() + " " + cEntity.getName());
+		// get condition
+		EObject container = pEntity.eContainer();
+		int length = 1000;
+
+		while (!(container instanceof BigraphExpression) && length > 0) {
+
 			container = container.eContainer();
 			length--;
 		}
-		
-		if(container instanceof BigraphExpression) {
-			
-			//get bigraph expression
+
+		if (container instanceof BigraphExpression) {
+
+			// get bigraph expression
 			BigraphExpression exp = (BigraphExpression) container;
-			
-			//remove child from old parent
+
+			// remove child from old parent
 			pEntity.getEntity().remove(cEntity);
-			
-			//add child to the express as a new root
+
+			// add child to the express as a new root
 			exp.getEntity().add(cEntity);
 		}
-		
-		
-		
-		
+
 	}
+
 	/**
 	 * Sets the name of every connectivity in the condition that has the oldName
 	 * 
@@ -1249,22 +1248,22 @@ public class Services {
 
 	/**
 	 * Returns all connection objects defined in the incident diagram
+	 * 
 	 * @param self
 	 * @return
 	 */
 	public List<Connection> getAllIncidentConnections(EObject self) {
-	
-		
-		//get root element (Incident diagram)
+
+		// get root element (Incident diagram)
 		IncidentDiagram incident = getIncidentDiagram(self);
-		
-		if(incident == null) {
+
+		if (incident == null) {
 			return null;
 		}
-		
+
 		return incident.getConnection();
 	}
-	
+
 	/**
 	 * returns root element IncidentDiagram
 	 * 
@@ -1293,65 +1292,270 @@ public class Services {
 
 	/**
 	 * checks if the given scene (self) activities are in sequence
+	 * 
 	 * @param self
 	 * @return
 	 */
 	public boolean areActivitiesInSequence(EObject self) {
-		
-		//self is a scene
-		if(!(self instanceof Scene)) {
+
+		// self is a scene
+		if (!(self instanceof Scene)) {
 			return false;
 		}
-		
-		
+
 		Scene scene = (Scene) self;
 		List<Activity> visitedActivities = new LinkedList<Activity>();
 		List<Activity> sceneActivities = scene.getActivity();
-		
-		
-		//check that all activities are in sequence
+
+		// check that all activities are in sequence
 		Activity iniActivity = scene.getInitialActivity();
 		Activity finalActivity = scene.getFinalActivity();
+
+		// if scene has no activities then return true. if there's only one
+		// activity then return true
+		if (sceneActivities.size() == 0 || sceneActivities.size() == 1) {
+			return true;
+		}
+
+		// if initial activity is null then return false
+		if (iniActivity == null) {
+			return false;
+		}
+
+		visitedActivities.add(iniActivity);
+
+		// if there's no next activity then there's no sequence
+		Activity next = !iniActivity.getNextActivities().isEmpty() ? iniActivity.getNextActivities().get(0) : null;
+
+		int length = 100000;
+
+		while (next != null && length > 0) {
+
+			if (visitedActivities.contains(next)) {
+				return false; // there's a loop!
+			}
+
+			visitedActivities.add(next);
+
+			next = !next.getNextActivities().isEmpty() ? next.getNextActivities().get(0) : null;
+			length--;
+		}
+
+		// if the visited activities does not equal the scenes activities number
+		// then return false
+		if (visitedActivities.size() != sceneActivities.size()) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * checks if the given scene (self) scenes is in sequence including its
+	 * activities
+	 * 
+	 * @param self
+	 *            as scene
+	 * @return
+	 */
+	public boolean isSceneInSequence(EObject self) {
+
+		// self is a scene
+		if (!(self instanceof Scene)) {
+			return false;
+		}
+
+		Scene scene = (Scene) self;
+		Scene nxtScene = !scene.getNextScenes().isEmpty() ? scene.getNextScenes().get(0) : null;
+
+		// if next scene is not null then check that the final activity in the
+		// given scene has as next activity the first activity in the next scene
+		if (nxtScene != null) {
+			Activity lastAct = scene.getFinalActivity();
+			Activity firstAct = nxtScene.getInitialActivity();
+
+			// if the next activity from the next scene is null return true as
+			// there's a problem in the next activity
+			// or if the last activity in the given scene is null then return
+			// true as well
+			if (firstAct == null || lastAct == null) {
+				return true;
+			}
+
+			Activity nxt = !lastAct.getNextActivities().isEmpty() ? lastAct.getNextActivities().get(0) : null;
+
+			// they are not connected
+			if (nxt == null) {
+				return false;
+			}
+
+			// they are not equal
+			if (!nxt.equals(firstAct)) {
+				return false;
+			}
+		} else { // if next scene is null then there's a possibility that the
+					// given scene is the last scene
+			// check that the given scene is the last scene or not
+
+			// get incident diagram
+			IncidentDiagram incident = getIncidentDiagram(self);
+
+			if (incident != null) {
+				// if last scene then return true
+				return isLastScene(scene, incident.getScene().size(), incident.getInitialScene());
+			}
+
+		}
+
+		return true;
+	}
+
+	protected boolean isLastScene(Scene scene, int numberOfScenes, Scene initialScene) {
+
+		// this is determined by looking at the previous scenes if the number of
+		// the previous scenes equals to the number of scenes -1
+
+		// if there's one scene only
+		if (numberOfScenes == 1 && scene.equals(initialScene)) {
+			return true;
+		}
+
+		Scene next = !initialScene.getNextScenes().isEmpty() ? initialScene.getNextScenes().get(0) : null;
+		int length = 1;
+
+		//while next scene is not null or not equal to the given scene
+		while (next != null && !next.equals(scene)) {
+
+			next = !next.getNextScenes().isEmpty() ? next.getNextScenes().get(0) : null;
+			
+			length++;
+		}
 		
-		//if scene has no activities then return true. if there's only one activity then return true
-		if(sceneActivities.size()==0 || sceneActivities.size()==1) {
+		//if the length is the same as the number of scenes then the given scene is the last scene
+		if(length == numberOfScenes-1) {
 			return true;
 		}
 		
-		//if initial activity is null then return false
-		if(iniActivity == null) {
-			return false;
-		}
-		
-		visitedActivities.add(iniActivity);
-		
-		//if there's no next activity then there's no sequence
-		Activity next = !iniActivity.getNextActivities().isEmpty()?iniActivity.getNextActivities().get(0):null;
-		
-		int length = 100000;
-		
-		while(next != null && length>0) {
-			
-			if(visitedActivities.contains(next)) {
-				return false; //there's a loop!
-			}
-			
-			visitedActivities.add(next);
-			
-			next = !next.getNextActivities().isEmpty()?next.getNextActivities().get(0):null;
-			length--;
-		}
-		
-		//if the visited activities does not equal the scenes activities number then return false
-		if(visitedActivities.size() != sceneActivities.size()) {
-			return false;
-		}
-		
-		return true;
+		return false;
+
 	}
 	
+	public void deleteActivity(EObject self) {
+		
+		//deletes the given activity from the set of activities in the scene
+		
+		if(!(self instanceof Activity)) {
+			return;
+		}
+		
+		Activity activity = (Activity) self;
+		Scene scene = (Scene)self.eContainer();
+		
+		scene.getActivity().remove(activity);
+	}
 
-	
+	/**
+	 * checks if the given incident diagram (self) scenes are in sequence
+	 * 
+	 * @param self
+	 * @return
+	 */
+	public boolean areScenesInSequence(EObject self) {
+
+		// self is a incident diagram
+		if (!(self instanceof IncidentDiagram)) {
+			return false;
+		}
+
+		IncidentDiagram incident = (IncidentDiagram) self;
+		List<Scene> visitedScenes = new LinkedList<Scene>();
+		List<Scene> incidentScenes = incident.getScene();
+
+		// check that all scenes are in sequence
+		Scene iniScene = incident.getInitialScene();
+		// Scene finalScene = incident.get
+
+		// if scene has no scenes then return true.
+		if (incidentScenes.size() == 0) {
+			return true;
+		}
+
+		// if there's one scene only then check that scene activities for
+		// sequence
+		if (incidentScenes.size() == 1) {
+			return areActivitiesInSequence(incidentScenes.get(0));
+		}
+
+		// check that the scenes are in sequence
+		// if initial activity is null then return false
+		if (iniScene == null) {
+			return false;
+		}
+
+		// visitedScenes.add(iniScene);
+
+		Scene next = iniScene;// !iniScene.getNextScenes().isEmpty()?iniScene.getNextScenes().get(0):null;
+		Scene previous = null;
+
+		int length = 100000;
+
+		while (next != null && length > 0) {
+
+			if (visitedScenes.contains(next)) {
+				return false; // there's a loop!
+			}
+
+			// add to visited
+			visitedScenes.add(next);
+
+			// check that scene activities are in sequence
+			if (!areActivitiesInSequence(next)) {
+
+				return false;
+			}
+
+			// check that the last activity in the scene is connected to the
+			// first activity of the next scene
+			previous = next;
+			next = !next.getNextScenes().isEmpty() ? next.getNextScenes().get(0) : null;
+
+			Activity lastAct = previous.getFinalActivity();
+			Activity firstAct = next != null ? next.getInitialActivity() : null;
+
+			// check activities connected as long as the sizes are not the same
+			if (visitedScenes.size() != incidentScenes.size()) {
+
+				// if any of the two activities is null then return false
+				if (lastAct == null || firstAct == null) {
+					return false;
+				}
+
+				// if the next of the last activity is not the first activity of
+				// the next scene then return false
+				Activity nxt = !lastAct.getNextActivities().isEmpty() ? lastAct.getNextActivities().get(0) : null;
+
+				// they are not connected
+				if (nxt == null) {
+					return false;
+				}
+
+				if (!nxt.equals(firstAct)) {
+					return false;
+				}
+			}
+
+			length--;
+		}
+
+		// if the visited activities does not equal the scenes activities number
+		// then return false
+		if (visitedScenes.size() != incidentScenes.size()) {
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	 * Determines whether the incident is instance or not (could be a pattern)
 	 * 
@@ -1382,7 +1586,6 @@ public class Services {
 
 	}
 
-	
 	public List<Type> getSystemTypes(EObject self) {
 
 		// if the selected entity is an incident entity, then return all system
