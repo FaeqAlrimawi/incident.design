@@ -27,7 +27,6 @@
       </filters>
       <validationSet name="incidentValidation">
         <ownedRules xsi:type="validation:SemanticValidationRule" name="selfReference" level="ERROR" message="Element cannot be its own parent" targetClass="Asset">
-          <audits auditExpression="aql: self.parentEntity &lt;> self"/>
           <fixes name="fixSelfRef">
             <initialOperation>
               <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="var:self">
@@ -44,6 +43,11 @@
         </ownedRules>
         <ownedRules xsi:type="validation:SemanticValidationRule" name="sceneLinked" level="ERROR" message="Scene is not in sequence (Last activity is not connected to the first activity of the next scene)" targetClass="Scene">
           <audits auditExpression="aql:self.isSceneInSequence()"/>
+          <fixes name="linkScene">
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext"/>
+            </initialOperation>
+          </fixes>
         </ownedRules>
       </validationSet>
       <defaultLayer name="Default">
@@ -161,7 +165,7 @@
             </style>
           </conditionnalStyles>
         </edgeMappings>
-        <edgeMappings name="childRelation" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity']" targetFinderExpression="feature:containedEntities" reconnections="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.6/@ownedTools[name='editContainmentRelation']">
+        <edgeMappings name="childRelation" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='deleteChildRelation']" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity']" targetFinderExpression="feature:containedEntities" reconnections="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.6/@ownedTools[name='editContainmentRelation']">
           <style targetArrow="InputClosedArrow" routingStyle="tree" foldingStyle="SOURCE">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription>
@@ -185,7 +189,7 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="nextActivityContainer" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']/@borderedNodeMappings[name='nextActivity']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']" targetFinderExpression="aql:self">
+        <edgeMappings name="nextActivityContainer" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='deleteNextRelation']" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']/@borderedNodeMappings[name='nextActivity']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']" targetFinderExpression="aql:self">
           <style>
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription>
@@ -277,7 +281,7 @@
               </style>
             </borderedNodeMappings>
             <borderedNodeMappings name="nextActivity" semanticCandidatesExpression="aql:self.nextActivities->first()" domainClass="Activity">
-              <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="" tooltipExpression="aql: 'Next Activity [' + self.name +']'" sizeComputationExpression="1" labelPosition="node" resizeKind="NORTH_SOUTH" workspacePath="/incident.design/res/postcondition.png">
+              <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="" tooltipExpression="aql: 'Next Activity [' + self.name +']'" sizeComputationExpression="1" labelPosition="node" resizeKind="NORTH_SOUTH" workspacePath="/incident.design/res/next.png">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               </style>
@@ -829,7 +833,7 @@
             </initialOperation>
           </ownedTools>
         </toolSections>
-        <toolSections name="Scene Element">
+        <toolSections name="Activity Element">
           <ownedTools xsi:type="tool_1:ToolGroup" name="activity">
             <tools xsi:type="tool_1:ContainerCreationDescription" name="Activity" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']" iconPath="/incident.design/res/icons/act_icon.jpg">
               <variable name="container"/>
@@ -1237,6 +1241,26 @@
                 <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.oclAsType(cyberPhysical_Incident::Precondition)">
                   <subModelOperations xsi:type="tool:RemoveElement"/>
                 </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:DeleteElementDescription" name="deleteChildRelation">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:elementView.targetNode.oclAsType(diagram::DNode).target.oclAsType(cyberPhysical_Incident::IncidentEntity)">
+                <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:element.deleteChildRelation(self)"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:DeleteElementDescription" name="deleteNextRelation">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:elementView.targetNode.oclAsType(diagram::DNode).target.oclAsType(cyberPhysical_Incident::Activity)">
+                <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:element.deleteNextActivityRelation()"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>

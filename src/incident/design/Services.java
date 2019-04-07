@@ -1455,6 +1455,60 @@ public class Services {
 	}
 
 	/**
+	 * Deletes the child relation between the self (parent) and the target (child)
+	 * @param self
+	 * @param target
+	 */
+	public void deleteChildRelation(EObject self, EObject target) {
+		
+		//self is parent as incident entity and target is the child
+		if(!(self instanceof IncidentEntity)) {
+			return;
+		}
+		
+		if(!(target instanceof IncidentEntity)) {
+			System.err.println("Target is not an incident entity");
+			return;
+		}
+		
+		
+		IncidentEntity parent = (IncidentEntity) self;
+		IncidentEntity child = (IncidentEntity) target;
+//		
+		//remove child from contained entities of the parent
+		parent.getContainedEntities().remove(child);
+		
+		//set parent of child as null
+		child.setParentEntity(null);
+	}
+	
+	/**
+	 * Deletes the next activity relation of the self
+	 * @param self
+	 * @param target
+	 */
+	public void deleteNextActivityRelation(EObject self) {
+		
+		//self is parent as incident entity and target is the child
+		if(!(self instanceof Activity)) {
+			System.err.println("self is not an Activity");
+			return;
+		}
+		
+		
+		Activity next = (Activity) self; //the next activity
+		Activity act = (Activity) next.getPreviousActivities().get(0);
+//		
+		System.out.println(act.getName() + " " + next.getName());
+		//clear next activities for act
+		act.getNextActivities().clear();
+		
+		//clear previous activities for next
+		next.getPreviousActivities().clear();
+		
+	}
+	
+	/**
 	 * checks if the given incident diagram (self) scenes are in sequence
 	 * 
 	 * @param self
