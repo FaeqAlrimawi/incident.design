@@ -1269,7 +1269,7 @@ public class Services {
 	 * 
 	 * @return
 	 */
-	protected IncidentDiagram getIncidentDiagram(EObject self) {
+	public IncidentDiagram getIncidentDiagram(EObject self) {
 
 		int length = 10000;
 
@@ -1480,6 +1480,152 @@ public class Services {
 		
 		//set parent of child as null
 		child.setParentEntity(null);
+	}
+	
+	/**
+	 * Deletes the child relation between the self (parent) and the target (child) in the condition
+	 * @param self
+	 * @param target
+	 */
+	public void deleteEntityChildRelation(EObject self, EObject target) {
+		
+		//self is parent as incident entity and target is the child
+		if(!(self instanceof Entity)) {
+			System.err.println("self is not an entity");
+			return;
+		}
+		
+		if(!(target instanceof Entity)) {
+			System.err.println("Target is not an entity");
+			return;
+		}
+		
+		
+		Entity parent = (Entity) self;
+		Entity child = (Entity) target;
+//		
+		//remove child from contained entities of the parent
+		parent.getEntity().remove(child);
+		
+		//add child as a root to the condition
+		
+		EObject container = self.eContainer();
+		
+		int length = 10000;
+		
+		while(!(container instanceof BigraphExpression) && length>0) {
+			container = container.eContainer();
+			length--;
+		}
+		
+		if(container instanceof BigraphExpression) {
+			BigraphExpression exp = (BigraphExpression) container;
+			
+			exp.getEntity().add(child);
+		}
+		
+	}
+	
+	/**
+	 * Deletes the child relation between the self (parent) and the target (child) in the condition
+	 * @param self
+	 * @param target
+	 */
+	public void deleteEntity(EObject self) {
+		
+		//self is parent as incident entity and target is the child
+		if(!(self instanceof Entity)) {
+			System.err.println("self is not an entity");
+			return;
+		}
+		
+		
+		Entity entity = (Entity) self;
+		List<Entity> children = entity.getEntity();
+		
+		boolean isRoot = false; //used to indicate if the entity is root
+		
+		//add child as a root to the condition
+		
+		EObject container = self.eContainer();
+		
+		int length = 10000;
+		
+		while(!(container instanceof BigraphExpression) && length>0) {
+			container = container.eContainer();
+			length--;
+		}
+		
+		
+		if(container instanceof BigraphExpression) {
+			BigraphExpression exp = (BigraphExpression) container;
+			
+			//add all children of the entity as root entities
+			if(children != null && !children.isEmpty()) { 
+			exp.getEntity().addAll(children);
+			}
+			
+			//remove entity
+			
+			//find the parent
+			
+			//first look if the entity is a root entity
+			for(Entity ent:  exp.getEntity()) {
+				if(ent.equals(entity)) {
+					isRoot = true;
+					break;
+				}
+			}
+			
+			if(isRoot) {
+				exp.getEntity().remove(entity);
+			} else { //if entity is not root then find it in the other entities
+				
+				List<Entity> allEntities = getAllConditionEntity(self, exp.getEntity());
+				Entity parent = null;
+				
+				//check contained entities of each entity
+				for(Entity ent : allEntities) {
+					
+					//if entity is found then set isChild to true
+					if(ent.getEntity().contains(entity)) {
+						parent = ent;
+						break;
+					}
+				}
+				
+				//if parent found then remove entity from it
+				if(parent != null) {
+					parent.getEntity().remove(entity);
+				}
+				
+			}
+			
+			String parentName = exp.getContainer(entity.getName());
+			
+			System.out.println(parentName);
+			
+			Entity parent = exp.getEntity(parentName);
+			
+			if(parent != null) {
+				parent.getEntity().remove(entity);
+			} else { //the entity might be root i.e. should be deleted from the expression
+				
+				for(Entity ent:  exp.getEntity()) {
+					if(ent.equals(entity)) {
+						isRoot = true;
+						break;
+					}
+				}
+				
+				if(isRoot) {
+					exp.getEntity().remove(entity);
+				}
+				
+			}
+			
+		}
+		
 	}
 	
 	/**
