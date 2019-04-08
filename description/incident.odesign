@@ -87,60 +87,60 @@
               <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
             </style>
           </borderedNodeMappings>
-          <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/incidentEntity.jpg">
+          <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Incident Entity" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/incidentEntity.jpg">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
           <conditionnalStyles predicateExpression="aql:self.oclIsTypeOf(cyberPhysical_Incident::IncidentEntity)">
-            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/incidentEntity.jpg">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Incident Entity" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/incidentEntity.jpg">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
           </conditionnalStyles>
           <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Resource) and self.type.name.equalsIgnoreCase('laptop')">
-            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;name>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/laptop.jpg">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Laptop" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/laptop.png">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
           </conditionnalStyles>
           <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Resource) and self.type.name.equalsIgnoreCase('malware')">
-            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;name>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/malware.jpg">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Malware" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/malware.png">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
           </conditionnalStyles>
           <conditionnalStyles predicateExpression="aql:self.oclIsTypeOf(cyberPhysical_Incident::Resource)">
-            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/resource.png">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Resource" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/resource.png">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
           </conditionnalStyles>
           <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Asset) and self.type.name.equalsIgnoreCase('smartlight')">
-            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" sizeComputationExpression="6" resizeKind="NSEW" roundedCorner="true" workspacePath="/incident.design/res/smartLight.jpg">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Smart Light" sizeComputationExpression="6" resizeKind="NSEW" roundedCorner="true" workspacePath="/incident.design/res/icons128/smartLight.png">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
           </conditionnalStyles>
           <conditionnalStyles predicateExpression="aql:self.oclIsTypeOf(cyberPhysical_Incident::Asset)">
-            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/asset.jpg">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Asset" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/asset.jpg">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
           </conditionnalStyles>
           <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Actor) and self.role.toString().equalsIgnoreCase('offender')">
-            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/offender.png">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Offender" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/offender.png">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
           </conditionnalStyles>
           <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Actor) and self.role.toString().equalsIgnoreCase('victim')">
-            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/victim.png">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Victim" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/victim.png">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
           </conditionnalStyles>
           <conditionnalStyles predicateExpression="aql:self.oclIsTypeOf(cyberPhysical_Incident::Actor)">
-            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/actor.png">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Actor" sizeComputationExpression="6" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/actor.png">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </style>
@@ -340,19 +340,19 @@
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
                 <conditionnalStyles predicateExpression="aql:self.isResource('Laptop')">
-                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="Laptop" resizeKind="NSEW" workspacePath="/incident.design/res/laptop.jpg">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="Laptop" resizeKind="NSEW" workspacePath="/incident.design/res/icons48/laptop.png">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   </style>
                 </conditionnalStyles>
                 <conditionnalStyles predicateExpression="aql:self.isResource('Malware')">
-                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="Malware" workspacePath="/incident.design/res/malware.jpg">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="Malware" workspacePath="/incident.design/res/icons48/malware.png">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   </style>
                 </conditionnalStyles>
                 <conditionnalStyles predicateExpression="aql:self.isAsset('SmartLight')">
-                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="SmartLight" resizeKind="NSEW" workspacePath="/incident.design/res/smartLight.jpg">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="SmartLight" resizeKind="NSEW" workspacePath="/incident.design/res/icons48/smartLight.png">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   </style>
@@ -364,7 +364,7 @@
                   </style>
                 </conditionnalStyles>
                 <conditionnalStyles predicateExpression="aql:self.isResource()">
-                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="'Resource'" resizeKind="NSEW" workspacePath="/incident.design/res/resource.jpg">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="'Resource'" resizeKind="NSEW" workspacePath="/incident.design/res/icons48/resource.png">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   </style>
@@ -454,7 +454,7 @@
               </style>
             </conditionnalStyles>
           </subContainerMappings>
-          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" labelExpression="aql: if self.name = null then '&lt;Scene Name>' else self.name endif" iconPath="/incident.design/res/scene.jpg" roundedCorner="true" backgroundStyle="Liquid">
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12" labelExpression="aql: if self.name = null then '&lt;Scene Name>' else self.name endif" iconPath="/incident.design/res/icons32/scene.png" roundedCorner="true" backgroundStyle="Liquid">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
@@ -576,7 +576,7 @@
           </style>
         </containerMappings>
         <toolSections name="Incident Element">
-          <ownedTools xsi:type="tool_1:ContainerCreationDescription" name="Scene" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']" iconPath="/incident.design/res/icons/scene_icon.jpg">
+          <ownedTools xsi:type="tool_1:ContainerCreationDescription" name="Scene" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']" iconPath="/incident.design/res/icons/scene.png">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
@@ -786,7 +786,7 @@
                 </firstModelOperations>
               </initialOperation>
             </tools>
-            <tools xsi:type="tool_1:NodeCreationDescription" name="Smart Light" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition']" iconPath="/incident.design/res/icons/smartLight_icon.jpg">
+            <tools xsi:type="tool_1:NodeCreationDescription" name="Smart Light" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition']" iconPath="/incident.design/res/icons/smartLight.png">
               <variable name="container"/>
               <viewVariable name="containerView"/>
               <initialOperation>
@@ -903,7 +903,7 @@
                 </firstModelOperations>
               </initialOperation>
             </tools>
-            <tools xsi:type="tool_1:NodeCreationDescription" name="Laptop" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition']" iconPath="/incident.design/res/icons/laptop_icon.jpg">
+            <tools xsi:type="tool_1:NodeCreationDescription" name="Laptop" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition']" iconPath="/incident.design/res/icons/laptop.png">
               <variable name="container"/>
               <viewVariable name="containerView"/>
               <initialOperation>
@@ -951,7 +951,7 @@
                 </firstModelOperations>
               </initialOperation>
             </tools>
-            <tools xsi:type="tool_1:NodeCreationDescription" name="Malware" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition']" iconPath="/incident.design/res/icons/malware_icon.jpg">
+            <tools xsi:type="tool_1:NodeCreationDescription" name="Malware" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition']" iconPath="/incident.design/res/icons/malware.png">
               <variable name="container"/>
               <viewVariable name="containerView"/>
               <initialOperation>
