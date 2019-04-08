@@ -21,6 +21,7 @@ import cyberPhysical_Incident.Connectivity;
 import cyberPhysical_Incident.CrimeScript;
 import cyberPhysical_Incident.CyberPhysicalIncidentFactory;
 import cyberPhysical_Incident.Entity;
+import cyberPhysical_Incident.Goal;
 import cyberPhysical_Incident.IncidentDiagram;
 import cyberPhysical_Incident.IncidentEntity;
 import cyberPhysical_Incident.Postcondition;
@@ -1428,6 +1429,110 @@ public class Services {
 
 	}
 
+	/**
+	 * create a Goal then add it to self (crime script)
+	 * @param self
+	 */
+	public void addGoal(EObject self) {
+		
+		//self should be crime script
+		if(!(self instanceof CrimeScript)) {
+			System.err.println("Self is not a CrimeScript");
+			return;
+		}
+		
+		CrimeScript script = (CrimeScript)self;
+		
+		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
+		
+		//create a goal
+		Goal newGoal = instance.createGoal();
+		
+		//add goal to incident
+		IncidentDiagram incident = getIncidentDiagram(self);
+		
+		if(incident != null) {
+			
+			//add to incident
+			incident.getGoal().add(newGoal);
+			
+			//add to crime script
+			script.getGoals().add(newGoal);
+			
+		}
+
+	}
+	
+	/**
+	 * add an existing Goal to self (Activity)
+	 * @param self
+	 */
+	public void addGoalToActivity(EObject self, EObject newGoal) {
+		
+		//self should be activity 
+		if(!(self instanceof Activity)) {
+			System.err.println("Self is not an Activity");
+			return;
+		}
+		
+		//self should be Goal
+		if(!(newGoal instanceof Goal)) {
+			System.err.println("Self is not a Goal");
+			return;
+		}
+		Activity act = (Activity)self;
+		Goal goal = (Goal)newGoal;
+		
+		//add goal to activity
+		act.getGoals().add(goal);
+
+	}
+	
+	
+	/**
+	 * add an existing Goal to self (Activity)
+	 * @param self
+	 */
+	public void removeGoalFromActivity(EObject self, EObject goal) {
+		
+		//self should be activity 
+		if(!(self instanceof Activity)) {
+			System.err.println("Self is not an Activity");
+			return;
+		}
+		
+		//self should be Goal
+		if(!(goal instanceof Goal)) {
+			System.err.println("Self is not a Goal");
+			return;
+		}
+		Activity act = (Activity)self;
+		Goal gl = (Goal)goal;
+		
+		//add goal to activity
+		act.getGoals().remove(gl);
+
+	}
+	
+	/**
+	 * return goals of the incident
+	 * @param self
+	 */
+	public List<Goal> getGoals(EObject self) {
+		
+		
+		//get incident
+		IncidentDiagram incident = getIncidentDiagram(self);
+		
+		if(incident != null) {
+			
+			return incident.getGoal();
+		}
+		
+		return null;
+		
+	}
+	
 	/**
 	 * checks if the given scene (self) activities are in sequence
 	 * 
