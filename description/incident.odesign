@@ -488,7 +488,7 @@
         <containerMappings name="CrimeScriptContainer" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.6/@ownedTools[name='crimeScriptDelete']" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.4/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.crimeScript" domainClass="CrimeScript" childrenPresentation="HorizontalStack">
           <subContainerMappings name="IntentContainer" semanticCandidatesExpression="feature:intent" domainClass="Intent" childrenPresentation="List">
             <subNodeMappings name="Intent" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.4/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self" domainClass="Intent">
-              <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql: if self.name = null then '&lt;set Intent>' else self.name endif" iconPath="/incident.design/res/icons24/intent.png" labelAlignment="LEFT" tooltipExpression="Intent" labelPosition="node" resizeKind="NSEW">
+              <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql: if self.name = null then '&lt;set Intent>' else self.name endif" iconPath="/incident.design/res/icons24/intent.png" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
@@ -511,7 +511,7 @@
           </subContainerMappings>
           <subContainerMappings name="motiveContainer" semanticCandidatesExpression="aql:self.motive->first()" domainClass="Motive" childrenPresentation="List">
             <subNodeMappings name="motive" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.4/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.eContainer().oclAsType(cyberPhysical_Incident::CrimeScript).motive" domainClass="Motive">
-              <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql: if self.name = null then '&lt;set Motive>' else self.name endif" iconPath="/incident.design/res/icons24/motive.png" labelAlignment="LEFT" tooltipExpression="Intent" labelPosition="node" resizeKind="NSEW">
+              <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql: if self.name = null then '&lt;set Motive>' else self.name endif" iconPath="/incident.design/res/icons24/motive.png" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
@@ -534,7 +534,7 @@
           </subContainerMappings>
           <subContainerMappings name="goalContainer" semanticCandidatesExpression="aql:self.goals->first()" domainClass="Goal" childrenPresentation="List">
             <subNodeMappings name="goal" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.4/@ownedTools[name='editName']" semanticCandidatesExpression="aql:self.eContainer().goal" domainClass="Goal">
-              <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql: if self.name = null then '&lt;set Goal>' else self.name endif" iconPath="/incident.design/res/icons24/goal.png" labelAlignment="LEFT" tooltipExpression="Intent" labelPosition="node" resizeKind="NSEW">
+              <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql: if self.name = null then '&lt;set Goal>' else self.name endif" iconPath="/incident.design/res/icons24/goal.png" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
