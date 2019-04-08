@@ -1247,6 +1247,144 @@ public class Services {
 	}
 
 	/**
+	 * Returns all available incident asset objects in the incident diagram
+	 * 
+	 * @param self
+	 *            could be any element in the diagram
+	 * @return
+	 */
+	public List<IncidentEntity> getAllIncidentAssets(EObject self) {
+
+		List<IncidentEntity> entities = new LinkedList<IncidentEntity>();
+
+		// find root element (incident diagram)
+
+		EObject container = self;
+		int length = 1000;
+
+		while (!(container instanceof IncidentDiagram) && length > 0) {
+
+			container = container.eContainer();
+			length--;
+		}
+
+		if (!(container instanceof IncidentDiagram)) {
+			System.out.println("Incident Digram object is not found");
+			return entities;
+		}
+
+		IncidentDiagram incident = (IncidentDiagram) container;
+
+		// add all assets
+		entities.addAll(incident.getAsset());
+		// add all actors
+//		entities.addAll(incident.getActor());
+//		// add all resources
+//		entities.addAll(incident.getResource());
+//		// add all other incident entities
+//		entities.addAll(incident.getIncidentEntity());
+
+		return entities;
+	}
+	
+	/**
+	 * Returns all available incident resources objects in the incident diagram
+	 * 
+	 * @param self
+	 *            could be any element in the diagram
+	 * @return
+	 */
+	public List<IncidentEntity> getAllIncidentResources(EObject self) {
+
+		List<IncidentEntity> entities = new LinkedList<IncidentEntity>();
+
+		// find root element (incident diagram)
+
+		EObject container = self;
+		int length = 1000;
+
+		while (!(container instanceof IncidentDiagram) && length > 0) {
+
+			container = container.eContainer();
+			length--;
+		}
+
+		if (!(container instanceof IncidentDiagram)) {
+			System.out.println("Incident Digram object is not found");
+			return entities;
+		}
+
+		IncidentDiagram incident = (IncidentDiagram) container;
+
+		// add all assets
+//		entities.addAll(incident.getAsset());
+		// add all actors
+//		entities.addAll(incident.getActor());
+//		// add all resources
+		entities.addAll(incident.getResource());
+//		// add all other incident entities
+//		entities.addAll(incident.getIncidentEntity());
+
+		return entities;
+	}
+	
+	/**
+	 * Sets the target asset of the given activity (self) to the newTarget
+	 * @param self
+	 * @param newTarget
+	 */
+	public void setTargetAsset(EObject self, EObject newTarget) {
+		
+		if(!(self instanceof Activity)) {
+			System.err.println("Self should be an activity");
+			return;
+		}
+		
+		if(!(newTarget instanceof Asset) && newTarget != null) {
+			System.err.println("Self should be an Asset");
+			return;
+		}
+		
+		Activity act = (Activity) self;
+		
+		Asset ast = (Asset) newTarget;
+		
+		//clear the targeted assets
+		act.getTargetedAssets().clear();
+		
+		//add the new target asset
+		act.getTargetedAssets().add(ast);
+	}
+	
+	/**
+	 * Sets the resource of the given activity (self) to the newResource
+	 * @param self
+	 * @param newTarget
+	 */
+	public void setUsedResource(EObject self, EObject newResource) {
+		
+		if(!(self instanceof Activity)) {
+			System.err.println("Self should be an activity");
+			return;
+		}
+		
+		if(!(newResource instanceof Resource) && newResource != null) {
+			System.err.println("Self should be a Resource");
+			return;
+		}
+		
+		Activity act = (Activity) self;
+		
+		Resource res = (Resource) newResource;
+		
+		//clear the resources
+		act.getResources().clear();
+		
+		//add the new resource
+		act.getResources().add(res);
+	}
+	
+	/**
 	 * Returns all connection objects defined in the incident diagram
 	 * 
 	 * @param self

@@ -47,7 +47,7 @@
             </initialOperation>
           </fixes>
         </ownedRules>
-        <ownedRules xsi:type="validation:SemanticValidationRule" name="typeValidation" level="ERROR" message="Missing a Type. Please select a Type" targetClass="IncidentEntity">
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="entityTypeValidation" level="ERROR" message="Missing a Type. Please select a Type" targetClass="IncidentEntity">
           <audits auditExpression="aql: self.type &lt;> null and self.type.name &lt;> null and self.type.name.size() > 0"/>
         </ownedRules>
         <ownedRules xsi:type="validation:SemanticValidationRule" name="sceneActivitiesLinked" level="ERROR" message="Activities are not in sequence" targetClass="Scene">
@@ -58,6 +58,19 @@
           <fixes name="linkScene">
             <initialOperation>
               <firstModelOperations xsi:type="tool:ChangeContext"/>
+            </initialOperation>
+          </fixes>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="connectionTypeValidation" level="ERROR" message="Missing a Type. Please select a Type" targetClass="Connection">
+          <audits auditExpression="aql: self.type &lt;> null and self.type.name &lt;> null and self.type.name.size() > 0"/>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="incidentEntityName" level="ERROR" message="A unique name is required" targetClass="IncidentEntity">
+          <audits auditExpression="aql: self.name &lt;> null and self.name.size() > 0"/>
+          <fixes name="generateUniqueName">
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Tst"/>
+              </firstModelOperations>
             </initialOperation>
           </fixes>
         </ownedRules>
@@ -201,14 +214,6 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="nextActivityContainer" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='deleteNextRelation']" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']/@borderedNodeMappings[name='nextActivity']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']" targetFinderExpression="aql:self">
-          <style foldingStyle="SOURCE">
-            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <centerLabelStyleDescription>
-              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            </centerLabelStyleDescription>
-          </style>
-        </edgeMappings>
         <edgeMappings name="connectionEdgeNew" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity']" targetFinderExpression="null">
           <style sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
@@ -218,8 +223,8 @@
           </style>
         </edgeMappings>
         <edgeMappings name="nextScene" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']" targetFinderExpression="aql:self.nextScenes">
-          <style sizeComputationExpression="2" routingStyle="manhattan">
-            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_orange']"/>
+          <style sizeComputationExpression="2" routingStyle="manhattan" foldingStyle="SOURCE">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_orange']"/>
             <centerLabelStyleDescription>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </centerLabelStyleDescription>
@@ -262,10 +267,10 @@
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
         </edgeMappings>
-        <edgeMappings name="nextBtwActivityContainer" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']" targetFinderExpression="null">
-          <style routingStyle="manhattan">
+        <edgeMappings name="nextBtwActivityContainer" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='deleteNextRelation']" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='ActivityContainer']" targetFinderExpression="aql:self.nextActivities->first()">
+          <style foldingStyle="SOURCE">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <centerLabelStyleDescription>
+            <centerLabelStyleDescription showIcon="false">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </centerLabelStyleDescription>
           </style>
@@ -292,37 +297,28 @@
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
               </style>
             </borderedNodeMappings>
-            <borderedNodeMappings name="nextActivity" semanticCandidatesExpression="aql:self.nextActivities->first()" domainClass="Activity">
-              <style xsi:type="style:SquareDescription" showIcon="false" labelExpression="" tooltipExpression="aql: 'Next Activity [' + self.name + ']'" sizeComputationExpression="0" labelPosition="node" width="1" height="2">
-                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-                <forbiddenSides>SOUTH</forbiddenSides>
-                <forbiddenSides>NORTH</forbiddenSides>
-                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_orange']"/>
-              </style>
-            </borderedNodeMappings>
-            <subNodeMappings name="Initiator" semanticCandidatesExpression="aql:self.initiator" domainClass="IncidentEntity">
+            <subNodeMappings name="Initiator" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='initiator']" semanticCandidatesExpression="aql:self.initiator" domainClass="IncidentEntity">
               <style xsi:type="style:SquareDescription" labelSize="10" labelExpression="aql: if self.name = null then '&lt;Initiator>' else self.name endif" iconPath="/incident.design/res/icons/incidentEntity_icon.jpg" labelAlignment="LEFT" tooltipExpression="Activity Initiator" sizeComputationExpression="-1" resizeKind="NSEW">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
               </style>
             </subNodeMappings>
-            <subNodeMappings name="TargetAsset" semanticCandidatesExpression="aql: self.targetedAssets->first()" domainClass="Asset">
+            <subNodeMappings name="TargetAsset" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='targetedAsset']" semanticCandidatesExpression="aql: self.targetedAssets->first()" domainClass="Asset">
               <style xsi:type="style:SquareDescription" borderLineStyle="dash" labelSize="10" labelExpression="aql: if self.name = null then '&lt;Target Asset>' else self.name endif" iconPath="/incident.design/res/icons/targetAsset.jpg" labelAlignment="LEFT" tooltipExpression="Target Asset" sizeComputationExpression="-1" resizeKind="NSEW">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
               </style>
             </subNodeMappings>
-            <subNodeMappings name="ResourceUsed" semanticCandidatesExpression="aql: self.resources->first()" domainClass="Resource">
-              <style xsi:type="style:SquareDescription" labelSize="10" labelExpression="aql: if self.name = null then '&lt;Resource Used>' else self.name endif" iconPath="/incident.design/res/icons/resource_icon.jpg" labelAlignment="LEFT" tooltipExpression="Resource used" sizeComputationExpression="-1" resizeKind="NSEW">
+            <subNodeMappings name="ResourceUsed" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='usedResource']" semanticCandidatesExpression="aql: self.resources->first()" domainClass="Resource">
+              <style xsi:type="style:SquareDescription" labelSize="10" labelExpression="aql: if self.name = null then '&lt;Resource Used>' else self.name endif" iconPath="/incident.design/res/icons/resource_icon.jpg" labelAlignment="LEFT" tooltipExpression="Resource Used" sizeComputationExpression="-1" resizeKind="NSEW">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
               </style>
             </subNodeMappings>
-            <subNodeMappings name="Location" semanticCandidatesExpression="aql:self.location" domainClass="IncidentEntity">
+            <subNodeMappings name="Location" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='location']" semanticCandidatesExpression="aql:self.location" domainClass="IncidentEntity">
               <style xsi:type="style:SquareDescription" labelSize="10" labelExpression="aql: if self.name = null then '&lt;Location>' else self.name endif" iconPath="/incident.design/res/icons/location.jpg" labelAlignment="LEFT" tooltipExpression="Location" sizeComputationExpression="-1" resizeKind="NSEW">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -1126,6 +1122,42 @@
               </initialOperation>
             </tools>
           </ownedTools>
+          <ownedTools xsi:type="tool:SelectionWizardDescription" name="Initiator" precondition="aql: self.oclIsKindOf(cyberPhysical_Incident::Activity)" candidatesExpression="aql:self.getAllIncidentEntities()" message="Select Activity Initiator">
+            <element name="element"/>
+            <containerView name="containerView"/>
+            <container name="container"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::Activity)">
+                <subModelOperations xsi:type="tool:SetValue" featureName="initiator" valueExpression="aql:element"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:SelectionWizardDescription" name="Target" precondition="aql: self.oclIsKindOf(cyberPhysical_Incident::Activity)" candidatesExpression="aql:self.getAllIncidentAssets()" message="Select Target Asset">
+            <element name="element"/>
+            <containerView name="containerView"/>
+            <container name="container"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.setTargetAsset(element)"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:SelectionWizardDescription" name="Resource" precondition="aql: self.oclIsKindOf(cyberPhysical_Incident::Activity)" candidatesExpression="aql:self.getAllIncidentResources()" message="Select Activity Initiator">
+            <element name="element"/>
+            <containerView name="containerView"/>
+            <container name="container"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.setUsedResource(element)"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:SelectionWizardDescription" name="Location" precondition="aql: self.oclIsKindOf(cyberPhysical_Incident::Activity)" candidatesExpression="aql:self.getAllIncidentEntities()" message="Select Activity Initiator">
+            <element name="element"/>
+            <containerView name="containerView"/>
+            <container name="container"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::Activity)">
+                <subModelOperations xsi:type="tool:SetValue" featureName="location" valueExpression="aql:element"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
         </toolSections>
         <toolSections name="Feature">
           <ownedTools xsi:type="tool_1:NodeCreationDescription" name="Intent" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='CrimeScriptContainer']/@subNodeMappings[name='Intent']">
@@ -1217,7 +1249,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Next Activity" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='nextActivityContainer'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='nextBtwActivityContainer']" iconPath="/incident.design/res/icons/nextActivity_icon.jpg">
+          <ownedTools xsi:type="tool_1:EdgeCreationDescription" name="Next Activity" edgeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@edgeMappings[name='nextBtwActivityContainer']" iconPath="/incident.design/res/icons/nextActivity_icon.jpg">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -1467,6 +1499,46 @@
             <containerView name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:element.deleteEntity()"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:DeleteElementDescription" name="initiator">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:containerView.target.oclAsType(cyberPhysical_Incident::Activity)">
+                <subModelOperations xsi:type="tool:SetValue" featureName="initiator" valueExpression="aql: null"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:DeleteElementDescription" name="targetedAsset">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:containerView.target.oclAsType(cyberPhysical_Incident::Activity)">
+                <subModelOperations xsi:type="tool:SetValue" featureName="targetedAssets" valueExpression="aql: self.setTargetAsset(null)"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:DeleteElementDescription" name="usedResource">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:containerView.target.oclAsType(cyberPhysical_Incident::Activity)">
+                <subModelOperations xsi:type="tool:SetValue" featureName="targetedAssets" valueExpression="aql: self.setUsedResource(null)"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:DeleteElementDescription" name="location">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:containerView.target.oclAsType(cyberPhysical_Incident::Activity)">
+                <subModelOperations xsi:type="tool:SetValue" featureName="location" valueExpression="aql: null"/>
+              </firstModelOperations>
             </initialOperation>
           </ownedTools>
         </toolSections>
