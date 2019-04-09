@@ -252,10 +252,10 @@ public class Services {
 
 		loop_entities: for (IncidentEntity entity : list) {
 
-			// ignore if entity is not asset
-			if (!(entity.getClass().getName().equalsIgnoreCase(IncidentEntityImpl.class.getName()))) {
-				continue;
-			}
+//			// ignore if entity is not asset
+//			if (!(entity.getClass().getName().equalsIgnoreCase(IncidentEntityImpl.class.getName()))) {
+//				continue;
+//			}
 
 			String entTypeName = entity.getType() != null ? entity.getType().getName() : null;
 
@@ -267,7 +267,7 @@ public class Services {
 			}
 
 			IncidentEntity parent = (IncidentEntity) entity.getParentEntity();
-			int length = 1000;
+			int length = 10000;
 
 			while (parent != null && length > 0) {
 
@@ -309,16 +309,15 @@ public class Services {
 	public Collection<IncidentEntity> hideIncidentEntitiesWithType(EObject self, Collection<IncidentEntity> list,
 			Collection<String> types) {
 
-		System.out.println(types);
 		List<IncidentEntity> tmp = new LinkedList<IncidentEntity>();
 		List<IncidentEntity> entitiesIgnored = new LinkedList<IncidentEntity>();
 
 		loop_entities: for (IncidentEntity entity : list) {
-
-			// ignore if entity is not asset
-			if (!(entity.getClass().getName().equalsIgnoreCase(IncidentEntityImpl.class.getName()))) {
-				continue;
-			}
+//
+//			// ignore if entity is not asset
+//			if (!(entity.getClass().getName().equalsIgnoreCase(IncidentEntityImpl.class.getName()))) {
+//				continue;
+//			}
 
 			String entTypeName = entity.getType() != null ? entity.getType().getName() : null;
 
@@ -823,6 +822,53 @@ public class Services {
 		return newName;
 
 	}
+	
+	/**
+	 * Returns a random name (partialName+"random number")
+	 * 
+	 * @param self
+	 * @param partialName
+	 * @return
+	 */
+	public String getRandomEntityName(EObject self, String partialName) {
+
+		Random rand = new Random();
+
+		int maxNumber = 10000;
+		String newName = partialName + rand.nextInt(maxNumber);
+
+		boolean isUnique = false;
+
+		int tries = 100;
+		
+		List<IncidentEntity> allEntities = getAllIncidentAssets(self);
+
+			loop: while (!isUnique && tries > 0) {
+
+				// check connectivity names to see if new name is unique or not
+				for (IncidentEntity ent : allEntities) {
+					if (newName.equalsIgnoreCase(ent.getName())) {
+						tries--;
+						continue loop;
+					}
+				}
+
+				// if this is reached then the new name is unique
+				isUnique = true;
+			}
+
+			// if name is unique
+			if (isUnique) {
+				return newName;
+			} else {
+				// try one more time and then return random name
+				newName = partialName + rand.nextInt();
+			}
+
+
+		return newName;
+
+	}
 
 	/**
 	 * Copies the given self (as IncidentEntity) into the given contianer (as
@@ -1287,7 +1333,7 @@ public class Services {
 		// find root element (incident diagram)
 
 		EObject container = self;
-		int length = 1000;
+		int length = 100000;
 
 		while (!(container instanceof IncidentDiagram) && length > 0) {
 

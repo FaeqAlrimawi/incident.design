@@ -120,7 +120,7 @@
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
         </nodeMappings>
-        <nodeMappings name="incidentEntity" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='editIncidentEntitiesName']" semanticCandidatesExpression="aql:self.hideIncidentEntitiesWithType(self.getAllIncidentEntities(), OrderedSet{'Room'})" domainClass="IncidentEntity">
+        <nodeMappings name="incidentEntity" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.5/@ownedTools[name='editIncidentEntitiesName']" semanticCandidatesExpression="null" domainClass="IncidentEntity">
           <borderedNodeMappings name="Type" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.7/@ownedTools[name='typeDelete']" semanticCandidatesExpression="feature:type" domainClass="Type">
             <style xsi:type="style:WorkspaceImageDescription" labelSize="10" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" tooltipExpression="Type" sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/icons/type.png">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -399,6 +399,12 @@
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   </style>
                 </conditionnalStyles>
+                <conditionnalStyles predicateExpression="aql:self.isAsset('ComputingDevice')">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="SmartLight" resizeKind="NSEW" workspacePath="/incident.design/res/icons64/compDevice.png">
+                    <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                    <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                  </style>
+                </conditionnalStyles>
                 <conditionnalStyles predicateExpression="aql:self.isAsset('SmartLight')">
                   <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="SmartLight" resizeKind="NSEW" workspacePath="/incident.design/res/icons48/smartLight.png">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -407,6 +413,18 @@
                 </conditionnalStyles>
                 <conditionnalStyles predicateExpression="aql:self.isAsset('BusNetwork')">
                   <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="BusNetwork" resizeKind="NSEW" roundedCorner="true" workspacePath="/incident.design/res/icons48/busNetwork.png">
+                    <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                    <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                  </style>
+                </conditionnalStyles>
+                <conditionnalStyles predicateExpression="aql:self.isAsset('building')">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="Building" sizeComputationExpression="4" resizeKind="NSEW" workspacePath="/incident.design/res/icons64/building.png">
+                    <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                    <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                  </style>
+                </conditionnalStyles>
+                <conditionnalStyles predicateExpression="aql:self.isAsset('floor')">
+                  <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null then '&lt;set name>' else self.name endif " tooltipExpression="Floor" resizeKind="NSEW" workspacePath="/incident.design/res/icons32/floor.png">
                     <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                     <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   </style>
@@ -877,169 +895,6 @@
               </initialOperation>
             </tools>
           </ownedTools>
-          <ownedTools xsi:type="tool_1:ToolGroup" name="Asset">
-            <tools xsi:type="tool_1:NodeCreationDescription" name="Asset" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='roomContainer']/@subNodeMappings[name='incidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition']" iconPath="/incident.design/res/icons/asset.png">
-              <variable name="container"/>
-              <viewVariable name="containerView"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset"/>
-                  </subModelOperations>
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
-                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
-                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:container">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql:self.containedEntities->including(instance)"/>
-                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
-                            <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="var:container"/>
-                          </subModelOperations>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsKindOf(cyberPhysical_Incident::BigraphExpression)">
-                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
-                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                          <subModelOperations xsi:type="tool:CreateInstance" typeName="Entity" referenceName="entity" variableName="entityInstance">
-                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:entityInstance">
-                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.name"/>
-                            </subModelOperations>
-                          </subModelOperations>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
-                </firstModelOperations>
-              </initialOperation>
-            </tools>
-            <tools xsi:type="tool_1:NodeCreationDescription" name="Smart Light" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='roomContainer']/@subNodeMappings[name='incidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition']" iconPath="/incident.design/res/icons/smartLight.png">
-              <variable name="container"/>
-              <viewVariable name="containerView"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="SmartLight"/>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
-                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
-                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:container">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql:self.containedEntities->including(instance)"/>
-                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
-                            <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="var:container">
-                              <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="SmartLight"/>
-                              </subModelOperations>
-                            </subModelOperations>
-                          </subModelOperations>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsKindOf(cyberPhysical_Incident::BigraphExpression)">
-                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
-                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                          <subModelOperations xsi:type="tool:CreateInstance" typeName="Entity" referenceName="entity" variableName="entityInstance">
-                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:entityInstance">
-                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.name"/>
-                            </subModelOperations>
-                          </subModelOperations>
-                        </subModelOperations>
-                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="SmartLight"/>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
-                </firstModelOperations>
-              </initialOperation>
-            </tools>
-            <tools xsi:type="tool_1:ContainerCreationDescription" name="Room" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='roomContainer'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subContainerMappings[name='roomContainerCondition']" iconPath="/incident.design/res/icons/room.png">
-              <variable name="container"/>
-              <viewVariable name="containerView"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:'Room'"/>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsKindOf(cyberPhysical_Incident::BigraphExpression)">
-                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
-                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                          <subModelOperations xsi:type="tool:CreateInstance" typeName="Entity" referenceName="entity" variableName="entityInstance">
-                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:entityInstance">
-                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.name"/>
-                            </subModelOperations>
-                          </subModelOperations>
-                        </subModelOperations>
-                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Room"/>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
-                </firstModelOperations>
-              </initialOperation>
-            </tools>
-            <tools xsi:type="tool_1:NodeCreationDescription" name="Bus Network" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='roomContainer']/@subNodeMappings[name='incidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition']" iconPath="/incident.design/res/icons/busNetwork.png">
-              <variable name="container"/>
-              <viewVariable name="containerView"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="BusNetwork"/>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
-                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
-                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:container">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql:self.containedEntities->including(instance)"/>
-                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
-                            <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="var:container">
-                              <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="BusNetwork"/>
-                              </subModelOperations>
-                            </subModelOperations>
-                          </subModelOperations>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsKindOf(cyberPhysical_Incident::BigraphExpression)">
-                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
-                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                          <subModelOperations xsi:type="tool:CreateInstance" typeName="Entity" referenceName="entity" variableName="entityInstance">
-                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:entityInstance">
-                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.name"/>
-                            </subModelOperations>
-                          </subModelOperations>
-                        </subModelOperations>
-                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="BusNetwork"/>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
-                </firstModelOperations>
-              </initialOperation>
-            </tools>
-          </ownedTools>
           <ownedTools xsi:type="tool_1:ToolGroup" name="Resource">
             <tools xsi:type="tool_1:NodeCreationDescription" name="Resource" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='roomContainer']/@subNodeMappings[name='incidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition']" iconPath="/incident.design/res/icons/resource.png">
               <variable name="container"/>
@@ -1210,7 +1065,11 @@
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
                     <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
                       <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Building"/>
+                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Building">
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('building')"/>
+                          </subModelOperations>
+                        </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
                   </subModelOperations>
@@ -1225,7 +1084,11 @@
                           </subModelOperations>
                         </subModelOperations>
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Building"/>
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Building">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('building')"/>
+                            </subModelOperations>
+                          </subModelOperations>
                         </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
@@ -1241,7 +1104,11 @@
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
                     <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
                       <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Floor"/>
+                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Floor">
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('floor')"/>
+                          </subModelOperations>
+                        </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
                   </subModelOperations>
@@ -1256,7 +1123,11 @@
                           </subModelOperations>
                         </subModelOperations>
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Floor"/>
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Floor">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('floor')"/>
+                            </subModelOperations>
+                          </subModelOperations>
                         </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
@@ -1283,7 +1154,11 @@
                           <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
                             <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Room">
                               <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                                <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql:self.containedEntities->including(instance)"/>
+                                <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql:self.containedEntities->including(instance)">
+                                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                                    <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('room')"/>
+                                  </subModelOperations>
+                                </subModelOperations>
                               </subModelOperations>
                             </subModelOperations>
                           </subModelOperations>
@@ -1302,7 +1177,11 @@
                           </subModelOperations>
                         </subModelOperations>
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Room"/>
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Room">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('room')"/>
+                            </subModelOperations>
+                          </subModelOperations>
                         </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
@@ -1320,7 +1199,11 @@
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
                     <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
                       <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="ComputingDevice"/>
+                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="ComputingDevice">
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('compDevice')"/>
+                          </subModelOperations>
+                        </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
                   </subModelOperations>
@@ -1332,7 +1215,11 @@
                           <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
                             <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="var:container">
                               <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="ComputingDevice"/>
+                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="ComputingDevice">
+                                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                                    <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('compDevice')"/>
+                                  </subModelOperations>
+                                </subModelOperations>
                               </subModelOperations>
                             </subModelOperations>
                           </subModelOperations>
@@ -1351,7 +1238,11 @@
                           </subModelOperations>
                         </subModelOperations>
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="ComputingDevice"/>
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="ComputingDevice">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('compDevice')"/>
+                            </subModelOperations>
+                          </subModelOperations>
                         </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
@@ -1367,7 +1258,11 @@
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
                     <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
                       <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="SmartLight"/>
+                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="SmartLight">
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('smartLight')"/>
+                          </subModelOperations>
+                        </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
                   </subModelOperations>
@@ -1379,7 +1274,11 @@
                           <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
                             <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="var:container">
                               <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="SmartLight"/>
+                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="SmartLight">
+                                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                                    <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('smartLight')"/>
+                                  </subModelOperations>
+                                </subModelOperations>
                               </subModelOperations>
                             </subModelOperations>
                           </subModelOperations>
@@ -1398,7 +1297,11 @@
                           </subModelOperations>
                         </subModelOperations>
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="SmartLight"/>
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="SmartLight">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('smartLight')"/>
+                            </subModelOperations>
+                          </subModelOperations>
                         </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
@@ -1414,7 +1317,11 @@
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
                     <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
                       <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="BusNetwork"/>
+                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="BusNetwork">
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('busNet')"/>
+                          </subModelOperations>
+                        </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
                   </subModelOperations>
@@ -1426,7 +1333,11 @@
                           <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
                             <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="var:container">
                               <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="BusNetwork"/>
+                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="BusNetwork">
+                                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                                    <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('busNet')"/>
+                                  </subModelOperations>
+                                </subModelOperations>
                               </subModelOperations>
                             </subModelOperations>
                           </subModelOperations>
@@ -1445,7 +1356,11 @@
                           </subModelOperations>
                         </subModelOperations>
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="BusNetwork"/>
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="BusNetwork">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('busNet')"/>
+                            </subModelOperations>
+                          </subModelOperations>
                         </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
@@ -1499,7 +1414,11 @@
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
                     <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
                       <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="DigitalAsset"/>
+                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="DigitalAsset">
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('digitalAsset')"/>
+                          </subModelOperations>
+                        </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
                   </subModelOperations>
@@ -1511,7 +1430,11 @@
                           <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
                             <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="var:container">
                               <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="DigitalAsset"/>
+                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="DigitalAsset">
+                                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                                    <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('digitalAsset')"/>
+                                  </subModelOperations>
+                                </subModelOperations>
                               </subModelOperations>
                             </subModelOperations>
                           </subModelOperations>
@@ -1530,7 +1453,11 @@
                           </subModelOperations>
                         </subModelOperations>
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="DigitalAsset"/>
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="DigitalAsset">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('digitalAsset')"/>
+                            </subModelOperations>
+                          </subModelOperations>
                         </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
@@ -1546,7 +1473,11 @@
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
                     <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
                       <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="PhysicalAsset"/>
+                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="PhysicalAsset">
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('physAsset')"/>
+                          </subModelOperations>
+                        </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
                   </subModelOperations>
@@ -1558,7 +1489,11 @@
                           <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
                             <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="var:container">
                               <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="PhysicalAsset"/>
+                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="PhysicalAsset">
+                                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                                    <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('physAsset')"/>
+                                  </subModelOperations>
+                                </subModelOperations>
                               </subModelOperations>
                             </subModelOperations>
                           </subModelOperations>
@@ -1577,7 +1512,11 @@
                           </subModelOperations>
                         </subModelOperations>
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="PhysicalAsset"/>
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="PhysicalAsset">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('physAsset')"/>
+                            </subModelOperations>
+                          </subModelOperations>
                         </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
