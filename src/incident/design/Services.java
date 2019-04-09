@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.media.j3d.Link;
+
 import java.util.Random;
 import java.util.Set;
 
@@ -26,6 +29,7 @@ import cyberPhysical_Incident.Entity;
 import cyberPhysical_Incident.Goal;
 import cyberPhysical_Incident.IncidentDiagram;
 import cyberPhysical_Incident.IncidentEntity;
+import cyberPhysical_Incident.Location;
 import cyberPhysical_Incident.Postcondition;
 import cyberPhysical_Incident.Precondition;
 import cyberPhysical_Incident.Property;
@@ -295,7 +299,70 @@ public class Services {
 		return tmp;
 	}
 
-	public IncidentEntity updateParentNewEdge(EObject self, IncidentEntity src, IncidentEntity des) {
+	/**
+	 * Hides all the incident entities if they or their parents have one of the given types.
+	 * @param self
+	 * @param list
+	 * @param types
+	 * @return
+	 */
+	public Collection<IncidentEntity> hideIncidentEntitiesWithType(EObject self, Collection<IncidentEntity> list,
+			Collection<String> types) {
+
+		System.out.println(types);
+		List<IncidentEntity> tmp = new LinkedList<IncidentEntity>();
+		List<IncidentEntity> entitiesIgnored = new LinkedList<IncidentEntity>();
+
+		loop_entities: for (IncidentEntity entity : list) {
+
+			// ignore if entity is not asset
+			if (!(entity.getClass().getName().equalsIgnoreCase(IncidentEntityImpl.class.getName()))) {
+				continue;
+			}
+
+			String entTypeName = entity.getType() != null ? entity.getType().getName() : null;
+
+			// if the entity type is the same as the given type then move to
+			// next (ignore)
+			if ((entTypeName != null && types.contains(entTypeName))) {
+				entitiesIgnored.add(entity);
+				continue;
+			}
+
+			IncidentEntity parent = (IncidentEntity) entity.getParentEntity();
+			int length = 10000;
+
+			while (parent != null && length > 0) {
+
+				// if the parent already has been ignored then move on to next
+				// parent
+				if (entitiesIgnored.contains(parent)) {
+					continue loop_entities;
+				}
+
+				String entParentTypeName = (parent.getType() != null) ? parent.getType().getName() : null;
+
+				// if the parent has the same type as the given type then move
+				// on to next parent
+				if (entParentTypeName != null && types.contains(entParentTypeName)) {
+					entitiesIgnored.add(parent);
+					continue loop_entities;
+				}
+
+				parent = (IncidentEntity) parent.getParentEntity();
+
+				length--;
+
+			}
+
+			tmp.add(entity);
+
+		}
+
+		return tmp;
+	}
+
+	public void updateParentNewEdge(EObject self, IncidentEntity src, IncidentEntity des) {
 
 		// src is the source entity from which edge starts (parent)
 		// des is the destination of the edge i.e. the other end (child)
@@ -322,9 +389,14 @@ public class Services {
 			}
 		}
 
-		return null;
 	}
 
+	/**
+	 * Returns all contained entities in the given self (as incident entity)
+	 * @param self
+	 * @param containedEntities
+	 * @return
+	 */
 	public List<IncidentEntity> getAllcontainedEntities(EObject self, List<IncidentEntity> containedEntities) {
 
 		List<IncidentEntity> allContained = new LinkedList<IncidentEntity>();
@@ -855,28 +927,22 @@ public class Services {
 
 	public void updateConditionEntityNames(EObject self, String oldName, String newName) {
 
-		int length = 1000;
-
 		if (self instanceof IncidentEntity) {
 			IncidentEntity en = (IncidentEntity) self;
 			en.setName(newName);
 		}
 
-		while (!(self instanceof IncidentDiagram) && length > 0) {
-			self = self.eContainer();
-			length--;
-		}
 
-		if (self instanceof IncidentDiagram) {
+		IncidentDiagram incident = getIncidentDiagram(self);
 
-			IncidentDiagram incident = (IncidentDiagram) self;
-
+		if (incident != null) {
+			
 			// for each scene
 			for (Scene scene : incident.getScene()) {
-
+				
 				// for each activity
 				for (Activity act : scene.getActivity()) {
-
+				
 					// check precondition
 					BigraphExpression preExp = (BigraphExpression) act.getPrecondition().getExpression();
 					List<Entity> entities = preExp != null ? preExp.getEntity() : null;
@@ -884,6 +950,7 @@ public class Services {
 					if (preExp != null && entities != null) {
 						for (Entity ent : entities) {
 
+							
 							// if same name entity found replace and move to
 							// next entity (no need to check sub-entities as
 							// entity can't contain itself
@@ -907,11 +974,12 @@ public class Services {
 
 					// check postcondition
 					BigraphExpression postExp = (BigraphExpression) act.getPostcondition().getExpression();
-					List<Entity> postEntities = preExp != null ? postExp.getEntity() : null;
+					List<Entity> postEntities = postExp != null ? postExp.getEntity() : null;
 
 					if (postExp != null && postEntities != null) {
-						for (Entity ent : postEntities) {
 
+						for (Entity ent : postEntities) {
+							
 							// if same name entity found replace and move to
 							// next entity (no need to check sub-entities as
 							// entity can't contain itself
@@ -936,10 +1004,6 @@ public class Services {
 			}
 		} else {
 			System.out.println("incident NOT found ");
-		}
-
-		if (length == 0) {
-			System.out.println("Length reached 0");
 		}
 
 	}
@@ -1249,7 +1313,30 @@ public class Services {
 
 		return entities;
 	}
+	
+	/**
+	 * Returns all available incident entities objects in the given room (self)
+	 * 
+	 * @param self
+	 *            could be any element in the diagram
+	 * @return
+	 */
+	public List<Location> getContainedIncidentEntities(EObject self) {
 
+//		List<IncidentEntity> entities = new LinkedList<IncidentEntity>();
+
+		// find root element (incident diagram)
+
+		if(!(self instanceof Asset)) {
+			return null;
+		}
+		
+		Asset ast = (Asset) self;
+
+		return ast.getContainedEntities();
+
+	}
+	
 	/**
 	 * Returns all available incident asset objects in the incident diagram
 	 * 
