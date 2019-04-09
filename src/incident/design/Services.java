@@ -2,11 +2,13 @@ package incident.design;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
-
-import javax.media.j3d.Link;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -46,8 +48,9 @@ public class Services {
 
 	SystemInstanceHandler sysHandler = new SystemInstanceHandler();
 
-	List<Type> systemAssetTypes;
-	List<Type> systemConnectionTypes;
+	// a map of the types in which the
+	Map<Type, List<Type>> systemAssetTypes;
+	Map<Type, List<Type>> systemConnectionTypes;
 
 	Tokenizer brsTokenizer;
 
@@ -1279,15 +1282,15 @@ public class Services {
 		// add all assets
 		entities.addAll(incident.getAsset());
 		// add all actors
-//		entities.addAll(incident.getActor());
-//		// add all resources
-//		entities.addAll(incident.getResource());
-//		// add all other incident entities
-//		entities.addAll(incident.getIncidentEntity());
+		// entities.addAll(incident.getActor());
+		// // add all resources
+		// entities.addAll(incident.getResource());
+		// // add all other incident entities
+		// entities.addAll(incident.getIncidentEntity());
 
 		return entities;
 	}
-	
+
 	/**
 	 * Returns all available incident resources objects in the incident diagram
 	 * 
@@ -1318,73 +1321,75 @@ public class Services {
 		IncidentDiagram incident = (IncidentDiagram) container;
 
 		// add all assets
-//		entities.addAll(incident.getAsset());
+		// entities.addAll(incident.getAsset());
 		// add all actors
-//		entities.addAll(incident.getActor());
-//		// add all resources
+		// entities.addAll(incident.getActor());
+		// // add all resources
 		entities.addAll(incident.getResource());
-//		// add all other incident entities
-//		entities.addAll(incident.getIncidentEntity());
+		// // add all other incident entities
+		// entities.addAll(incident.getIncidentEntity());
 
 		return entities;
 	}
-	
+
 	/**
 	 * Sets the target asset of the given activity (self) to the newTarget
+	 * 
 	 * @param self
 	 * @param newTarget
 	 */
 	public void setTargetAsset(EObject self, EObject newTarget) {
-		
-		if(!(self instanceof Activity)) {
+
+		if (!(self instanceof Activity)) {
 			System.err.println("Self should be an activity");
 			return;
 		}
-		
-		if(!(newTarget instanceof Asset) && newTarget != null) {
+
+		if (!(newTarget instanceof Asset) && newTarget != null) {
 			System.err.println("Self should be an Asset");
 			return;
 		}
-		
+
 		Activity act = (Activity) self;
-		
+
 		Asset ast = (Asset) newTarget;
-		
-		//clear the targeted assets
+
+		// clear the targeted assets
 		act.getTargetedAssets().clear();
-		
-		//add the new target asset
+
+		// add the new target asset
 		act.getTargetedAssets().add(ast);
 	}
-	
+
 	/**
 	 * Sets the resource of the given activity (self) to the newResource
+	 * 
 	 * @param self
 	 * @param newTarget
 	 */
 	public void setUsedResource(EObject self, EObject newResource) {
-		
-		if(!(self instanceof Activity)) {
+
+		if (!(self instanceof Activity)) {
 			System.err.println("Self should be an activity");
 			return;
 		}
-		
-		if(!(newResource instanceof Resource) && newResource != null) {
+
+		if (!(newResource instanceof Resource) && newResource != null) {
 			System.err.println("Self should be a Resource");
 			return;
 		}
-		
+
 		Activity act = (Activity) self;
-		
+
 		Resource res = (Resource) newResource;
-		
-		//clear the resources
+
+		// clear the resources
 		act.getResources().clear();
-		
-		//add the new resource
+
+		// add the new resource
 		act.getResources().add(res);
 	}
-	
+
 	/**
 	 * Returns all connection objects defined in the incident diagram
 	 * 
@@ -1431,108 +1436,110 @@ public class Services {
 
 	/**
 	 * create a Goal then add it to self (crime script)
+	 * 
 	 * @param self
 	 */
 	public void addGoal(EObject self) {
-		
-		//self should be crime script
-		if(!(self instanceof CrimeScript)) {
+
+		// self should be crime script
+		if (!(self instanceof CrimeScript)) {
 			System.err.println("Self is not a CrimeScript");
 			return;
 		}
-		
-		CrimeScript script = (CrimeScript)self;
-		
+
+		CrimeScript script = (CrimeScript) self;
+
 		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
-		
-		//create a goal
+
+		// create a goal
 		Goal newGoal = instance.createGoal();
-		
-		//add goal to incident
+
+		// add goal to incident
 		IncidentDiagram incident = getIncidentDiagram(self);
-		
-		if(incident != null) {
-			
-			//add to incident
+
+		if (incident != null) {
+
+			// add to incident
 			incident.getGoal().add(newGoal);
-			
-			//add to crime script
+
+			// add to crime script
 			script.getGoals().add(newGoal);
-			
+
 		}
 
 	}
-	
+
 	/**
 	 * add an existing Goal to self (Activity)
+	 * 
 	 * @param self
 	 */
 	public void addGoalToActivity(EObject self, EObject newGoal) {
-		
-		//self should be activity 
-		if(!(self instanceof Activity)) {
+
+		// self should be activity
+		if (!(self instanceof Activity)) {
 			System.err.println("Self is not an Activity");
 			return;
 		}
-		
-		//self should be Goal
-		if(!(newGoal instanceof Goal)) {
+
+		// self should be Goal
+		if (!(newGoal instanceof Goal)) {
 			System.err.println("Self is not a Goal");
 			return;
 		}
-		Activity act = (Activity)self;
-		Goal goal = (Goal)newGoal;
-		
-		//add goal to activity
+		Activity act = (Activity) self;
+		Goal goal = (Goal) newGoal;
+
+		// add goal to activity
 		act.getGoals().add(goal);
 
 	}
-	
-	
+
 	/**
 	 * add an existing Goal to self (Activity)
+	 * 
 	 * @param self
 	 */
 	public void removeGoalFromActivity(EObject self, EObject goal) {
-		
-		//self should be activity 
-		if(!(self instanceof Activity)) {
+
+		// self should be activity
+		if (!(self instanceof Activity)) {
 			System.err.println("Self is not an Activity");
 			return;
 		}
-		
-		//self should be Goal
-		if(!(goal instanceof Goal)) {
+
+		// self should be Goal
+		if (!(goal instanceof Goal)) {
 			System.err.println("Self is not a Goal");
 			return;
 		}
-		Activity act = (Activity)self;
-		Goal gl = (Goal)goal;
-		
-		//add goal to activity
+		Activity act = (Activity) self;
+		Goal gl = (Goal) goal;
+
+		// add goal to activity
 		act.getGoals().remove(gl);
 
 	}
-	
+
 	/**
 	 * return goals of the incident
+	 * 
 	 * @param self
 	 */
 	public List<Goal> getGoals(EObject self) {
-		
-		
-		//get incident
+
+		// get incident
 		IncidentDiagram incident = getIncidentDiagram(self);
-		
-		if(incident != null) {
-			
+
+		if (incident != null) {
+
 			return incident.getGoal();
 		}
-		
+
 		return null;
-		
+
 	}
-	
+
 	/**
 	 * checks if the given scene (self) activities are in sequence
 	 * 
@@ -1666,237 +1673,241 @@ public class Services {
 		Scene next = !initialScene.getNextScenes().isEmpty() ? initialScene.getNextScenes().get(0) : null;
 		int length = 1;
 
-		//while next scene is not null or not equal to the given scene
+		// while next scene is not null or not equal to the given scene
 		while (next != null && !next.equals(scene)) {
 
 			next = !next.getNextScenes().isEmpty() ? next.getNextScenes().get(0) : null;
-			
+
 			length++;
 		}
-		
-		//if the length is the same as the number of scenes then the given scene is the last scene
-		if(length == numberOfScenes-1) {
+
+		// if the length is the same as the number of scenes then the given
+		// scene is the last scene
+		if (length == numberOfScenes - 1) {
 			return true;
 		}
-		
+
 		return false;
 
 	}
-	
+
 	public void deleteActivity(EObject self) {
-		
-		//deletes the given activity from the set of activities in the scene
-		
-		if(!(self instanceof Activity)) {
+
+		// deletes the given activity from the set of activities in the scene
+
+		if (!(self instanceof Activity)) {
 			return;
 		}
-		
+
 		Activity activity = (Activity) self;
-		Scene scene = (Scene)self.eContainer();
-		
+		Scene scene = (Scene) self.eContainer();
+
 		scene.getActivity().remove(activity);
 	}
 
 	/**
-	 * Deletes the child relation between the self (parent) and the target (child)
+	 * Deletes the child relation between the self (parent) and the target
+	 * (child)
+	 * 
 	 * @param self
 	 * @param target
 	 */
 	public void deleteChildRelation(EObject self, EObject target) {
-		
-		//self is parent as incident entity and target is the child
-		if(!(self instanceof IncidentEntity)) {
+
+		// self is parent as incident entity and target is the child
+		if (!(self instanceof IncidentEntity)) {
 			return;
 		}
-		
-		if(!(target instanceof IncidentEntity)) {
+
+		if (!(target instanceof IncidentEntity)) {
 			System.err.println("Target is not an incident entity");
 			return;
 		}
-		
-		
+
 		IncidentEntity parent = (IncidentEntity) self;
 		IncidentEntity child = (IncidentEntity) target;
-//		
-		//remove child from contained entities of the parent
+		//
+		// remove child from contained entities of the parent
 		parent.getContainedEntities().remove(child);
-		
-		//set parent of child as null
+
+		// set parent of child as null
 		child.setParentEntity(null);
 	}
-	
+
 	/**
-	 * Deletes the child relation between the self (parent) and the target (child) in the condition
+	 * Deletes the child relation between the self (parent) and the target
+	 * (child) in the condition
+	 * 
 	 * @param self
 	 * @param target
 	 */
 	public void deleteEntityChildRelation(EObject self, EObject target) {
-		
-		//self is parent as incident entity and target is the child
-		if(!(self instanceof Entity)) {
+
+		// self is parent as incident entity and target is the child
+		if (!(self instanceof Entity)) {
 			System.err.println("self is not an entity");
 			return;
 		}
-		
-		if(!(target instanceof Entity)) {
+
+		if (!(target instanceof Entity)) {
 			System.err.println("Target is not an entity");
 			return;
 		}
-		
-		
+
 		Entity parent = (Entity) self;
 		Entity child = (Entity) target;
-//		
-		//remove child from contained entities of the parent
+		//
+		// remove child from contained entities of the parent
 		parent.getEntity().remove(child);
-		
-		//add child as a root to the condition
-		
+
+		// add child as a root to the condition
+
 		EObject container = self.eContainer();
-		
+
 		int length = 10000;
-		
-		while(!(container instanceof BigraphExpression) && length>0) {
+
+		while (!(container instanceof BigraphExpression) && length > 0) {
 			container = container.eContainer();
 			length--;
 		}
-		
-		if(container instanceof BigraphExpression) {
+
+		if (container instanceof BigraphExpression) {
 			BigraphExpression exp = (BigraphExpression) container;
-			
+
 			exp.getEntity().add(child);
 		}
-		
+
 	}
-	
+
 	/**
-	 * Deletes the child relation between the self (parent) and the target (child) in the condition
+	 * Deletes the child relation between the self (parent) and the target
+	 * (child) in the condition
+	 * 
 	 * @param self
 	 * @param target
 	 */
 	public void deleteEntity(EObject self) {
-		
-		//self is parent as incident entity and target is the child
-		if(!(self instanceof Entity)) {
+
+		// self is parent as incident entity and target is the child
+		if (!(self instanceof Entity)) {
 			System.err.println("self is not an entity");
 			return;
 		}
-		
-		
+
 		Entity entity = (Entity) self;
 		List<Entity> children = entity.getEntity();
-		
-		boolean isRoot = false; //used to indicate if the entity is root
-		
-		//add child as a root to the condition
-		
+
+		boolean isRoot = false; // used to indicate if the entity is root
+
+		// add child as a root to the condition
+
 		EObject container = self.eContainer();
-		
+
 		int length = 10000;
-		
-		while(!(container instanceof BigraphExpression) && length>0) {
+
+		while (!(container instanceof BigraphExpression) && length > 0) {
 			container = container.eContainer();
 			length--;
 		}
-		
-		
-		if(container instanceof BigraphExpression) {
+
+		if (container instanceof BigraphExpression) {
 			BigraphExpression exp = (BigraphExpression) container;
-			
-			//add all children of the entity as root entities
-			if(children != null && !children.isEmpty()) { 
-			exp.getEntity().addAll(children);
+
+			// add all children of the entity as root entities
+			if (children != null && !children.isEmpty()) {
+				exp.getEntity().addAll(children);
 			}
-			
-			//remove entity
-			
-			//find the parent
-			
-			//first look if the entity is a root entity
-			for(Entity ent:  exp.getEntity()) {
-				if(ent.equals(entity)) {
+
+			// remove entity
+
+			// find the parent
+
+			// first look if the entity is a root entity
+			for (Entity ent : exp.getEntity()) {
+				if (ent.equals(entity)) {
 					isRoot = true;
 					break;
 				}
 			}
-			
-			if(isRoot) {
+
+			if (isRoot) {
 				exp.getEntity().remove(entity);
-			} else { //if entity is not root then find it in the other entities
-				
+			} else { // if entity is not root then find it in the other entities
+
 				List<Entity> allEntities = getAllConditionEntity(self, exp.getEntity());
 				Entity parent = null;
-				
-				//check contained entities of each entity
-				for(Entity ent : allEntities) {
-					
-					//if entity is found then set isChild to true
-					if(ent.getEntity().contains(entity)) {
+
+				// check contained entities of each entity
+				for (Entity ent : allEntities) {
+
+					// if entity is found then set isChild to true
+					if (ent.getEntity().contains(entity)) {
 						parent = ent;
 						break;
 					}
 				}
-				
-				//if parent found then remove entity from it
-				if(parent != null) {
+
+				// if parent found then remove entity from it
+				if (parent != null) {
 					parent.getEntity().remove(entity);
 				}
-				
+
 			}
-			
+
 			String parentName = exp.getContainer(entity.getName());
-			
+
 			System.out.println(parentName);
-			
+
 			Entity parent = exp.getEntity(parentName);
-			
-			if(parent != null) {
+
+			if (parent != null) {
 				parent.getEntity().remove(entity);
-			} else { //the entity might be root i.e. should be deleted from the expression
-				
-				for(Entity ent:  exp.getEntity()) {
-					if(ent.equals(entity)) {
+			} else { // the entity might be root i.e. should be deleted from the
+						// expression
+
+				for (Entity ent : exp.getEntity()) {
+					if (ent.equals(entity)) {
 						isRoot = true;
 						break;
 					}
 				}
-				
-				if(isRoot) {
+
+				if (isRoot) {
 					exp.getEntity().remove(entity);
 				}
-				
+
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	/**
 	 * Deletes the next activity relation of the self
+	 * 
 	 * @param self
 	 * @param target
 	 */
 	public void deleteNextActivityRelation(EObject self) {
-		
-		//self is parent as incident entity and target is the child
-		if(!(self instanceof Activity)) {
+
+		// self is parent as incident entity and target is the child
+		if (!(self instanceof Activity)) {
 			System.err.println("self is not an Activity");
 			return;
 		}
-		
-		
-		Activity next = (Activity) self; //the next activity
+
+		Activity next = (Activity) self; // the next activity
 		Activity act = (Activity) next.getPreviousActivities().get(0);
-//		
+		//
 		System.out.println(act.getName() + " " + next.getName());
-		//clear next activities for act
+		// clear next activities for act
 		act.getNextActivities().clear();
-		
-		//clear previous activities for next
+
+		// clear previous activities for next
 		next.getPreviousActivities().clear();
-		
+
 	}
-	
+
 	/**
 	 * checks if the given incident diagram (self) scenes are in sequence
 	 * 
@@ -2029,7 +2040,7 @@ public class Services {
 
 	}
 
-	public List<Type> getSystemTypes(EObject self) {
+	public Collection<Type> getSystemTypes(EObject self) {
 
 		// if the selected entity is an incident entity, then return all system
 		// classes that are subclasses of Asset
@@ -2052,15 +2063,15 @@ public class Services {
 	 * @param self
 	 * @return
 	 */
-	public List<Type> getSystemAssetTypes(EObject self) {
+	public Collection<Type> getSystemAssetTypes(EObject self) {
 
 		// an implementation could use the system handler instance to do this
 
 		if (systemAssetTypes != null && !systemAssetTypes.isEmpty()) {
-			return systemAssetTypes;
+			return systemAssetTypes.keySet();
 		}
 
-		systemAssetTypes = new LinkedList<Type>();
+		systemAssetTypes = new HashMap<Type, List<Type>>();
 
 		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
 
@@ -2092,18 +2103,41 @@ public class Services {
 				String fullClassName = "environment.impl." + className + "Impl";
 
 				Class potentialClass;
+				int numOfLevels = 100; // determines how many superclasses to
+										// add
 
 				try {
-					potentialClass = Class.forName(fullClassName);
 
+					potentialClass = Class.forName(fullClassName);
 					// class is not of type asset
 					if (!(environment.Asset.class.isAssignableFrom(potentialClass))) {
 						continue;
 					}
+
+					// get superclasses
+					List<Type> classHierarchy = new LinkedList<Type>();
+					int cnt = 0;
+
+					do { // loop over superclasses
+
+						Type tmp = instance.createType();
+						tmp.setName(potentialClass.getSimpleName().replace("Impl", ""));
+						classHierarchy.add(tmp);
+						potentialClass = potentialClass.getSuperclass();
+						cnt++;
+					} while (potentialClass != null && !potentialClass.getSimpleName().equals("Container")
+							&& cnt < numOfLevels);
+
+					// create new type and add its subclasses
+					Type type = instance.createType();
+					type.setName(className);
+
+					// add new entry to the map
+					systemAssetTypes.put(type, classHierarchy);
+
 					// create e type based on class name
-					Type tmp = instance.createType();
-					tmp.setName(className);
-					systemAssetTypes.add(tmp);
+
+					// systemAssetTypes.add(classntmp);
 
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -2114,7 +2148,7 @@ public class Services {
 
 		}
 
-		return systemAssetTypes;
+		return systemAssetTypes.keySet();
 	}
 
 	/**
@@ -2123,15 +2157,15 @@ public class Services {
 	 * @param self
 	 * @return
 	 */
-	public List<Type> getSystemConnectionTypes(EObject self) {
+	public Collection<Type> getSystemConnectionTypes(EObject self) {
 
 		// an implementation could use the system handler instance to do this
 
 		if (systemConnectionTypes != null && !systemConnectionTypes.isEmpty()) {
-			return systemConnectionTypes;
+			return systemConnectionTypes.keySet();
 		}
 
-		systemConnectionTypes = new LinkedList<Type>();
+		systemConnectionTypes = new HashMap<Type, List<Type>>();
 
 		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
 
@@ -2163,6 +2197,7 @@ public class Services {
 				String fullClassName = "environment.impl." + className + "Impl";
 
 				Class potentialClass;
+				int numOfLevels = 100;
 
 				try {
 					potentialClass = Class.forName(fullClassName);
@@ -2172,10 +2207,26 @@ public class Services {
 						continue;
 					}
 
-					// create e type based on class name
-					Type tmp = instance.createType();
-					tmp.setName(className);
-					systemConnectionTypes.add(tmp);
+					// get superclasses
+					List<Type> classHierarchy = new LinkedList<Type>();
+					int cnt = 0;
+
+					do { // loop over superclasses
+
+						Type tmp = instance.createType();
+						tmp.setName(potentialClass.getSimpleName().replace("Impl", ""));
+						classHierarchy.add(tmp);
+						potentialClass = potentialClass.getSuperclass();
+						cnt++;
+					} while (potentialClass != null && !potentialClass.getSimpleName().equals("Container")
+							&& cnt < numOfLevels);
+
+					// create new type and add its subclasses
+					Type type = instance.createType();
+					type.setName(className);
+
+					// add new entry to the map
+					systemConnectionTypes.put(type, classHierarchy);
 
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -2186,7 +2237,7 @@ public class Services {
 
 		}
 
-		return systemConnectionTypes;
+		return systemConnectionTypes.keySet();
 	}
 
 	/******************************
@@ -2894,4 +2945,140 @@ public class Services {
 		return conditions;
 	}
 
+	/**********************
+	 * VALIDATIONS **************************************************
+	 * ***********************************************************************************
+	 * ***********************************************************************************
+	 * ***********************************************************************************
+	 * ***********************************************************************************
+	 * ***********************************************************************************
+	 * ***********************************************************************************
+	 */
+
+	/**
+	 * Checks that the self (Incident entity) parent is not an Actor (as Class and as Type)
+	 * @param self
+	 * @param parent
+	 * @return
+	 */
+	public boolean checkParentIsNotSuperSupOfActor(EObject self) {
+		
+		if(!(self instanceof IncidentEntity)) {
+//			System.err.println("Self should be an actor");
+			return true;
+		}
+		
+		IncidentEntity entity = (IncidentEntity)self; 
+		IncidentEntity actor = (IncidentEntity)entity.getParentEntity();
+		
+//		if(!(actor instanceof Actor)) {
+////			System.err.println("Self should be an actor");
+//			return true;
+//		}
+		
+		//check that the parent is not an actor
+//		if((entity instanceof Actor)) {
+//			return false;
+//		}
+		
+		//if the parent is null then return true
+		if(actor == null) {
+			return true;	
+		}
+		
+		Type entityType = entity.getType();
+		Type actorType = actor.getType();
+//		String type = null;
+		
+		//this checks that the type of the entity is not the same or superclass of the parent and the other way around
+		
+		if(actorType == null || entityType == null) {
+			return true;
+		}
+		
+		//create class for each type
+		String entityTypeName = entityType.getName();
+		String actorTypeName = actorType.getName();
+		
+		String entityClassName = "environment.impl." + entityTypeName + "Impl";
+		String actorClassName = "environment.impl." + actorTypeName + "Impl";
+		
+		try {
+			
+			Class entityClass = Class.forName(entityClassName);
+			Class actorClass = Class.forName(actorClassName);
+//			
+//			
+//			//check that the entity class is a subclass/superclass of the parent. If so then return false
+			if(entityClass.isAssignableFrom(actorClass) || actorClass.isAssignableFrom(entityClass)) {
+				return false;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+		}
+
+		return true;
+		
+	}
+	
+	/**
+	 * Checks that the type of the entity and the type of its parent do not produce conflict by having a digital containing a physical
+	 * @return
+	 */
+	public boolean isDigitalContainsPhysical(EObject self) {
+		
+		if(!(self instanceof IncidentEntity)) {
+//			System.err.println("Self should be an actor");
+			return true;
+		}
+		
+		IncidentEntity entity = (IncidentEntity)self; 
+		IncidentEntity parent = (IncidentEntity)entity.getParentEntity();
+		
+		//if parent is null then its valid
+		if(parent == null) {
+			return true;
+		}
+		
+		Type entityType = entity.getType();
+		Type parentType = parent.getType();
+//		String type = null;
+		
+		//this checks that the type of the entity is not the same or superclass of the parent and the other way around
+		
+		if(parentType == null || entityType == null) {
+			return true;
+		}
+		
+		//create class for each type
+		String entityTypeName = entityType.getName();
+		String actorTypeName = parentType.getName();
+		
+		String entityClassName = "environment.impl." + entityTypeName + "Impl";
+		String actorClassName = "environment.impl." + actorTypeName + "Impl";
+		
+		try {
+			
+			Class entityClass = Class.forName(entityClassName);
+			Class parentClass = Class.forName(actorClassName);
+//			
+//			
+//			//check that if the entity class is physical then the parent should be also physical
+			if(environment.PhysicalAsset.class.isAssignableFrom(entityClass)) {
+
+				//check the parent to be physical
+				if(!environment.PhysicalAsset.class.isAssignableFrom(parentClass) ) {
+					return false;
+				}
+			} 
+			
+		}catch (Exception e) {
+				// TODO Auto-generated catch block
+//				e.printStackTrace();
+			}
+			
+		return true;
+	}
 }

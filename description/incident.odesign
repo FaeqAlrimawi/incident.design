@@ -80,6 +80,15 @@
         <ownedRules xsi:type="validation:SemanticValidationRule" name="intentNotDefined" level="WARNING" message="Motive(s) are not defined in crime script" targetClass="CrimeScript">
           <audits auditExpression="aql: self.motive &lt;> null and self.motive->notEmpty()"/>
         </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="parentActorNotActor" level="WARNING" message="aql: 'Actor parent is set to be another Actor [' + self.parentEntity.oclAsType(cyberPhysical_Incident::IncidentEntity).name+']'" targetClass="Actor">
+          <audits auditExpression="aql: self.checkParentIsNotSuperSupOfActor()"/>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="connectionEdgeMissing" level="WARNING" message="Connection is missing end(s)" targetClass="Connection">
+          <audits auditExpression="aql: self.entity1 &lt;> null and self.entity2 &lt;> null"/>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="digitalParentForPhysical" level="ERROR" message="A digital entity cannot be the container of a physical entity" targetClass="IncidentEntity">
+          <audits auditExpression="aql:self.isDigitalContainsPhysical()"/>
+        </ownedRules>
       </validationSet>
       <defaultLayer name="Default">
         <nodeMappings name="incidentEntity" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.4/@ownedTools[name='editIncidentEntitiesName']" semanticCandidatesExpression="aql:self.hideEntitiesWithType(self.getAllIncidentEntities(), 'room')" doubleClickDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.10/@ownedTools[name='doubleClickIncidentEntity']" domainClass="IncidentEntity">
@@ -159,31 +168,18 @@
         </nodeMappings>
         <nodeMappings name="Connection" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.4/@ownedTools[name='editName']" semanticCandidatesExpression="feature:connection" domainClass="Connection">
           <borderedNodeMappings name="Type" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.6/@ownedTools[name='typeDelete']" semanticCandidatesExpression="feature:type" domainClass="Type">
-            <style xsi:type="style:DotDescription" labelSize="10" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" sizeComputationExpression="1" strokeSizeComputationExpression="1">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="10" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Type>' else self.name endif" tooltipExpression="Type" sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/incident.design/res/icons/type.png">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_purple']"/>
               <forbiddenSides>WEST</forbiddenSides>
               <forbiddenSides>EAST</forbiddenSides>
               <forbiddenSides>NORTH</forbiddenSides>
-              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
             </style>
           </borderedNodeMappings>
-          <style xsi:type="style:WorkspaceImageDescription" labelSize="10" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" sizeComputationExpression="4" resizeKind="NSEW" workspacePath="/incident.design/res/connection_notConnected.png">
+          <style xsi:type="style:WorkspaceImageDescription" labelSize="10" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Connection" sizeComputationExpression="5" resizeKind="NSEW" workspacePath="/incident.design/res/icons48/connection.png">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
-          <conditionnalStyles predicateExpression="aql: (self.entity1 = null and self.entity2 &lt;> null) or (self.entity1 &lt;> null and self.entity2 = null)">
-            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" sizeComputationExpression="4" resizeKind="NSEW" workspacePath="/incident.design/res/connection_oneSide.png">
-              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            </style>
-          </conditionnalStyles>
-          <conditionnalStyles predicateExpression="aql: self.entity1 &lt;> null and self.entity2 &lt;> null">
-            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" sizeComputationExpression="4" resizeKind="NSEW" workspacePath="/incident.design/res/connection.png">
-              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            </style>
-          </conditionnalStyles>
         </nodeMappings>
         <edgeMappings name="connectionEdge" sourceMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='Connection']" targetMapping="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer']/@subNodeMappings[name='roomIncidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='roomContainer'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity']" targetFinderExpression="aql: OrderedSet{self.entity1, self.entity2}">
           <style lineStyle="dash" targetArrow="NoDecoration">
