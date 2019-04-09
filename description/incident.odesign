@@ -659,7 +659,7 @@
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Asset) and self.type.name.equalsIgnoreCase('smartlight')">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" sizeComputationExpression="5" resizeKind="NSEW" roundedCorner="true" workspacePath="/incident.design/res/icons128/smartLight.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="SmartLight" sizeComputationExpression="6" resizeKind="NSEW" roundedCorner="true" workspacePath="/incident.design/res/icons128/smartLight.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
@@ -1046,6 +1046,19 @@
                           <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:entityInstance">
                             <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.name"/>
                           </subModelOperations>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
+                </subModelOperations>
+                <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
+                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
+                    <subModelOperations xsi:type="tool:CreateInstance" typeName="IncidentEntity" referenceName="incidentEntity">
+                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:container">
+                        <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql:self.containedEntities->including(instance)"/>
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
+                          <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="var:container"/>
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type"/>
                         </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
