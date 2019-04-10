@@ -252,10 +252,12 @@ public class Services {
 
 		loop_entities: for (IncidentEntity entity : list) {
 
-//			// ignore if entity is not asset
-//			if (!(entity.getClass().getName().equalsIgnoreCase(IncidentEntityImpl.class.getName()))) {
-//				continue;
-//			}
+			// // ignore if entity is not asset
+			// if
+			// (!(entity.getClass().getName().equalsIgnoreCase(IncidentEntityImpl.class.getName())))
+			// {
+			// continue;
+			// }
 
 			String entTypeName = entity.getType() != null ? entity.getType().getName() : null;
 
@@ -300,7 +302,9 @@ public class Services {
 	}
 
 	/**
-	 * Hides all the incident entities if they or their parents have one of the given types.
+	 * Hides all the incident entities if they or their parents have one of the
+	 * given types.
+	 * 
 	 * @param self
 	 * @param list
 	 * @param types
@@ -313,11 +317,13 @@ public class Services {
 		List<IncidentEntity> entitiesIgnored = new LinkedList<IncidentEntity>();
 
 		loop_entities: for (IncidentEntity entity : list) {
-//
-//			// ignore if entity is not asset
-//			if (!(entity.getClass().getName().equalsIgnoreCase(IncidentEntityImpl.class.getName()))) {
-//				continue;
-//			}
+			//
+			// // ignore if entity is not asset
+			// if
+			// (!(entity.getClass().getName().equalsIgnoreCase(IncidentEntityImpl.class.getName())))
+			// {
+			// continue;
+			// }
 
 			String entTypeName = entity.getType() != null ? entity.getType().getName() : null;
 
@@ -392,6 +398,7 @@ public class Services {
 
 	/**
 	 * Returns all contained entities in the given self (as incident entity)
+	 * 
 	 * @param self
 	 * @param containedEntities
 	 * @return
@@ -760,7 +767,7 @@ public class Services {
 	}
 
 	/**
-	 * Returns a random name (partialName+"random number")
+	 * Returns a random name for connectivity (partialName+"random number")
 	 * 
 	 * @param self
 	 * @param partialName
@@ -822,9 +829,10 @@ public class Services {
 		return newName;
 
 	}
-	
+
 	/**
-	 * Returns a random name (partialName+"random number")
+	 * Returns a random name for an incident entity (partialName+"random
+	 * number")
 	 * 
 	 * @param self
 	 * @param partialName
@@ -834,37 +842,52 @@ public class Services {
 
 		Random rand = new Random();
 
-		int maxNumber = 10000;
-		String newName = partialName + rand.nextInt(maxNumber);
+		int maxNumber = 100;
+		String newName = null;
 
 		boolean isUnique = false;
 
 		int tries = 100;
-		
+
+		int cnt = 0;
+		int round = 10;
+
 		List<IncidentEntity> allEntities = getAllIncidentAssets(self);
 
-			loop: while (!isUnique && tries > 0) {
+		maxNumber = allEntities.size() * 10; // initially 10 times the number of
+												// entities
+		loop: while (!isUnique && tries > 0) {
 
-				// check connectivity names to see if new name is unique or not
-				for (IncidentEntity ent : allEntities) {
-					if (newName.equalsIgnoreCase(ent.getName())) {
-						tries--;
-						continue loop;
+			newName = partialName + rand.nextInt(maxNumber);
+
+			// check names to see if new name is unique or not
+			for (IncidentEntity ent : allEntities) {
+				if (newName.equalsIgnoreCase(ent.getName())) {
+					tries--;
+
+					cnt++; // used to count number of tries before increasing
+							// the maxNumber
+
+					if (cnt == round) {
+						cnt = 0;
+						maxNumber *= 2; // double the number
 					}
+
+					continue loop;
 				}
-
-				// if this is reached then the new name is unique
-				isUnique = true;
 			}
 
-			// if name is unique
-			if (isUnique) {
-				return newName;
-			} else {
-				// try one more time and then return random name
-				newName = partialName + rand.nextInt();
-			}
+			// if this is reached then the new name is unique
+			isUnique = true;
+		}
 
+		// if name is unique
+		if (isUnique) {
+			return newName;
+		} else {
+			// try one more time and then return random name
+			newName = partialName + rand.nextInt();
+		}
 
 		return newName;
 
@@ -978,17 +1001,16 @@ public class Services {
 			en.setName(newName);
 		}
 
-
 		IncidentDiagram incident = getIncidentDiagram(self);
 
 		if (incident != null) {
-			
+
 			// for each scene
 			for (Scene scene : incident.getScene()) {
-				
+
 				// for each activity
 				for (Activity act : scene.getActivity()) {
-				
+
 					// check precondition
 					BigraphExpression preExp = (BigraphExpression) act.getPrecondition().getExpression();
 					List<Entity> entities = preExp != null ? preExp.getEntity() : null;
@@ -996,7 +1018,6 @@ public class Services {
 					if (preExp != null && entities != null) {
 						for (Entity ent : entities) {
 
-							
 							// if same name entity found replace and move to
 							// next entity (no need to check sub-entities as
 							// entity can't contain itself
@@ -1025,7 +1046,7 @@ public class Services {
 					if (postExp != null && postEntities != null) {
 
 						for (Entity ent : postEntities) {
-							
+
 							// if same name entity found replace and move to
 							// next entity (no need to check sub-entities as
 							// entity can't contain itself
@@ -1359,7 +1380,7 @@ public class Services {
 
 		return entities;
 	}
-	
+
 	/**
 	 * Returns all available incident entities objects in the given room (self)
 	 * 
@@ -1369,20 +1390,20 @@ public class Services {
 	 */
 	public List<Location> getContainedIncidentEntities(EObject self) {
 
-//		List<IncidentEntity> entities = new LinkedList<IncidentEntity>();
+		// List<IncidentEntity> entities = new LinkedList<IncidentEntity>();
 
 		// find root element (incident diagram)
 
-		if(!(self instanceof Asset)) {
+		if (!(self instanceof Asset)) {
 			return null;
 		}
-		
+
 		Asset ast = (Asset) self;
 
 		return ast.getContainedEntities();
 
 	}
-	
+
 	/**
 	 * Returns all available incident asset objects in the incident diagram
 	 * 
@@ -2435,9 +2456,11 @@ public class Services {
 			return;
 		}
 
+		CyberPhysicalIncidentFactory instance = CyberPhysicalIncidentFactory.eINSTANCE;
+
 		Action act = (Action) action;
 
-		// update precondition
+		// === update precondition
 		Precondition activityPre = activity.getPrecondition();
 
 		String brsPreCond = (act.getPreconditions() != null && !act.getPreconditions().isEmpty())
@@ -2445,17 +2468,29 @@ public class Services {
 
 		BigraphExpression newPreBRS = parseActionBRSCondition(brsPreCond);
 
-		activityPre.setExpression(newPreBRS);
+		// if precondition is null then create a new condition
+		if (activityPre == null) {
+			activityPre = instance.createPrecondition();
+		}
 
-		// update postcondition
+		activityPre.setExpression(newPreBRS);
+		activity.setPrecondition(activityPre);
+
+		// === update postcondition
 		Postcondition activityPost = activity.getPostcondition();
 
 		String brsPostCond = (act.getPostconditions() != null && !act.getPostconditions().isEmpty())
 				? act.getPostconditions().get(0) : null;
 
-		// BigraphExpression newPostBRS = parseActionBRSCondition(brsPostCond);
-		//
-		// activityPost.setExpression(newPostBRS);
+		BigraphExpression newPostBRS = parseActionBRSCondition(brsPostCond);
+
+		// if postcondition is null then create a new condition
+		if (activityPost == null) {
+			activityPost = instance.createPostcondition();
+		}
+
+		activityPost.setExpression(newPostBRS);
+		activity.setPostcondition(activityPost);
 
 	}
 
@@ -3089,129 +3124,137 @@ public class Services {
 	 */
 
 	/**
-	 * Checks that the self (Incident entity) parent is not an Actor (as Class and as Type)
+	 * Checks that the self (Incident entity) parent is not an Actor (as Class
+	 * and as Type)
+	 * 
 	 * @param self
 	 * @param parent
 	 * @return
 	 */
 	public boolean checkParentIsNotSuperSupOfActor(EObject self) {
-		
-		if(!(self instanceof IncidentEntity)) {
-//			System.err.println("Self should be an actor");
+
+		if (!(self instanceof IncidentEntity)) {
+			// System.err.println("Self should be an actor");
 			return true;
 		}
-		
-		IncidentEntity entity = (IncidentEntity)self; 
-		IncidentEntity actor = (IncidentEntity)entity.getParentEntity();
-		
-//		if(!(actor instanceof Actor)) {
-////			System.err.println("Self should be an actor");
-//			return true;
-//		}
-		
-		//check that the parent is not an actor
-//		if((entity instanceof Actor)) {
-//			return false;
-//		}
-		
-		//if the parent is null then return true
-		if(actor == null) {
-			return true;	
+
+		IncidentEntity entity = (IncidentEntity) self;
+		IncidentEntity actor = (IncidentEntity) entity.getParentEntity();
+
+		// if(!(actor instanceof Actor)) {
+		//// System.err.println("Self should be an actor");
+		// return true;
+		// }
+
+		// check that the parent is not an actor
+		// if((entity instanceof Actor)) {
+		// return false;
+		// }
+
+		// if the parent is null then return true
+		if (actor == null) {
+			return true;
 		}
-		
+
 		Type entityType = entity.getType();
 		Type actorType = actor.getType();
-//		String type = null;
-		
-		//this checks that the type of the entity is not the same or superclass of the parent and the other way around
-		
-		if(actorType == null || entityType == null) {
+		// String type = null;
+
+		// this checks that the type of the entity is not the same or superclass
+		// of the parent and the other way around
+
+		if (actorType == null || entityType == null) {
 			return true;
 		}
-		
-		//create class for each type
+
+		// create class for each type
 		String entityTypeName = entityType.getName();
 		String actorTypeName = actorType.getName();
-		
+
 		String entityClassName = "environment.impl." + entityTypeName + "Impl";
 		String actorClassName = "environment.impl." + actorTypeName + "Impl";
-		
+
 		try {
-			
+
 			Class entityClass = Class.forName(entityClassName);
 			Class actorClass = Class.forName(actorClassName);
-//			
-//			
-//			//check that the entity class is a subclass/superclass of the parent. If so then return false
-			if(entityClass.isAssignableFrom(actorClass) || actorClass.isAssignableFrom(entityClass)) {
+			//
+			//
+			// //check that the entity class is a subclass/superclass of the
+			// parent. If so then return false
+			if (entityClass.isAssignableFrom(actorClass) || actorClass.isAssignableFrom(entityClass)) {
 				return false;
 			}
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-//			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 		return true;
-		
+
 	}
-	
+
 	/**
-	 * Checks that the type of the entity and the type of its parent do not produce conflict by having a digital containing a physical
+	 * Checks that the type of the entity and the type of its parent do not
+	 * produce conflict by having a digital containing a physical
+	 * 
 	 * @return
 	 */
 	public boolean isDigitalContainsPhysical(EObject self) {
-		
-		if(!(self instanceof IncidentEntity)) {
-//			System.err.println("Self should be an actor");
+
+		if (!(self instanceof IncidentEntity)) {
+			// System.err.println("Self should be an actor");
 			return true;
 		}
-		
-		IncidentEntity entity = (IncidentEntity)self; 
-		IncidentEntity parent = (IncidentEntity)entity.getParentEntity();
-		
-		//if parent is null then its valid
-		if(parent == null) {
+
+		IncidentEntity entity = (IncidentEntity) self;
+		IncidentEntity parent = (IncidentEntity) entity.getParentEntity();
+
+		// if parent is null then its valid
+		if (parent == null) {
 			return true;
 		}
-		
+
 		Type entityType = entity.getType();
 		Type parentType = parent.getType();
-//		String type = null;
-		
-		//this checks that the type of the entity is not the same or superclass of the parent and the other way around
-		
-		if(parentType == null || entityType == null) {
+		// String type = null;
+
+		// this checks that the type of the entity is not the same or superclass
+		// of the parent and the other way around
+
+		if (parentType == null || entityType == null) {
 			return true;
 		}
-		
-		//create class for each type
+
+		// create class for each type
 		String entityTypeName = entityType.getName();
 		String actorTypeName = parentType.getName();
-		
+
 		String entityClassName = "environment.impl." + entityTypeName + "Impl";
 		String actorClassName = "environment.impl." + actorTypeName + "Impl";
-		
+
 		try {
-			
+
 			Class entityClass = Class.forName(entityClassName);
 			Class parentClass = Class.forName(actorClassName);
-//			
-//			
-//			//check that if the entity class is physical then the parent should be also physical
-			if(environment.PhysicalAsset.class.isAssignableFrom(entityClass)) {
+			//
+			//
+			// //check that if the entity class is physical then the parent
+			// should be also physical
+			if (environment.PhysicalAsset.class.isAssignableFrom(entityClass)) {
 
-				//check the parent to be physical
-				if(!environment.PhysicalAsset.class.isAssignableFrom(parentClass) ) {
+				// check the parent to be physical
+				if (!environment.PhysicalAsset.class.isAssignableFrom(parentClass)) {
 					return false;
 				}
-			} 
-			
-		}catch (Exception e) {
-				// TODO Auto-generated catch block
-//				e.printStackTrace();
 			}
-			
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+		}
+
 		return true;
 	}
 }
