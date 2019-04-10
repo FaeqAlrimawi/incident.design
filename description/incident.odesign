@@ -630,84 +630,84 @@
                   <forbiddenSides>NORTH</forbiddenSides>
                 </style>
               </borderedNodeMappings>
-              <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Incident Entity" sizeComputationExpression="5" resizeKind="NSEW" workspacePath="/incident.design/res/incidentEntity.jpg">
+              <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Incident Entity" sizeComputationExpression="6" workspacePath="/incident.design/res/incidentEntity.jpg">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               </style>
               <conditionnalStyles predicateExpression="aql:self.oclIsTypeOf(cyberPhysical_Incident::IncidentEntity)">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Incident Entity" sizeComputationExpression="5" resizeKind="NSEW" workspacePath="/incident.design/res/incidentEntity.jpg">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Incident Entity" sizeComputationExpression="6" workspacePath="/incident.design/res/incidentEntity.jpg">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Resource) and self.type.name.equalsIgnoreCase('laptop')">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Resource" sizeComputationExpression="5" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/laptop.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Resource" sizeComputationExpression="6" workspacePath="/incident.design/res/icons128/laptop.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Resource) and self.type.name.equalsIgnoreCase('malware')">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Resource" sizeComputationExpression="5" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/malware.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Resource" sizeComputationExpression="6" workspacePath="/incident.design/res/icons128/malware.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Asset) and self.type.name.equalsIgnoreCase('hvac')">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Component" sizeComputationExpression="6" resizeKind="NSEW" roundedCorner="true" workspacePath="/incident.design/res/icons128/hvac.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Component" sizeComputationExpression="6" roundedCorner="true" workspacePath="/incident.design/res/icons128/hvac.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Asset) and self.type.name.equalsIgnoreCase('smartlight')">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Component" sizeComputationExpression="6" resizeKind="NSEW" roundedCorner="true" workspacePath="/incident.design/res/icons128/smartLight.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Component" sizeComputationExpression="6" roundedCorner="true" workspacePath="/incident.design/res/icons128/smartLight.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Asset) and self.type.name.equalsIgnoreCase('building')">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Component" sizeComputationExpression="6" resizeKind="NSEW" roundedCorner="true" workspacePath="/incident.design/res/icons128/building.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Component" sizeComputationExpression="6" roundedCorner="true" workspacePath="/incident.design/res/icons128/building.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Asset) and self.type.name.equalsIgnoreCase('computingDevice')">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Component" sizeComputationExpression="6" resizeKind="NSEW" roundedCorner="true" workspacePath="/incident.design/res/icons128/compDevice.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Component" sizeComputationExpression="6" roundedCorner="true" workspacePath="/incident.design/res/icons128/compDevice.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Asset) and self.type.name.equalsIgnoreCase('busnetwork')">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Component" sizeComputationExpression="6" resizeKind="NSEW" roundedCorner="true" workspacePath="/incident.design/res/icons128/busNetwork.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Component" sizeComputationExpression="6" roundedCorner="true" workspacePath="/incident.design/res/icons128/busNetwork.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Actor) and self.role.toString().equalsIgnoreCase('offender')">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Offender" sizeComputationExpression="5" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/offender.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Offender" sizeComputationExpression="6" workspacePath="/incident.design/res/icons128/offender.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql: self.oclIsTypeOf(cyberPhysical_Incident::Actor) and self.role.toString().equalsIgnoreCase('victim')">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Victim" sizeComputationExpression="5" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/victim.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Victim" sizeComputationExpression="6" workspacePath="/incident.design/res/icons128/victim.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql:self.oclIsTypeOf(cyberPhysical_Incident::Actor)">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Actor" sizeComputationExpression="5" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/actor.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Actor" sizeComputationExpression="6" workspacePath="/incident.design/res/icons128/actor.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql:self.oclIsTypeOf(cyberPhysical_Incident::Asset)">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Component" sizeComputationExpression="5" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/asset.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" labelAlignment="RIGHT" tooltipExpression="Component" sizeComputationExpression="6" workspacePath="/incident.design/res/icons128/asset.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
               </conditionnalStyles>
               <conditionnalStyles predicateExpression="aql:self.oclIsTypeOf(cyberPhysical_Incident::Resource)">
-                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Resource" sizeComputationExpression="5" resizeKind="NSEW" workspacePath="/incident.design/res/icons128/resource.png">
+                <style xsi:type="style:WorkspaceImageDescription" labelSize="12" showIcon="false" labelExpression="aql: if self.name = null or self.name.equalsIgnoreCase('') then '&lt;Name>' else self.name endif" tooltipExpression="Resource" sizeComputationExpression="6" workspacePath="/incident.design/res/icons128/resource.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
@@ -1028,6 +1028,201 @@
                         </subModelOperations>
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
                           <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Malware"/>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
+                </firstModelOperations>
+              </initialOperation>
+            </tools>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:ToolGroup" name="Asset">
+            <tools xsi:type="tool_1:NodeCreationDescription" name="Component" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='room']/@subNodeMappings[name='incidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition']" iconPath="/incident.design/res/icons/asset.png">
+              <variable name="container"/>
+              <viewVariable name="containerView"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
+                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset"/>
+                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
+                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:container">
+                          <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql:self.containedEntities->including(instance)"/>
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
+                            <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="var:container"/>
+                          </subModelOperations>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsKindOf(cyberPhysical_Incident::BigraphExpression)">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
+                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
+                          <subModelOperations xsi:type="tool:CreateInstance" typeName="Entity" referenceName="entity" variableName="entityInstance">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:entityInstance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.name"/>
+                            </subModelOperations>
+                          </subModelOperations>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
+                </firstModelOperations>
+              </initialOperation>
+            </tools>
+            <tools xsi:type="tool_1:NodeCreationDescription" name="Building" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='building']" iconPath="/incident.design/res/icons/building.png">
+              <variable name="container"/>
+              <viewVariable name="containerView"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
+                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
+                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
+                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Building">
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('building')"/>
+                          </subModelOperations>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsKindOf(cyberPhysical_Incident::BigraphExpression)">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
+                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
+                          <subModelOperations xsi:type="tool:CreateInstance" typeName="Entity" referenceName="entity" variableName="entityInstance">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:entityInstance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.name"/>
+                            </subModelOperations>
+                          </subModelOperations>
+                        </subModelOperations>
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Building">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('building')"/>
+                            </subModelOperations>
+                          </subModelOperations>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
+                </firstModelOperations>
+              </initialOperation>
+            </tools>
+            <tools xsi:type="tool_1:ContainerCreationDescription" name="Floor" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']" iconPath="/incident.design/res/icons/floor.png">
+              <variable name="container"/>
+              <viewVariable name="containerView"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
+                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
+                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
+                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Floor">
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('floor')"/>
+                          </subModelOperations>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsKindOf(cyberPhysical_Incident::BigraphExpression)">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
+                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
+                          <subModelOperations xsi:type="tool:CreateInstance" typeName="Entity" referenceName="entity" variableName="entityInstance">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:entityInstance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.name"/>
+                            </subModelOperations>
+                          </subModelOperations>
+                        </subModelOperations>
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Floor">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('floor')"/>
+                            </subModelOperations>
+                          </subModelOperations>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
+                </firstModelOperations>
+              </initialOperation>
+            </tools>
+            <tools xsi:type="tool_1:ContainerCreationDescription" name="Room" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='room'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subContainerMappings[name='roomContainerCondition']" iconPath="/incident.design/res/icons/room.png">
+              <variable name="container"/>
+              <viewVariable name="containerView"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
+                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
+                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
+                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:'Room'"/>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::Asset)">
+                    <subModelOperations xsi:type="tool:If" conditionExpression="aql:true">
+                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
+                        <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Room">
+                              <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
+                                <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql:self.containedEntities->including(instance)">
+                                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                                    <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('room')"/>
+                                  </subModelOperations>
+                                </subModelOperations>
+                              </subModelOperations>
+                            </subModelOperations>
+                          </subModelOperations>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsKindOf(cyberPhysical_Incident::BigraphExpression)">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
+                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
+                          <subModelOperations xsi:type="tool:CreateInstance" typeName="Entity" referenceName="entity" variableName="entityInstance">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:entityInstance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.name"/>
+                            </subModelOperations>
+                          </subModelOperations>
+                        </subModelOperations>
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Room">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('room')"/>
+                            </subModelOperations>
+                          </subModelOperations>
+                        </subModelOperations>
+                      </subModelOperations>
+                    </subModelOperations>
+                  </subModelOperations>
+                </firstModelOperations>
+              </initialOperation>
+            </tools>
+            <tools xsi:type="tool:PaneBasedSelectionWizardDescription" name="Component Selection" precondition="aql:container.isAssetRoom()" iconPath="/incident.design/res/icons/entitySelection.png" windowTitle="Incident Entity Selection Wizard" message="Select System Components to add to the incident" choiceOfValuesMessage="Choice of System Components" candidatesExpression="aql: self.getSystemComponents()" selectedValuesMessage="Selected System Components">
+              <element name="element"/>
+              <containerView name="containerView"/>
+              <container name="container"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::Asset)">
+                  <subModelOperations xsi:type="tool:For" expression="var:element" iteratorName="e">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.getIncidentDiagram()">
+                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: e.oclAsType(environment::Asset).name">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::Asset)">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql: self.containedEntities->including(instance)"/>
+                            </subModelOperations>
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: e.getSystemComponentClassName()"/>
+                            </subModelOperations>
+                          </subModelOperations>
                         </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
