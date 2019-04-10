@@ -766,6 +766,24 @@ public class Services {
 		return false;
 	}
 
+	public boolean isAssetRoom(EObject self) {
+		
+		//if it is not asset then return false
+		if(!(self instanceof Asset)) {
+			return false;
+		}
+		
+		//check type to be room
+		Asset ast = (Asset) self;
+		
+		String type = ast.getType().getName();
+		
+		if(type != null && type.equalsIgnoreCase("room")) {
+			return true;
+		}
+		
+		return false;
+	}
 	/**
 	 * Returns a random name for connectivity (partialName+"random number")
 	 * 
@@ -2401,9 +2419,13 @@ public class Services {
 	 * *********************************************************************************************************
 	 * *********************************************************************************************************
 	 * 
-	 * @return
 	 */
 
+	/**
+	 * Returns system instance;
+	 * @param self
+	 * @return
+	 */
 	public EnvironmentDiagram getSystemInstance(EObject self) {
 
 		return sysHandler.getInstance();
@@ -2433,6 +2455,37 @@ public class Services {
 		return sysHandler.getDummyActions();
 	}
 
+	
+	public List<environment.Asset> getSystemComponents(EObject self) {
+		
+		//dummy list for the moment
+		return sysHandler.getDummyAssets();
+	}
+	
+	
+	/**
+	 * returns the class name of the given Asset (from environment) object
+	 */
+	public String getSystemComponentClassName(EObject self) {
+		
+		if(!(self instanceof environment.Asset)) {
+			return null;
+		}
+		
+		environment.Asset ast = (environment.Asset)self;
+		String name = ast.getClass().getSimpleName().replace("Impl", "");
+		
+		return name;
+	}
+	/******************************
+	*************************************************************
+	 * *********************************************************************************************************
+	 * *********************************************************************************************************
+	 * *********************************************************************************************************
+	 * 
+	 */
+
+	
 	/**
 	 * Updates the condition of the given activity (self) according to the given
 	 * BRS condition
