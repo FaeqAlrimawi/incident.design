@@ -327,6 +327,10 @@ public class Services {
 
 			String entTypeName = entity.getType() != null ? entity.getType().getName() : null;
 
+			if(entTypeName != null) {
+				entTypeName = entTypeName.toLowerCase();	
+			}
+			
 			// if the entity type is the same as the given type then move to
 			// next (ignore)
 			if ((entTypeName != null && types.contains(entTypeName))) {
@@ -367,6 +371,27 @@ public class Services {
 		return tmp;
 	}
 
+	
+	public boolean isOfType(EObject self, String type) {
+		
+		if(!(self instanceof IncidentEntity)) {
+			System.err.println("not an incident entity");
+			return false;
+		}
+		
+		IncidentEntity entity = (IncidentEntity) self;
+		
+		String entTypeName = entity.getType() != null ? entity.getType().getName() : null;
+		
+		// if the entity type is the same as the given type then move to
+		// next (ignore)
+		if ((entTypeName != null && entTypeName.equalsIgnoreCase(type))) {
+			return true;
+		}
+		
+		return false;
+		
+	}
 	public void updateParentNewEdge(EObject self, IncidentEntity src, IncidentEntity des) {
 
 		// src is the source entity from which edge starts (parent)
