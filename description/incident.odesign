@@ -2579,5 +2579,6 @@
     </ownedRepresentations>
     <ownedJavaExtensions qualifiedClassName="incident.design.Services"/>
     <ownedJavaExtensions qualifiedClassName="incident.design.IncidentEntityDiagramServices"/>
+    <ownedJavaExtensions qualifiedClassName="incident.design.systemmodel.SystemModelImporter"/>
   </ownedViewpoints>
 </description:Group>
