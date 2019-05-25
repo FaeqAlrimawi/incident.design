@@ -673,7 +673,14 @@
             <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
           </style>
         </containerMappings>
-        <containerMappings name="Floor" semanticCandidatesExpression="aql: self.asset->select(x | x.type.name.equalsIgnoreCase('floor'))" domainClass="Asset"/>
+        <containerMappings name="Floor" semanticCandidatesExpression="aql: self.asset->select(x | x.type.name.equalsIgnoreCase('floor'))" domainClass="Asset">
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" iconPath="/incident.design/res/icons32/floor.png" tooltipExpression="Floor">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
         <toolSections name="Incident Element">
           <ownedTools xsi:type="tool_1:ContainerCreationDescription" name="Scene" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']" iconPath="/incident.design/res/icons/scene.png">
             <variable name="container"/>
