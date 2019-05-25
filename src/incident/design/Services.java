@@ -6,15 +6,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.media.j3d.Link;
-
 import java.util.Random;
-import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.sirius.tools.api.ui.IExternalJavaAction;
 
 import cyberPhysical_Incident.Activity;
 import cyberPhysical_Incident.ActivityPattern;
@@ -44,8 +38,6 @@ import environment.Action;
 import environment.CyberPhysicalSystemPackage;
 import environment.EnvironmentDiagram;
 import incident.util.BRSParser;
-import incident.util.BigraphERTokens;
-import incident.util.Tokenizer;
 
 /**
  * The services class used by VSM.
@@ -59,6 +51,7 @@ public class Services {
 	Map<Type, List<Type>> systemConnectionTypes;
 
 	BRSParser brsParser;
+
 
 	/**
 	 * See
@@ -2488,6 +2481,17 @@ public class Services {
 		return sysHandler.getDummyActions();
 	}
 
+	public boolean isSystemModelSet(EObject self) {
+	
+		if(sysHandler.getInstance() == null) {
+//			GeneralFXFrame selector = new GeneralFXFrame("Select System", JFXPanel.SYSTEM_MODEL_SELECTOR);
+//			selector.setVisible(true);
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public List<environment.Asset> getSystemComponents(EObject self) {
 
 		// dummy list for the moment

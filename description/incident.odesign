@@ -1175,7 +1175,7 @@
                 </firstModelOperations>
               </initialOperation>
             </tools>
-            <tools xsi:type="tool_1:ContainerCreationDescription" name="Room" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='room'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subContainerMappings[name='roomContainerCondition']" iconPath="/incident.design/res/icons/room.png">
+            <tools xsi:type="tool_1:ContainerCreationDescription" name="Room" precondition="aql: self.is" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='room'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subContainerMappings[name='roomContainerCondition']" iconPath="/incident.design/res/icons/room.png">
               <variable name="container"/>
               <viewVariable name="containerView"/>
               <initialOperation>
