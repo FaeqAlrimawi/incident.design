@@ -960,7 +960,11 @@
                                 <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Room"/>
                               </subModelOperations>
                             </subModelOperations>
+<<<<<<< HEAD
                             <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="&lt;Set unique namej>"/>
+=======
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="&lt;Set unique name>"/>
+>>>>>>> desktop
                           </subModelOperations>
                         </subModelOperations>
                       </subModelOperations>
