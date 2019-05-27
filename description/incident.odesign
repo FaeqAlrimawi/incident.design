@@ -744,7 +744,7 @@
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
-            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
           </style>
         </containerMappings>
         <toolSections name="Incident Element">
@@ -778,6 +778,7 @@
                             <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
                               <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Actor"/>
                             </subModelOperations>
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: self.getRandomEntityName('offender')"/>
                           </subModelOperations>
                         </subModelOperations>
                       </subModelOperations>
@@ -1175,7 +1176,7 @@
                 </firstModelOperations>
               </initialOperation>
             </tools>
-            <tools xsi:type="tool_1:ContainerCreationDescription" name="Room" precondition="aql: self.is" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='room'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subContainerMappings[name='roomContainerCondition']" iconPath="/incident.design/res/icons/room.png">
+            <tools xsi:type="tool_1:ContainerCreationDescription" name="Room" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='room'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subContainerMappings[name='roomContainerCondition']" iconPath="/incident.design/res/icons/room.png">
               <variable name="container"/>
               <viewVariable name="containerView"/>
               <initialOperation>
@@ -1188,18 +1189,16 @@
                     </subModelOperations>
                   </subModelOperations>
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::Asset)">
-                    <subModelOperations xsi:type="tool:If" conditionExpression="aql:true">
-                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
-                        <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Room">
-                              <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                                <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql:self.containedEntities->including(instance)">
-                                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
-                                    <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('room')"/>
-                                    <subModelOperations xsi:type="tool:SetValue" featureName="mobility" valueExpression="aql: 'FIXED'"/>
-                                    <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="aql:container"/>
-                                  </subModelOperations>
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
+                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
+                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
+                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="Room">
+                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
+                              <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql:self.containedEntities->including(instance)">
+                                <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                                  <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('room')"/>
+                                  <subModelOperations xsi:type="tool:SetValue" featureName="mobility" valueExpression="aql: 'FIXED'"/>
+                                  <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="aql:container"/>
                                 </subModelOperations>
                               </subModelOperations>
                             </subModelOperations>
