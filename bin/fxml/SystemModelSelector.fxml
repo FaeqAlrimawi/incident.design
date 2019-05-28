@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" minHeight="100.0" minWidth="200.0" prefHeight="217.0" prefWidth="468.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.controller.SystemModelSelectorController">
+<AnchorPane fx:id="mainPane" minHeight="100.0" minWidth="200.0" prefHeight="217.0" prefWidth="468.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.controller.SystemModelSelectorController">
    <children>
       <VBox layoutX="14.0" layoutY="14.0">
          <children>
