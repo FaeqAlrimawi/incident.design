@@ -2439,6 +2439,10 @@ public class Services {
 		return systemConnectionTypes.keySet();
 	}
 
+	public void generateIncidentPattern(EObject self) {
+		
+	}
+	
 	/******************************
 	 * SYSTEM
 	 * FUNCTIONS*************************************************************
