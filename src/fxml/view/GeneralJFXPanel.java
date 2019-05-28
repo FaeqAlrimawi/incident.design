@@ -16,6 +16,7 @@ public class GeneralJFXPanel extends JFXPanel {
 
     FXMLLoader loader = new FXMLLoader();
 
+    System.out.println(fxmlfileName);
     loader.setLocation(GeneralJFXPanel.class.getResource(fxmlfileName));
 
     Platform.setImplicitExit(false);

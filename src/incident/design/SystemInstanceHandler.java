@@ -1,5 +1,6 @@
 package incident.design;
 
+import java.security.KeyStore.LoadStoreParameter;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -28,9 +29,9 @@ public class SystemInstanceHandler {
 	private static final EPackage MODEL_PACKAGE_EINSTANCE = CyberPhysicalSystemPackage.eINSTANCE;
 	private static final String MODEL_PACKAGE_ENS_URI = CyberPhysicalSystemPackage.eNS_URI;
 
-	private String testFile = "f:/bigraph data/lero_ex.cps";
+	private static String testFile = "f:/bigraph data/lero_ex.cps";
 
-	private EnvironmentDiagram systemInstance;
+	private static EnvironmentDiagram systemInstance;
 
 	/**
 	 * Load a system model from the given file name
@@ -39,7 +40,7 @@ public class SystemInstanceHandler {
 	 *            the XMI file of the system model
 	 * @return an EnvironmentDigram object containing the model information
 	 */
-	public EnvironmentDiagram loadSystemFromFile(String fileName) {
+	public static EnvironmentDiagram loadSystemFromFile(String fileName) {
 
 		EnvironmentDiagram environmentDiagram = null;
 
@@ -95,33 +96,38 @@ public class SystemInstanceHandler {
 
 	}
 
-	public EnvironmentDiagram getInstance(String fileName) {
+	// public static EnvironmentDiagram getInstance(String fileName) {
+	//
+	// if (systemInstance == null) {
+	// loadSystemFromFile(fileName);
+	// }
+	//
+	// return systemInstance;
+	// }
+
+	public static EnvironmentDiagram getInstance() {
+
+		return systemInstance;
+	}
+
+	public static void setInstance(EnvironmentDiagram systemModel) {
+
+		systemInstance = systemModel;
+	}
+
+	public static List<Action> getSystemActions() {
 
 		if (systemInstance == null) {
-			loadSystemFromFile(fileName);
-		}
-
-		return systemInstance;
-	}
-
-	public EnvironmentDiagram getInstance() {
-
-		return systemInstance;
-	}
-
-	public List<Action> getSystemActions() {
-
-		if(systemInstance == null) {
 			return null;
 		}
-		
+
 		List<Action> actions = systemInstance.getAction();
 
 		return actions;
 	}
 
-	//dummy function should be replaced by the call to getSystemActionNames
-	public List<Action> getDummyActions() {
+	// dummy function should be replaced by the call to getSystemActionNames
+	public static List<Action> getDummyActions() {
 
 		// create a couple of dummy actions
 		systemInstance = loadSystemFromFile(testFile);
@@ -133,19 +139,19 @@ public class SystemInstanceHandler {
 
 	}
 
-	public List<Asset> getSystemAssets() {
-	
-		if(systemInstance == null) {
+	public static List<Asset> getSystemAssets() {
+
+		if (systemInstance == null) {
 			return null;
 		}
-		
+
 		List<Asset> assets = systemInstance.getAsset();
 
 		return assets;
 	}
 
-	//dummy function should be replaced by the call to getSystemActionNames
-	public List<Asset> getDummyAssets() {
+	// dummy function should be replaced by the call to getSystemActionNames
+	public static List<Asset> getDummyAssets() {
 
 		// create a couple of dummy actions
 		systemInstance = loadSystemFromFile(testFile);
@@ -157,5 +163,31 @@ public class SystemInstanceHandler {
 
 	}
 
+	public static boolean isSystemModelFileValid(String filePath) {
+
+		// try to load
+		EnvironmentDiagram tmp = loadSystemFromFile(filePath);
+
+		if (tmp == null) {
+			return false;
+		}
+
+//		systemInstance = tmp;
+
+		return true;
+	}
+
+	public static boolean importSystemModelFromFile(String filePath) {
+		
+		EnvironmentDiagram tmp = loadSystemFromFile(filePath);
+
+		systemInstance = tmp;
+		
+		if (tmp == null) {
+			return false;
+		}		
+
+		return true;
+	}
 	//
 }

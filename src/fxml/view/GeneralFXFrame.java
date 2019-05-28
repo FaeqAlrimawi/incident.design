@@ -10,11 +10,11 @@ import javafx.application.Platform;
 public class GeneralFXFrame extends JFrame {
 
  public enum JFXPanel {
-    ADD_ACTIONS_PANEL("SystemActionView.fxml"),
+    ADD_ACTIONS_PANEL("../SystemActionView.fxml"),
     DRAW_BRS_PANEL("brsDrawView.fxml"),
     MAIN_SCREEN_PANEL("MainScreen.fxml"),
     LTS_VIEW_PANEL("LTSView.fxml"),
-    SYSTEM_MODEL_SELECTOR("../fxml/SystemModelSelector.fxml");
+    SYSTEM_MODEL_SELECTOR("../SystemModelSelector.fxml");
 	 
    private String fxmlFileName;
    
@@ -192,6 +192,11 @@ private boolean isClosed = false;
         panelHeight = 500;
         break;
         
+      case SYSTEM_MODEL_SELECTOR:
+    	  panelWidth = 500;
+          panelHeight = 300;
+          break;
+          
       default:
         panelWidth = WIDTH;
         panelHeight = HEIGHT;

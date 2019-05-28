@@ -46,7 +46,7 @@ import incident.util.BRSParser;
  */
 public class Services {
 
-	SystemInstanceHandler sysHandler = new SystemInstanceHandler();
+//	SystemInstanceHandler sysHandler = new SystemInstanceHandler();
 
 	// a map of the types in which the
 	Map<Type, List<Type>> systemAssetTypes;
@@ -2454,17 +2454,17 @@ public class Services {
 	 * @param self
 	 * @return
 	 */
-	public EnvironmentDiagram getSystemInstance(EObject self) {
-
-		return sysHandler.getInstance();
-
-	}
-
-	public EnvironmentDiagram getSystemInstance(EObject self, String fileName) {
-
-		return sysHandler.getInstance(fileName);
-
-	}
+//	public EnvironmentDiagram getSystemInstance(EObject self) {
+//
+//		return sysHandler.getInstance();
+//
+//	}
+//
+//	public EnvironmentDiagram getSystemInstance(EObject self, String fileName) {
+//
+//		return sysHandler.getInstance(fileName);
+//
+//	}
 
 	/**
 	 * Return the list of action names from the system instance model
@@ -2480,13 +2480,14 @@ public class Services {
 		dummy.add("connectDevice");
 
 		// return dummy;
-		return sysHandler.getDummyActions();
+		return SystemInstanceHandler.getDummyActions();
 	}
 
 	public boolean isSystemModelSet(EObject self) {
 	
-		if(sysHandler.getInstance() == null) {
-			GeneralFXFrame selector = new GeneralFXFrame("Select System", JFXPanel.SYSTEM_MODEL_SELECTOR);
+//		SystemInstanceHandler.setInstance(null);
+		if(SystemInstanceHandler.getInstance() == null) {
+			GeneralFXFrame selector = new GeneralFXFrame("System Model Importer", JFXPanel.SYSTEM_MODEL_SELECTOR);
 			selector.setVisible(true);
 			return false;
 		}
@@ -2498,7 +2499,7 @@ public class Services {
 
 		// dummy list for the moment
 //		System.out.println("Whaaaat");
-		return sysHandler.getDummyAssets();
+		return SystemInstanceHandler.getDummyAssets();
 //		return null;
 	}
 	
