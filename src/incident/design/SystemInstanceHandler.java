@@ -1,6 +1,5 @@
 package incident.design;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -29,7 +28,7 @@ public class SystemInstanceHandler {
 	private static final EPackage MODEL_PACKAGE_EINSTANCE = CyberPhysicalSystemPackage.eINSTANCE;
 	private static final String MODEL_PACKAGE_ENS_URI = CyberPhysicalSystemPackage.eNS_URI;
 
-	private String testFile = "D:/Bigrapher data/lero/lero.cps";
+	private String testFile = "f:/bigraph data/lero_ex.cps";
 
 	private EnvironmentDiagram systemInstance;
 

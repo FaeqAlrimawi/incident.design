@@ -491,7 +491,7 @@
                 </conditionnalStyles>
               </subNodeMappings>
               <subNodeMappings name="connectivity" deletionDescription="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.7/@ownedTools[name='deleteConnectivity']" labelDirectEdit="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.6/@ownedTools[name='editConnectivityName']" semanticCandidatesExpression="aql: self.getAllConditionConnectivity(self.entity)" domainClass="Connectivity">
-                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name.size() = 0 then '&lt;set name>' else self.name endif" resizeKind="NSEW" workspacePath="/incident.design/res/connection.png">
+                <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql: if self.name = null or self.name.size() = 0 then '&lt;set name>' else self.name endif" resizeKind="NSEW" workspacePath="/incident.design/res/icons32/connection.png">
                   <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                   <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 </style>
@@ -1231,27 +1231,30 @@
                 </firstModelOperations>
               </initialOperation>
             </tools>
-            <tools xsi:type="tool:PaneBasedSelectionWizardDescription" name="Component Selection" precondition="aql:container.isAssetRoom() and self.isIncidentInstance()" iconPath="/incident.design/res/icons/entitySelection.png" windowTitle="Incident Entity Selection Wizard" message="Select System Components to add to the incident" choiceOfValuesMessage="Choice of System Components" candidatesExpression="aql: self.getSystemComponents()" selectedValuesMessage="Selected System Components">
+            <tools xsi:type="tool:PaneBasedSelectionWizardDescription" name="Component Selection" precondition="aql:container.isAssetRoom() and self.isIncidentInstance()" iconPath="/incident.design/res/icons/entitySelection.png" windowTitle="Incident Entity Selection Wizard" message="Select System Components to add to the incident" choiceOfValuesMessage="Choice of System Components" candidatesExpression="aql: if self.isSystemModelSet() then self.getSystemComponents() else null endif" selectedValuesMessage="Selected System Components">
               <element name="element"/>
               <containerView name="containerView"/>
               <container name="container"/>
               <initialOperation>
-                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::Asset)">
-                  <subModelOperations xsi:type="tool:For" expression="var:element" iteratorName="e">
-                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.getIncidentDiagram()">
-                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: e.oclAsType(environment::Asset).name">
-                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::Asset)">
-                              <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql: self.containedEntities->including(instance)"/>
-                            </subModelOperations>
-                            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                              <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: e.getSystemComponentClassName()"/>
+                <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
+                  <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::Asset)">
+                    <subModelOperations xsi:type="tool:For" expression="var:element" iteratorName="e">
+                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.getIncidentDiagram()">
+                        <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
+                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
+                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: e.oclAsType(environment::Asset).name">
+                              <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.oclAsType(cyberPhysical_Incident::Asset)">
+                                <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql: self.containedEntities->including(instance)"/>
+                              </subModelOperations>
+                              <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
+                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql: e.getSystemComponentClassName()"/>
+                              </subModelOperations>
                             </subModelOperations>
                           </subModelOperations>
                         </subModelOperations>
                       </subModelOperations>
                     </subModelOperations>
+                    <subModelOperations xsi:type="tool:If"/>
                   </subModelOperations>
                 </firstModelOperations>
               </initialOperation>
@@ -2576,8 +2579,7 @@
         </decorationDescriptionsSet>
       </defaultLayer>
     </ownedRepresentations>
-    <ownedJavaExtensions qualifiedClassName="incident.design.Services"/>
     <ownedJavaExtensions qualifiedClassName="incident.design.IncidentEntityDiagramServices"/>
-    <ownedJavaExtensions qualifiedClassName="incident.design.systemmodel.SystemModelImporter"/>
+    <ownedJavaExtensions qualifiedClassName="incident.design.Services"/>
   </ownedViewpoints>
 </description:Group>

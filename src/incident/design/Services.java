@@ -37,6 +37,8 @@ import cyberPhysical_Incident.impl.IncidentEntityImpl;
 import environment.Action;
 import environment.CyberPhysicalSystemPackage;
 import environment.EnvironmentDiagram;
+import fxml.view.GeneralFXFrame;
+import fxml.view.GeneralFXFrame.JFXPanel;
 import incident.util.BRSParser;
 
 /**
@@ -2484,8 +2486,8 @@ public class Services {
 	public boolean isSystemModelSet(EObject self) {
 	
 		if(sysHandler.getInstance() == null) {
-//			GeneralFXFrame selector = new GeneralFXFrame("Select System", JFXPanel.SYSTEM_MODEL_SELECTOR);
-//			selector.setVisible(true);
+			GeneralFXFrame selector = new GeneralFXFrame("Select System", JFXPanel.SYSTEM_MODEL_SELECTOR);
+			selector.setVisible(true);
 			return false;
 		}
 		
@@ -2495,8 +2497,11 @@ public class Services {
 	public List<environment.Asset> getSystemComponents(EObject self) {
 
 		// dummy list for the moment
+//		System.out.println("Whaaaat");
 		return sysHandler.getDummyAssets();
+//		return null;
 	}
+	
 
 	/**
 	 * returns the class name of the given Asset (from environment) object
