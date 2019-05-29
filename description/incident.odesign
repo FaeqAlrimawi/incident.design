@@ -932,12 +932,15 @@
                     <subModelOperations xsi:type="tool:CreateInstance" typeName="Resource" referenceName="resource"/>
                   </subModelOperations>
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
-                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
                       <subModelOperations xsi:type="tool:CreateInstance" typeName="Resource" referenceName="resource">
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:container">
                           <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql:container.containedEntities->including(instance)">
                             <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:instance">
                               <subModelOperations xsi:type="tool:SetValue" featureName="parentEntity" valueExpression="aql:container"/>
+                              <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
+                                <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="&lt;Type>"/>
+                              </subModelOperations>
                             </subModelOperations>
                           </subModelOperations>
                         </subModelOperations>
@@ -973,7 +976,7 @@
                     </subModelOperations>
                   </subModelOperations>
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
-                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
                       <subModelOperations xsi:type="tool:CreateInstance" typeName="Resource" referenceName="resource">
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:container">
                           <subModelOperations xsi:type="tool:SetValue" featureName="containedEntities" valueExpression="aql:container.containedEntities->including(instance)">
