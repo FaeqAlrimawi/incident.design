@@ -1307,7 +1307,13 @@
               <variable name="container"/>
               <viewVariable name="containerView"/>
               <initialOperation>
-                <firstModelOperations xsi:type="tool:CreateInstance" typeName="Activity" referenceName="activity"/>
+                <firstModelOperations xsi:type="tool:CreateInstance" typeName="Activity" referenceName="activity">
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:instance.precondition = null">
+                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
+                      <subModelOperations xsi:type="tool:CreateInstance" typeName="Precondition" referenceName="precondition" variableName="preInstance"/>
+                    </subModelOperations>
+                  </subModelOperations>
+                </firstModelOperations>
               </initialOperation>
             </tools>
             <tools xsi:type="tool:PaneBasedSelectionWizardDescription" name="Action Selection" precondition="aql:container.oclIsTypeOf(cyberPhysical_Incident::Scene) and container.isIncidentInstance()" message="Select action(s) from system to add to the scene" choiceOfValuesMessage="Choice of actions" candidatesExpression="aql: self.getSystemActions()" selectedValuesMessage="Selected actions">
