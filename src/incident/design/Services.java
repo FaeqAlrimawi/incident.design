@@ -1060,8 +1060,10 @@ public class Services {
 					BigraphExpression preExp = (BigraphExpression) act.getPrecondition().getExpression();
 					List<Entity> entities = preExp != null ? preExp.getEntity() : null;
 
-					if (preExp != null && entities != null) {
-						for (Entity ent : entities) {
+					List<Entity> allPreEntities = getAllConditionEntity(self, entities);
+					
+					if (allPreEntities != null) {
+						for (Entity ent : allPreEntities) {
 
 							// if same name entity found replace and move to
 							// next entity (no need to check sub-entities as
@@ -1071,14 +1073,15 @@ public class Services {
 								continue;
 							}
 
-							List<Entity> subentities = preExp.getContainedEntities(ent.getName());
-
-							for (Entity subEnt : subentities) {
-								if (subEnt.getName().equalsIgnoreCase(oldName)) {
-									subEnt.setName(newName);
-									// continue;
-								}
-							}
+//							List<Entity> subentities = preExp.getContainedEntities(ent.getName());
+//
+//							for (Entity subEnt : subentities) {
+//								
+//								if (subEnt.getName().equalsIgnoreCase(oldName)) {
+//									subEnt.setName(newName);
+//									// continue;
+//								}
+//							}
 
 						}
 
@@ -1088,10 +1091,14 @@ public class Services {
 					BigraphExpression postExp = (BigraphExpression) act.getPostcondition().getExpression();
 					List<Entity> postEntities = postExp != null ? postExp.getEntity() : null;
 
-					if (postExp != null && postEntities != null) {
+					List<Entity> allPostentities = getAllConditionEntity(self, postEntities);
+					
+					if (allPostentities!= null) {
+						
+//						System.out.println("checking postcondition..."+act.getPostcondition().getName());
 
-						for (Entity ent : postEntities) {
-
+						for (Entity ent : allPostentities) {
+//							System.out.println("\tentitiy " + ent);
 							// if same name entity found replace and move to
 							// next entity (no need to check sub-entities as
 							// entity can't contain itself
@@ -1100,14 +1107,15 @@ public class Services {
 								continue;
 							}
 
-							List<Entity> subentities = postExp.getContainedEntities(ent.getName());
-
-							for (Entity subEnt : subentities) {
-								if (subEnt.getName().equalsIgnoreCase(oldName)) {
-									subEnt.setName(newName);
-									// continue;
-								}
-							}
+//							List<Entity> subentities = postExp.getContainedEntities(ent.getName());
+//
+//							for (Entity subEnt : subentities) {
+//								System.out.println("\t\tsubentitiy " + subEnt);
+//								if (subEnt.getName().equalsIgnoreCase(oldName)) {
+//									subEnt.setName(newName);
+//									// continue;
+//								}
+//							}
 
 						}
 
