@@ -46,14 +46,13 @@ import incident.util.BRSParser;
  */
 public class Services {
 
-//	SystemInstanceHandler sysHandler = new SystemInstanceHandler();
+	// SystemInstanceHandler sysHandler = new SystemInstanceHandler();
 
 	// a map of the types in which the
 	Map<Type, List<Type>> systemAssetTypes;
 	Map<Type, List<Type>> systemConnectionTypes;
 
 	BRSParser brsParser;
-
 
 	/**
 	 * See
@@ -239,6 +238,40 @@ public class Services {
 		}
 
 		return tmp;
+	}
+
+	public boolean isOfTypeOrAncestorType(EObject self, String type) {
+
+		if(!(self instanceof IncidentEntity))  {
+			return false;
+		}
+		
+		boolean isType = false;
+
+		isType = isOfType(self, type);
+
+		if (isType) {
+			return true;
+		}
+
+		IncidentEntity entity = (IncidentEntity)self;
+		
+		IncidentEntity parent = (IncidentEntity) entity.getParentEntity();
+		int length = 10000;
+
+		while (parent != null && length > 0) {
+			
+			isType = isOfType(parent, type);
+			
+			if(isType) {
+				return true;
+			}
+			
+			parent = (IncidentEntity) parent.getParentEntity();
+		}
+		
+		return false;
+		
 	}
 
 	public Collection<IncidentEntity> hideIncidentEntitiesWithType(EObject self, Collection<IncidentEntity> list,
@@ -1061,7 +1094,7 @@ public class Services {
 					List<Entity> entities = preExp != null ? preExp.getEntity() : null;
 
 					List<Entity> allPreEntities = getAllConditionEntity(self, entities);
-					
+
 					if (allPreEntities != null) {
 						for (Entity ent : allPreEntities) {
 
@@ -1073,15 +1106,16 @@ public class Services {
 								continue;
 							}
 
-//							List<Entity> subentities = preExp.getContainedEntities(ent.getName());
-//
-//							for (Entity subEnt : subentities) {
-//								
-//								if (subEnt.getName().equalsIgnoreCase(oldName)) {
-//									subEnt.setName(newName);
-//									// continue;
-//								}
-//							}
+							// List<Entity> subentities =
+							// preExp.getContainedEntities(ent.getName());
+							//
+							// for (Entity subEnt : subentities) {
+							//
+							// if (subEnt.getName().equalsIgnoreCase(oldName)) {
+							// subEnt.setName(newName);
+							// // continue;
+							// }
+							// }
 
 						}
 
@@ -1092,13 +1126,14 @@ public class Services {
 					List<Entity> postEntities = postExp != null ? postExp.getEntity() : null;
 
 					List<Entity> allPostentities = getAllConditionEntity(self, postEntities);
-					
-					if (allPostentities!= null) {
-						
-//						System.out.println("checking postcondition..."+act.getPostcondition().getName());
+
+					if (allPostentities != null) {
+
+						// System.out.println("checking
+						// postcondition..."+act.getPostcondition().getName());
 
 						for (Entity ent : allPostentities) {
-//							System.out.println("\tentitiy " + ent);
+							// System.out.println("\tentitiy " + ent);
 							// if same name entity found replace and move to
 							// next entity (no need to check sub-entities as
 							// entity can't contain itself
@@ -1107,15 +1142,16 @@ public class Services {
 								continue;
 							}
 
-//							List<Entity> subentities = postExp.getContainedEntities(ent.getName());
-//
-//							for (Entity subEnt : subentities) {
-//								System.out.println("\t\tsubentitiy " + subEnt);
-//								if (subEnt.getName().equalsIgnoreCase(oldName)) {
-//									subEnt.setName(newName);
-//									// continue;
-//								}
-//							}
+							// List<Entity> subentities =
+							// postExp.getContainedEntities(ent.getName());
+							//
+							// for (Entity subEnt : subentities) {
+							// System.out.println("\t\tsubentitiy " + subEnt);
+							// if (subEnt.getName().equalsIgnoreCase(oldName)) {
+							// subEnt.setName(newName);
+							// // continue;
+							// }
+							// }
 
 						}
 
@@ -1786,15 +1822,32 @@ public class Services {
 
 		int length = 100000;
 
+		// System.out.println("checking scene " +scene.getName());
+		// System.out.println("init act " +iniActivity.getName());
+		// System.out.println("final act " +finalActivity.getName());
+
 		while (next != null && length > 0) {
 
+			// System.out.println("\t"+next.getName());
 			if (visitedActivities.contains(next)) {
+				System.err.println("there's a loop in scene " + scene.getName());
 				return false; // there's a loop!
 			}
 
 			visitedActivities.add(next);
 
+			if (next == finalActivity) {
+				break;
+			}
+
 			next = !next.getNextActivities().isEmpty() ? next.getNextActivities().get(0) : null;
+
+			if (next == finalActivity) {
+				visitedActivities.add(next);
+				break;
+
+			}
+
 			length--;
 		}
 
@@ -2448,9 +2501,9 @@ public class Services {
 	}
 
 	public void generateIncidentPattern(EObject self) {
-		
+
 	}
-	
+
 	/******************************
 	 * SYSTEM
 	 * FUNCTIONS*************************************************************
@@ -2466,17 +2519,18 @@ public class Services {
 	 * @param self
 	 * @return
 	 */
-//	public EnvironmentDiagram getSystemInstance(EObject self) {
-//
-//		return sysHandler.getInstance();
-//
-//	}
-//
-//	public EnvironmentDiagram getSystemInstance(EObject self, String fileName) {
-//
-//		return sysHandler.getInstance(fileName);
-//
-//	}
+	// public EnvironmentDiagram getSystemInstance(EObject self) {
+	//
+	// return sysHandler.getInstance();
+	//
+	// }
+	//
+	// public EnvironmentDiagram getSystemInstance(EObject self, String
+	// fileName) {
+	//
+	// return sysHandler.getInstance(fileName);
+	//
+	// }
 
 	/**
 	 * Return the list of action names from the system instance model
@@ -2496,25 +2550,24 @@ public class Services {
 	}
 
 	public boolean isSystemModelSet(EObject self) {
-	
-//		SystemInstanceHandler.setInstance(null);
-		if(SystemInstanceHandler.getInstance() == null) {
+
+		// SystemInstanceHandler.setInstance(null);
+		if (SystemInstanceHandler.getInstance() == null) {
 			GeneralFXFrame selector = new GeneralFXFrame("System Model Importer", JFXPanel.SYSTEM_MODEL_SELECTOR);
 			selector.setVisible(true);
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	public List<environment.Asset> getSystemComponents(EObject self) {
 
 		// dummy list for the moment
-//		System.out.println("Whaaaat");
+		// System.out.println("Whaaaat");
 		return SystemInstanceHandler.getDummyAssets();
-//		return null;
+		// return null;
 	}
-	
 
 	/**
 	 * returns the class name of the given Asset (from environment) object
@@ -2538,7 +2591,6 @@ public class Services {
 	 * *********************************************************************************************************
 	 * 
 	 */
-
 
 	/**
 	 * Updates the condition of the given activity (self) according to the given
@@ -3123,8 +3175,5 @@ public class Services {
 
 		return true;
 	}
-	
-	
-	
-	
+
 }
