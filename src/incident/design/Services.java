@@ -1084,8 +1084,9 @@ public class Services {
 		if (incident != null) {
 
 			// for each scene
+//			System.out.println(incident.getCrimeScript().getName());
 			for (Scene scene : incident.getScene()) {
-
+//				System.out.println(scene.getName());
 				// for each activity
 				for (Activity act : scene.getActivity()) {
 
@@ -1095,8 +1096,10 @@ public class Services {
 
 					List<Entity> allPreEntities = getAllConditionEntity(self, entities);
 
+//					System.out.println(act.getPrecondition().getName());
 					if (allPreEntities != null) {
 						for (Entity ent : allPreEntities) {
+							System.out.println("\t"+ent.getName());
 
 							// if same name entity found replace and move to
 							// next entity (no need to check sub-entities as
