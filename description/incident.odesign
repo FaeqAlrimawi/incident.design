@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:filter="http://www.eclipse.org/sirius/diagram/description/filter/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/description/tool/1.1.0" xmlns:tool_1="http://www.eclipse.org/sirius/diagram/description/tool/1.1.0" xmlns:validation="http://www.eclipse.org/sirius/description/validation/1.1.0" name="incident" version="11.1.1.201610211630">
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:filter="http://www.eclipse.org/sirius/diagram/description/filter/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/description/tool/1.1.0" xmlns:tool_1="http://www.eclipse.org/sirius/diagram/description/tool/1.1.0" xmlns:validation="http://www.eclipse.org/sirius/description/validation/1.1.0" name="incident" version="12.0.0.2017041100">
   <ownedViewpoints name="incidentViewPoint" modelFileExtension="cpi">
     <ownedRepresentations xsi:type="description_1:DiagramDescription" name="incidentDiagram" pasteDescriptions="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@toolSections.9/@ownedTools[name='pasteIncidentEntity']" domainClass="IncidentDiagram" enablePopupBars="true">
       <metamodel href="http://www.example.org/cyberPhysical_Incident#/"/>
@@ -72,9 +72,6 @@
               </firstModelOperations>
             </initialOperation>
           </fixes>
-        </ownedRules>
-        <ownedRules xsi:type="validation:SemanticValidationRule" name="intentNotDefined" level="WARNING" message="Intent is not defined in crime script" targetClass="CrimeScript">
-          <audits auditExpression="aql: self.intent &lt;> null"/>
         </ownedRules>
         <ownedRules xsi:type="validation:SemanticValidationRule" name="intentNotDefined" level="WARNING" message="Motive(s) are not defined in crime script" targetClass="CrimeScript">
           <audits auditExpression="aql: self.motive &lt;> null and self.motive->notEmpty()"/>
@@ -1200,7 +1197,7 @@
                 </firstModelOperations>
               </initialOperation>
             </tools>
-            <tools xsi:type="tool_1:NodeCreationDescription" name="Building" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity']" iconPath="/incident.design/res/icons/building.png">
+            <tools xsi:type="tool_1:NodeCreationDescription" name="Building" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='buildingCondition']" iconPath="/incident.design/res/icons/building.png">
               <variable name="container"/>
               <viewVariable name="containerView"/>
               <initialOperation>
@@ -1221,7 +1218,7 @@
                     <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
                       <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
                         <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                          <subModelOperations xsi:type="tool:CreateInstance" typeName="Entity" referenceName="entity" variableName="entityInstance">
+                          <subModelOperations xsi:type="tool:CreateInstance" typeName="cyberPhysical_Incident::Entity" referenceName="entity" variableName="entityInstance">
                             <subModelOperations xsi:type="tool:ChangeContext" browseExpression="var:entityInstance">
                               <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.name"/>
                             </subModelOperations>
@@ -1287,13 +1284,7 @@
               <viewVariable name="containerView"/>
               <initialOperation>
                 <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:'Room'"/>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)"/>
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::Asset)">
                     <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
                       <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
@@ -1366,7 +1357,7 @@
               </initialOperation>
             </tools>
           </ownedTools>
-          <ownedTools xsi:type="tool_1:NodeCreationDescription" name="General" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='room']/@subNodeMappings[name='incidentEntityRoom'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition']" iconPath="/incident.design/res/icons/incidentEntity_icon.jpg">
+          <ownedTools xsi:type="tool_1:NodeCreationDescription" name="General" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='room']/@subNodeMappings[name='incidentEntityRoom'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='incidentEntityCondition'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='incidentEntity']" iconPath="/incident.design/res/icons/incidentEntity_icon.jpg">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
@@ -1801,7 +1792,7 @@
         </toolSections>
         <toolSections name="System Components">
           <ownedTools xsi:type="tool_1:ToolGroup" name="Building components">
-            <tools xsi:type="tool_1:NodeCreationDescription" name="Building" precondition="aql:false" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='buildingCondition']" iconPath="/incident.design/res/icons/building.png">
+            <tools xsi:type="tool_1:NodeCreationDescription" name="Building" precondition="aql:false" nodeMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='buildingCondition'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@nodeMappings[name='building']" iconPath="/incident.design/res/icons/building.png">
               <variable name="container"/>
               <viewVariable name="containerView"/>
               <initialOperation>
@@ -1841,7 +1832,7 @@
                 </firstModelOperations>
               </initialOperation>
             </tools>
-            <tools xsi:type="tool_1:ContainerCreationDescription" name="Floor" precondition="aql:false" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']" iconPath="/incident.design/res/icons/floor.png">
+            <tools xsi:type="tool_1:ContainerCreationDescription" name="Floor" precondition="aql:false" containerMappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subContainerMappings[name='floorContainerCondition']" iconPath="/incident.design/res/icons/floor.png">
               <variable name="container"/>
               <viewVariable name="containerView"/>
               <initialOperation>
@@ -1883,13 +1874,7 @@
               <viewVariable name="containerView"/>
               <initialOperation>
                 <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:'Room'"/>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)"/>
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::Asset)">
                     <subModelOperations xsi:type="tool:If" conditionExpression="aql:true">
                       <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:self.getIncidentDiagram()">
@@ -1939,17 +1924,7 @@
               <viewVariable name="containerView"/>
               <initialOperation>
                 <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="ComputingDevice">
-                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
-                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('compDevice')"/>
-                          </subModelOperations>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)"/>
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
                     <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
                       <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
@@ -1998,17 +1973,7 @@
               <viewVariable name="containerView"/>
               <initialOperation>
                 <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="SmartLight">
-                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
-                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('smartLight')"/>
-                          </subModelOperations>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)"/>
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
                     <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
                       <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
@@ -2057,17 +2022,7 @@
               <viewVariable name="containerView"/>
               <initialOperation>
                 <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="HVAC">
-                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
-                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('hvac')"/>
-                          </subModelOperations>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)"/>
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
                     <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
                       <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
@@ -2118,17 +2073,7 @@
               <viewVariable name="containerView"/>
               <initialOperation>
                 <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="DigitalAsset">
-                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
-                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('digitalAsset')"/>
-                          </subModelOperations>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)"/>
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
                     <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
                       <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
@@ -2177,17 +2122,7 @@
               <viewVariable name="containerView"/>
               <initialOperation>
                 <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                    <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                      <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                        <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="BusNetwork">
-                          <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
-                            <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('busNet')"/>
-                          </subModelOperations>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
+                  <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)"/>
                   <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
                     <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
                       <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
@@ -2237,17 +2172,7 @@
             <viewVariable name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                  <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
-                    <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance.type">
-                      <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="PhysicalAsset">
-                        <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:instance">
-                          <subModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="aql:instance.getRandomEntityName('physAsset')"/>
-                        </subModelOperations>
-                      </subModelOperations>
-                    </subModelOperations>
-                  </subModelOperations>
-                </subModelOperations>
+                <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)"/>
                 <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
                   <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
                     <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
@@ -2296,9 +2221,7 @@
             <viewVariable name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container">
-                <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)">
-                  <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset"/>
-                </subModelOperations>
+                <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.oclIsTypeOf(cyberPhysical_Incident::IncidentDiagram)"/>
                 <subModelOperations xsi:type="tool:If" conditionExpression="aql:container.type.name.equalsIgnoreCase('room')">
                   <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container.eContainer()">
                     <subModelOperations xsi:type="tool:CreateInstance" typeName="Asset" referenceName="asset">
@@ -2599,9 +2522,9 @@
           </ownedTools>
         </toolSections>
         <decorationDescriptionsSet>
-          <decorationDescriptions xsi:type="description_1:MappingBasedDecoration" name="noSiteDecoration" decoratorPath="/incident.design/res/noSite.png" preconditionExpression="aql:self.hasSite = false" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entity']"/>
-          <decorationDescriptions xsi:type="description_1:MappingBasedDecoration" name="fixedDeocration" position="SOUTH_EAST" decoratorPath="/incident.design/res/icons/fixed.png" preconditionExpression="aql:self.mobility.toString().equalsIgnoreCase('fixed')" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='room'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='room']/@subNodeMappings[name='incidentEntityRoom'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']"/>
-          <decorationDescriptions xsi:type="description_1:MappingBasedDecoration" name="isClosed" decoratorPath="/incident.design/res/closed.png" preconditionExpression="aql:self.isClosed = true" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='connectivity']"/>
+          <decorationDescriptions xsi:type="description_1:MappingBasedDecoration" name="noSiteDecoration" preconditionExpression="aql:self.hasSite = false" imageExpression="/incident.design/res/noSite.png" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='entity']"/>
+          <decorationDescriptions xsi:type="description_1:MappingBasedDecoration" name="fixedDeocration" position="SOUTH_EAST" preconditionExpression="aql:self.mobility.toString().equalsIgnoreCase('fixed')" imageExpression="/incident.design/res/icons/fixed.png" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='room'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']/@subContainerMappings[name='room']/@subNodeMappings[name='incidentEntityRoom'] //@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Floor']"/>
+          <decorationDescriptions xsi:type="description_1:MappingBasedDecoration" name="isClosed" preconditionExpression="aql:self.isClosed = true" imageExpression="/incident.design/res/closed.png" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='incidentDiagram']/@defaultLayer/@containerMappings[name='Scene']/@subContainerMappings[name='Condition']/@subContainerMappings[name='bigraphExpressionContainer']/@subNodeMappings[name='connectivity']"/>
         </decorationDescriptionsSet>
       </defaultLayer>
     </ownedRepresentations>
@@ -2665,7 +2588,7 @@
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
-              <firstModelOperations xsi:type="tool:CreateInstance" typeName="Vulnerability" referenceName="vulnerability"/>
+              <firstModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:container"/>
             </initialOperation>
           </ownedTools>
         </toolSections>
@@ -2696,7 +2619,7 @@
           </ownedTools>
         </toolSections>
         <decorationDescriptionsSet>
-          <decorationDescriptions xsi:type="description_1:MappingBasedDecoration" name="required" position="NORTH_WEST" decoratorPath="/incident.design/res/vulnerability.png" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='IncidentEntityDiagram']/@defaultLayer/@containerMappings[name='VulContainer']"/>
+          <decorationDescriptions xsi:type="description_1:MappingBasedDecoration" name="required" position="NORTH_WEST" imageExpression="/incident.design/res/vulnerability.png" mappings="//@ownedViewpoints[name='incidentViewPoint']/@ownedRepresentations[name='IncidentEntityDiagram']/@defaultLayer/@containerMappings[name='VulContainer']"/>
         </decorationDescriptionsSet>
       </defaultLayer>
     </ownedRepresentations>
